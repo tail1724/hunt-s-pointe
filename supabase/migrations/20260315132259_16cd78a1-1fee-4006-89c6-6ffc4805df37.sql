@@ -1,0 +1,1 @@
+ALTER TABLE public.generations ADD COLUMN carousel_group_id uuid, ADD COLUMN scene_order integer;

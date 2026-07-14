@@ -1,0 +1,1233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ezra · Frontend Architecture Blueprint</title>
+<style>
+  /* === TOKENS === */
+  :root {
+    --bg:           #F9F7F4;
+    --surface:      #FFFFFF;
+    --surface-2:    #F1EEE8;
+    --border:       #E5E0D8;
+    --border-2:     #D4CECC;
+    --text:         #1C1814;
+    --text-muted:   #7A6F67;
+    --text-faint:   #A9A09A;
+    --accent:       #8C6A2A;
+    --accent-gold:  #B8860B;
+    --accent-bg:    rgba(140,106,42,0.08);
+    --accent-ring:  rgba(140,106,42,0.20);
+    --green:        #1A5C3A;
+    --green-bg:     rgba(26,92,58,0.08);
+    --red:          #8B2222;
+    --red-bg:       rgba(139,34,34,0.07);
+    --amber:        #7A5A0A;
+    --amber-bg:     rgba(122,90,10,0.08);
+    --code-bg:      #EDEBE4;
+    --code-text:    #3A2E20;
+    --nav-w:        220px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg:           #0C1118;
+      --surface:      #131C27;
+      --surface-2:    #192332;
+      --border:       #1E2C3C;
+      --border-2:     #283A50;
+      --text:         #E8E2D9;
+      --text-muted:   #8891A0;
+      --text-faint:   #4D5E72;
+      --accent:       #C9A96E;
+      --accent-gold:  #D4A853;
+      --accent-bg:    rgba(201,169,110,0.10);
+      --accent-ring:  rgba(201,169,110,0.22);
+      --green:        #52B788;
+      --green-bg:     rgba(82,183,136,0.10);
+      --red:          #F87171;
+      --red-bg:       rgba(248,113,113,0.10);
+      --amber:        #FBBF24;
+      --amber-bg:     rgba(251,191,36,0.10);
+      --code-bg:      #0A111A;
+      --code-text:    #C9BCA8;
+    }
+  }
+  :root[data-theme="light"] {
+    --bg:           #F9F7F4;
+    --surface:      #FFFFFF;
+    --surface-2:    #F1EEE8;
+    --border:       #E5E0D8;
+    --border-2:     #D4CECC;
+    --text:         #1C1814;
+    --text-muted:   #7A6F67;
+    --text-faint:   #A9A09A;
+    --accent:       #8C6A2A;
+    --accent-gold:  #B8860B;
+    --accent-bg:    rgba(140,106,42,0.08);
+    --accent-ring:  rgba(140,106,42,0.20);
+    --green:        #1A5C3A;
+    --green-bg:     rgba(26,92,58,0.08);
+    --red:          #8B2222;
+    --red-bg:       rgba(139,34,34,0.07);
+    --amber:        #7A5A0A;
+    --amber-bg:     rgba(122,90,10,0.08);
+    --code-bg:      #EDEBE4;
+    --code-text:    #3A2E20;
+  }
+  :root[data-theme="dark"] {
+    --bg:           #0C1118;
+    --surface:      #131C27;
+    --surface-2:    #192332;
+    --border:       #1E2C3C;
+    --border-2:     #283A50;
+    --text:         #E8E2D9;
+    --text-muted:   #8891A0;
+    --text-faint:   #4D5E72;
+    --accent:       #C9A96E;
+    --accent-gold:  #D4A853;
+    --accent-bg:    rgba(201,169,110,0.10);
+    --accent-ring:  rgba(201,169,110,0.22);
+    --green:        #52B788;
+    --green-bg:     rgba(82,183,136,0.10);
+    --red:          #F87171;
+    --red-bg:       rgba(248,113,113,0.10);
+    --amber:        #FBBF24;
+    --amber-bg:     rgba(251,191,36,0.10);
+    --code-bg:      #0A111A;
+    --code-text:    #C9BCA8;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+    font-size: 15px;
+    line-height: 1.65;
+    min-height: 100vh;
+  }
+
+  /* === LAYOUT === */
+  .shell {
+    display: grid;
+    grid-template-columns: var(--nav-w) 1fr;
+    grid-template-rows: auto 1fr;
+    min-height: 100vh;
+  }
+  @media (max-width: 760px) {
+    .shell { grid-template-columns: 1fr; }
+    .nav { display: none; }
+  }
+
+  /* === HEADER === */
+  .doc-header {
+    grid-column: 1 / -1;
+    border-bottom: 1px solid var(--border);
+    padding: 24px 32px 20px;
+    display: flex;
+    align-items: baseline;
+    gap: 20px;
+    flex-wrap: wrap;
+    background: var(--surface);
+  }
+  .doc-title {
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 22px;
+    font-weight: normal;
+    letter-spacing: -0.01em;
+    color: var(--text);
+  }
+  .doc-title span { color: var(--accent); }
+  .doc-meta {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-left: auto;
+    flex-wrap: wrap;
+  }
+  .tag {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 3px;
+    border: 1px solid var(--border-2);
+    color: var(--text-muted);
+    background: var(--surface-2);
+  }
+  .tag.accent {
+    border-color: var(--accent-ring);
+    color: var(--accent);
+    background: var(--accent-bg);
+  }
+
+  /* === NAV === */
+  .nav {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    border-right: 1px solid var(--border);
+    padding: 28px 0 40px;
+    background: var(--surface);
+  }
+  .nav-group-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.10em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    padding: 16px 20px 6px;
+  }
+  .nav-group-label:first-child { padding-top: 0; }
+  .nav a {
+    display: block;
+    padding: 5px 20px;
+    font-size: 13px;
+    color: var(--text-muted);
+    text-decoration: none;
+    border-left: 2px solid transparent;
+    transition: color 0.12s, border-color 0.12s;
+  }
+  .nav a:hover { color: var(--text); }
+  .nav a.active {
+    color: var(--accent);
+    border-left-color: var(--accent);
+    background: var(--accent-bg);
+  }
+
+  /* === CONTENT === */
+  .content {
+    padding: 48px 56px 80px;
+    max-width: 720px;
+  }
+  @media (max-width: 900px) { .content { padding: 36px 28px 60px; } }
+
+  /* === TYPOGRAPHY === */
+  .section { margin-bottom: 64px; scroll-margin-top: 24px; }
+  .section + .section { border-top: 1px solid var(--border); padding-top: 64px; }
+
+  .eyebrow {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+  h2 {
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 26px;
+    font-weight: normal;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    text-wrap: balance;
+    margin-bottom: 6px;
+    line-height: 1.25;
+  }
+  h3 {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+    margin: 28px 0 10px;
+    letter-spacing: -0.01em;
+  }
+  h4 {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin: 20px 0 8px;
+  }
+  .lead {
+    font-size: 16px;
+    color: var(--text-muted);
+    margin-bottom: 28px;
+    text-wrap: balance;
+    line-height: 1.6;
+  }
+  p { margin-bottom: 14px; color: var(--text-muted); font-size: 14.5px; }
+  strong { color: var(--text); font-weight: 600; }
+
+  /* === CODE === */
+  pre {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 16px 18px;
+    overflow-x: auto;
+    font-family: 'SF Mono', 'Cascadia Code', 'Consolas', 'Menlo', monospace;
+    font-size: 12.5px;
+    line-height: 1.7;
+    color: var(--code-text);
+    margin: 16px 0;
+  }
+  code {
+    font-family: 'SF Mono', 'Cascadia Code', 'Consolas', 'Menlo', monospace;
+    font-size: 12px;
+    background: var(--code-bg);
+    color: var(--code-text);
+    padding: 1px 5px;
+    border-radius: 3px;
+  }
+  pre code { background: none; padding: 0; font-size: inherit; }
+  .token-kw  { color: var(--accent); }
+  .token-str { color: var(--green); }
+  .token-cm  { color: var(--text-faint); font-style: italic; }
+  .token-fn  { color: var(--accent-gold); }
+  .token-ty  { color: var(--amber); }
+
+  /* === PIPELINE DIAGRAM === */
+  .pipeline {
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+    margin: 20px 0;
+    overflow-x: auto;
+    padding-bottom: 4px;
+  }
+  .pipe-stage {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+    min-width: 90px;
+  }
+  .pipe-node {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: 8px 10px;
+    font-size: 11.5px;
+    color: var(--text);
+    font-weight: 500;
+    text-align: center;
+    position: relative;
+  }
+  .pipe-node.accent {
+    background: var(--accent-bg);
+    border-color: var(--accent-ring);
+    color: var(--accent);
+  }
+  .pipe-node.green {
+    background: var(--green-bg);
+    border-color: rgba(52,183,136,0.22);
+    color: var(--green);
+  }
+  .pipe-node.red {
+    background: var(--red-bg);
+    border-color: rgba(248,113,113,0.22);
+    color: var(--red);
+  }
+  .pipe-node.amber {
+    background: var(--amber-bg);
+    border-color: rgba(251,191,36,0.22);
+    color: var(--amber);
+  }
+  .pipe-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 2px;
+    color: var(--border-2);
+    font-size: 14px;
+    flex-shrink: 0;
+    align-self: flex-start;
+    margin-top: 18px;
+  }
+  .pipe-label {
+    font-size: 10px;
+    color: var(--text-faint);
+    text-align: center;
+    letter-spacing: 0.04em;
+  }
+
+  /* === COMPONENT TREE === */
+  .comp-tree {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 16px 18px;
+    font-family: 'SF Mono', 'Cascadia Code', 'Consolas', monospace;
+    font-size: 12px;
+    line-height: 1.8;
+    color: var(--text-muted);
+    margin: 14px 0;
+  }
+  .comp-tree .node { color: var(--text); font-weight: 600; }
+  .comp-tree .leaf { color: var(--accent); }
+  .comp-tree .note { color: var(--text-faint); font-style: italic; }
+
+  /* === CARDS === */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 18px 20px;
+    margin: 14px 0;
+  }
+  .card-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+
+  /* === CHECKLIST === */
+  .checklist { list-style: none; margin: 14px 0; }
+  .checklist li {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    padding: 9px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 14px;
+    color: var(--text-muted);
+  }
+  .checklist li:last-child { border-bottom: none; }
+  .check-num {
+    font-variant-numeric: tabular-nums;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--accent);
+    background: var(--accent-bg);
+    border: 1px solid var(--accent-ring);
+    border-radius: 4px;
+    min-width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .check-body strong { display: block; color: var(--text); font-size: 13.5px; font-weight: 600; margin-bottom: 2px; }
+
+  /* === VERDICT BADGES === */
+  .verdict-row { display: flex; gap: 10px; flex-wrap: wrap; margin: 12px 0; }
+  .verdict {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .verdict.green { background: var(--green-bg); color: var(--green); border: 1px solid rgba(52,183,136,0.22); }
+  .verdict.amber { background: var(--amber-bg); color: var(--amber); border: 1px solid rgba(251,191,36,0.22); }
+  .verdict.red   { background: var(--red-bg);   color: var(--red);   border: 1px solid rgba(248,113,113,0.22); }
+
+  /* === STAGE BAR (Progressive Disclosure) === */
+  .stage-bar {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    margin: 14px 0;
+    overflow-x: auto;
+  }
+  .stage-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    flex: 1;
+    min-width: 80px;
+  }
+  .stage-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--border-2);
+    border: 2px solid var(--border);
+    position: relative;
+  }
+  .stage-dot.done {
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+  .stage-dot.active {
+    background: var(--surface);
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-bg);
+  }
+  .stage-connector {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+    min-width: 20px;
+    margin-bottom: 20px;
+  }
+  .stage-connector.done { background: var(--accent); }
+  .stage-label {
+    font-size: 11px;
+    color: var(--text-faint);
+    text-align: center;
+    line-height: 1.3;
+    white-space: nowrap;
+  }
+  .stage-label.active { color: var(--accent); font-weight: 600; }
+
+  /* === LAYOUT DIAGRAM === */
+  .layout-diagram {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    margin: 16px 0;
+    font-size: 12px;
+  }
+  .layout-chrome {
+    background: var(--surface-2);
+    border-bottom: 1px solid var(--border);
+    padding: 8px 12px;
+    font-size: 11px;
+    color: var(--text-faint);
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .layout-body {
+    display: grid;
+    grid-template-columns: 1fr 200px;
+    min-height: 220px;
+  }
+  .layout-thread {
+    padding: 14px 16px;
+    border-right: 1px solid var(--border);
+  }
+  .layout-rail {
+    padding: 12px 14px;
+    background: var(--surface-2);
+  }
+  .mock-bubble-user {
+    background: var(--accent-bg);
+    border: 1px solid var(--accent-ring);
+    border-radius: 10px 10px 2px 10px;
+    padding: 7px 10px;
+    font-size: 11.5px;
+    color: var(--accent);
+    width: 75%;
+    margin-left: auto;
+    margin-bottom: 10px;
+  }
+  .mock-bubble-ai {
+    width: 85%;
+    margin-bottom: 6px;
+  }
+  .mock-line {
+    height: 9px;
+    background: var(--surface-2);
+    border-radius: 3px;
+    margin-bottom: 5px;
+  }
+  .mock-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 7px;
+    border-radius: 10px;
+    background: var(--accent-bg);
+    border: 1px solid var(--accent-ring);
+    font-size: 10px;
+    color: var(--accent);
+    margin: 4px 4px 4px 0;
+  }
+  .mock-rail-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 8px 10px;
+    margin-bottom: 8px;
+    font-size: 10.5px;
+    color: var(--text-muted);
+  }
+  .mock-rail-label {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 6px;
+  }
+  .mock-rail-img {
+    height: 40px;
+    background: var(--surface-2);
+    border-radius: 4px;
+    margin-bottom: 4px;
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9px;
+    color: var(--text-faint);
+  }
+
+  /* === COMPONENT GRID === */
+  .comp-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 14px 0;
+  }
+  @media (max-width: 500px) { .comp-grid { grid-template-columns: 1fr; } }
+  .comp-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    padding: 14px 16px;
+  }
+  .comp-card-tier {
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 0.10em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 4px;
+  }
+  .comp-card-name {
+    font-family: 'SF Mono', 'Cascadia Code', monospace;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  .comp-card-desc {
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+
+  /* === TABLE === */
+  .spec-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin: 14px 0;
+  }
+  .spec-table th {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    border-bottom: 2px solid var(--border);
+    padding: 8px 12px;
+    text-align: left;
+  }
+  .spec-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-muted);
+    vertical-align: top;
+  }
+  .spec-table td:first-child { color: var(--text); font-weight: 500; white-space: nowrap; }
+  .spec-table tr:last-child td { border-bottom: none; }
+
+  /* === CALLOUT === */
+  .callout {
+    border-left: 3px solid var(--accent);
+    background: var(--accent-bg);
+    border-radius: 0 5px 5px 0;
+    padding: 12px 16px;
+    margin: 16px 0;
+    font-size: 13.5px;
+    color: var(--text-muted);
+  }
+  .callout strong { color: var(--text); }
+</style>
+</head>
+<body>
+
+<div class="shell">
+
+  <!-- HEADER -->
+  <header class="doc-header">
+    <div class="doc-title">
+      <span>Ezra</span> · Frontend Architecture Blueprint
+    </div>
+    <div class="doc-meta">
+      <span class="tag accent">RAG v2</span>
+      <span class="tag">Multi-turn · Multi-modal</span>
+      <span class="tag">July 2026</span>
+    </div>
+  </header>
+
+  <!-- NAV -->
+  <nav class="nav" aria-label="Document navigation">
+    <div class="nav-group-label">Diagnosis</div>
+    <a href="#diagnosis">Current failure modes</a>
+
+    <div class="nav-group-label">Blueprint</div>
+    <a href="#stream-architecture">Stream architecture</a>
+    <a href="#progressive-disclosure">Progressive disclosure</a>
+    <a href="#virtual-scroll">Virtual scroll</a>
+    <a href="#multimodal-layout">Multi-modal layout</a>
+
+    <div class="nav-group-label">Components</div>
+    <a href="#atoms">Atoms</a>
+    <a href="#molecules">Molecules</a>
+    <a href="#organisms">Organisms</a>
+
+    <div class="nav-group-label">Performance</div>
+    <a href="#latency-plan">Latency mitigation</a>
+    <a href="#paint-budget">Paint budget</a>
+  </nav>
+
+  <!-- CONTENT -->
+  <main class="content">
+
+    <!-- DIAGNOSIS -->
+    <section class="section" id="diagnosis">
+      <div class="eyebrow">Diagnosis</div>
+      <h2>Three failure modes, one root cause</h2>
+      <p class="lead">The backend RAG pipeline is sophisticated — hybrid retrieval, HyQE, parent expansion, citation verification. The frontend doesn't expose any of that work. Users see a text wall that appears all at once, scrolls sluggishly, and hides its own artifacts.</p>
+
+      <div class="callout">
+        <strong>Root cause:</strong> The streaming UI is a presentation layer bolted onto a research-grade retrieval system. The pipeline produces structured, multi-modal knowledge; the frontend discards the structure and renders plain prose.
+      </div>
+
+      <div class="pipeline">
+        <div class="pipe-stage">
+          <div class="pipe-node accent">RAG Pipeline</div>
+          <div class="pipe-label">Condensed query<br>3 retrieval arms<br>LLM rerank<br>Citation verify</div>
+        </div>
+        <div class="pipe-arrow">→</div>
+        <div class="pipe-stage">
+          <div class="pipe-node red">SSE stream</div>
+          <div class="pipe-label">Structured events<br>discarded here</div>
+        </div>
+        <div class="pipe-arrow">→</div>
+        <div class="pipe-stage">
+          <div class="pipe-node red">ReactMarkdown</div>
+          <div class="pipe-label">Raw prose only<br>no routing</div>
+        </div>
+        <div class="pipe-arrow">→</div>
+        <div class="pipe-stage">
+          <div class="pipe-node red">DOM</div>
+          <div class="pipe-label">Wall of text<br>no virtualization</div>
+        </div>
+      </div>
+
+      <div style="overflow-x:auto; margin: 16px 0;">
+        <table class="spec-table">
+          <thead>
+            <tr>
+              <th>Symptom</th>
+              <th>Actual cause</th>
+              <th>Fix vector</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Robotic / wall of text</td>
+              <td>Parser discards structured signals from stream; all output routes to a single <code>ReactMarkdown</code></td>
+              <td>Content Router + typed component slots</td>
+            </tr>
+            <tr>
+              <td>Laggy scroll</td>
+              <td>All messages rendered in DOM; long sessions mount hundreds of nodes including complex Markdown ASTs</td>
+              <td>Virtual list with dynamic measurement</td>
+            </tr>
+            <tr>
+              <td>Feels slow / sloppy</td>
+              <td>No staged UI — nothing happens visually between submit and first token; no pipeline telemetry surfaced</td>
+              <td>Optimistic UI + PipelineIndicator + deferred artifact mounting</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- STREAM ARCHITECTURE -->
+    <section class="section" id="stream-architecture">
+      <div class="eyebrow">Blueprint · A</div>
+      <h2>Stream architecture &amp; content routing</h2>
+      <p class="lead">The <code>__nexus</code> event protocol already exists in the SSE stream. Surface it fully: every event is a UI state transition, not just metadata to log.</p>
+
+      <h3>Phase-aware stream parser</h3>
+      <p>The stream has three distinct phases. Handle each as first-class UI state:</p>
+
+      <div class="pipeline">
+        <div class="pipe-stage">
+          <div class="pipe-node accent">Phase 1<br><small>Preamble</small></div>
+          <div class="pipe-label">__nexus preamble<br>retrieval telemetry<br>condensed query<br>memory chip</div>
+        </div>
+        <div class="pipe-arrow">→</div>
+        <div class="pipe-stage">
+          <div class="pipe-node green">Phase 2<br><small>Streaming</small></div>
+          <div class="pipe-label">delta text tokens<br>typewriter drain<br>inline delimiters<br>&lt;&lt;&lt;DRAFT&gt;&gt;&gt; etc.</div>
+        </div>
+        <div class="pipe-arrow">→</div>
+        <div class="pipe-stage">
+          <div class="pipe-node">Phase 3<br><small>Closure</small></div>
+          <div class="pipe-label">__nexus usage<br>citation verdict<br>[DONE]<br>artifact reveal</div>
+        </div>
+      </div>
+
+      <h3>Content router — extend <code>parseMaryMessage</code></h3>
+      <p>The current parser handles <code>DRAFT</code> and <code>FOLLOWUP</code>. Extend it into a typed routing table so each content signal maps to a dedicated component:</p>
+
+<pre><span class="token-cm">// src/lib/rag/content-router.ts</span>
+<span class="token-kw">type</span> <span class="token-ty">ContentSlot</span> =
+  | { kind: <span class="token-str">'prose'</span>;       text: string }
+  | { kind: <span class="token-str">'draft'</span>;       markdown: string; title?: string }
+  | { kind: <span class="token-str">'verse_card'</span>;  ref: string; translation?: string }
+  | { kind: <span class="token-str">'source_table'</span>; sources: SourceRow[] }
+  | { kind: <span class="token-str">'transcript'</span>;  segments: TranscriptSeg[] }
+  | { kind: <span class="token-str">'chart'</span>;       spec: ChartSpec };
+
+<span class="token-kw">const</span> <span class="token-ty">DELIMITERS</span> = {
+  verse_card:   <span class="token-str">/&lt;&lt;&lt;VERSE ref="([^"]+)"(?:\s+tr="([^"]+)")?&gt;&gt;&gt;/</span>,
+  source_table: <span class="token-str">/&lt;&lt;&lt;SOURCES&gt;&gt;&gt;([\s\S]*?)&lt;&lt;&lt;END_SOURCES&gt;&gt;&gt;/</span>,
+  transcript:   <span class="token-str">/&lt;&lt;&lt;TRANSCRIPT&gt;&gt;&gt;([\s\S]*?)&lt;&lt;&lt;END_TRANSCRIPT&gt;&gt;&gt;/</span>,
+  chart:        <span class="token-str">/&lt;&lt;&lt;CHART type="([^"]+)"&gt;&gt;&gt;([\s\S]*?)&lt;&lt;&lt;END_CHART&gt;&gt;&gt;/</span>,
+};
+
+<span class="token-kw">export function</span> <span class="token-fn">routeContent</span>(raw: string): ContentSlot[] {
+  <span class="token-cm">// Walk the string, emitting typed slots in order.</span>
+  <span class="token-cm">// Prose between delimiters → 'prose'. Each delimiter → its slot.</span>
+}</pre>
+
+      <h3>Markdown component overrides</h3>
+      <p>Prose slots still run through ReactMarkdown — but override the component map so structural elements are rendered with intent:</p>
+
+      <div class="card">
+        <div class="card-title">ReactMarkdown component overrides</div>
+        <div style="overflow-x:auto;">
+          <table class="spec-table">
+            <thead><tr><th>Element</th><th>Renders as</th></tr></thead>
+            <tbody>
+              <tr><td><code>blockquote</code></td><td>Scripture quote — gold left border, serif italic, attribution line</td></tr>
+              <tr><td><code>table</code></td><td>Sortable <code>DataTable</code> with horizontal scroll container and tabular-nums</td></tr>
+              <tr><td><code>h2 / h3</code></td><td>Section anchor with collapse chevron — long answers become scannable</td></tr>
+              <tr><td><code>code[lang]</code></td><td>Syntax-highlighted block with copy button and language badge</td></tr>
+              <tr><td><code>a[href]</code></td><td>External links open in new tab with a <code>↗</code> indicator; internal verse refs open <code>VerseCard</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROGRESSIVE DISCLOSURE -->
+    <section class="section" id="progressive-disclosure">
+      <div class="eyebrow">Blueprint · B</div>
+      <h2>Progressive disclosure — information in stages</h2>
+      <p class="lead">A 3-second RAG response should feel like 0.3 seconds of waiting + 2.7 seconds of reading. Staged revelation distributes cognitive load across the response lifecycle.</p>
+
+      <h3>The four disclosure stages</h3>
+
+      <div class="stage-bar">
+        <div class="stage-item">
+          <div class="stage-dot done"></div>
+          <div class="stage-label done">Submit<br><small>&lt;50ms</small></div>
+        </div>
+        <div class="stage-connector done"></div>
+        <div class="stage-item">
+          <div class="stage-dot done"></div>
+          <div class="stage-label done">Pipeline<br><small>50–600ms</small></div>
+        </div>
+        <div class="stage-connector done"></div>
+        <div class="stage-item">
+          <div class="stage-dot active"></div>
+          <div class="stage-label active">Streaming<br><small>600ms–3s</small></div>
+        </div>
+        <div class="stage-connector"></div>
+        <div class="stage-item">
+          <div class="stage-dot"></div>
+          <div class="stage-label">Artifacts<br><small>after stream</small></div>
+        </div>
+      </div>
+
+      <div style="overflow-x:auto; margin:14px 0;">
+        <table class="spec-table">
+          <thead>
+            <tr><th>Stage</th><th>What the user sees</th><th>Data source</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1 · Submit</td>
+              <td>User bubble appears immediately. <code>PipelineIndicator</code> shows "Condensing your question…"</td>
+              <td>Optimistic local state</td>
+            </tr>
+            <tr>
+              <td>2 · Pipeline</td>
+              <td>Indicator updates: "Searching 3 sources…" with collection name. Retrieval arm count from preamble <code>__nexus</code> event</td>
+              <td><code>__nexus type="retrieval_start"</code></td>
+            </tr>
+            <tr>
+              <td>3 · Streaming</td>
+              <td>Prose appears word-by-word. Inline verse chips appear as <code>&lt;&lt;&lt;VERSE&gt;&gt;&gt;</code> delimiters hit. Artifact chips (placeholder, skeleton) appear for deferred slots</td>
+              <td>SSE delta tokens + delimiter scanner</td>
+            </tr>
+            <tr>
+              <td>4 · Artifacts</td>
+              <td>After <code>[DONE]</code>: <code>InlineDocumentCard</code>, <code>TranscriptCard</code>, <code>ChartCard</code> unmask in sequence with a 180ms stagger. Citation badge fades in after verify response</td>
+              <td><code>isLoading === false</code> gate</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>PipelineIndicator — replace ThinkingTrace</h3>
+      <p>The current <code>MaryThinkingTrace</code> cycles random phrases from t=0. Upgrade it to a <strong>state machine</strong> driven by actual <code>__nexus</code> events so what the user reads is true:</p>
+
+<pre><span class="token-kw">type</span> <span class="token-ty">PipelineState</span> =
+  | <span class="token-str">'condensing'</span>   <span class="token-cm">// before first __nexus event</span>
+  | <span class="token-str">'retrieving'</span>   <span class="token-cm">// after retrieval_start, arms = n</span>
+  | <span class="token-str">'reading'</span>      <span class="token-cm">// after retrieval_done, before first token</span>
+  | <span class="token-str">'streaming'</span>    <span class="token-cm">// first token received</span>
+  | <span class="token-str">'verifying'</span>;   <span class="token-cm">// after [DONE], before citation result</span>
+
+<span class="token-cm">// In useMaryChat — emit these via a pipelineState setter driven by __nexus</span>
+<span class="token-kw">if</span> (sig.type === <span class="token-str">'retrieval_start'</span>) {
+  setPipelineState({ stage: <span class="token-str">'retrieving'</span>, armCount: sig.arms });
+}</pre>
+
+      <div class="callout">
+        <strong>Why this matters:</strong> "Searching 2 sources from your Luke 15 notes" is demonstrably more informative than "Weighing a stronger verb…". It shows the system doing real work, not performing thinking theater.
+      </div>
+    </section>
+
+    <!-- VIRTUAL SCROLL -->
+    <section class="section" id="virtual-scroll">
+      <div class="eyebrow">Blueprint · C</div>
+      <h2>Virtualized message list</h2>
+      <p class="lead">Long sessions currently mount every message in the DOM — prose ASTs, ScriptureArtifacts, InlineDocumentCards — all simultaneously. Beyond ~30 turns the scroll jank is measurable. Virtual scroll fixes this without architectural surgery.</p>
+
+      <h3>Implementation: <code>@tanstack/react-virtual</code></h3>
+
+<pre><span class="token-cm">// src/components/mary/VirtualThread.tsx</span>
+<span class="token-kw">import</span> { useVirtualizer } from <span class="token-str">'@tanstack/react-virtual'</span>;
+
+<span class="token-kw">const</span> virtualizer = <span class="token-fn">useVirtualizer</span>({
+  count: messages.length + (isLoading ? <span class="token-str">1</span> : <span class="token-str">0</span>),
+  getScrollElement: () => scrollRef.current,
+  <span class="token-cm">// Estimated height: user bubble ~48px, assistant response ~280px.</span>
+  estimateSize: (i) => messages[i]?.role === <span class="token-str">'user'</span> ? <span class="token-str">64</span> : <span class="token-str">300</span>,
+  <span class="token-cm">// Measure actual DOM height after render so scroll is accurate.</span>
+  measureElement: (el) => el?.getBoundingClientRect().height ?? <span class="token-str">300</span>,
+  overscan: <span class="token-str">3</span>,
+});</pre>
+
+      <h3>Scroll anchoring</h3>
+      <p>Virtual lists don't auto-scroll. Replace the current <code>bottomRef.scrollIntoView</code> with scroll-to-index:</p>
+
+<pre><span class="token-cm">// Scroll to last item whenever message count increases.</span>
+<span class="token-fn">useEffect</span>(() => {
+  <span class="token-kw">if</span> (messages.length > <span class="token-str">0</span>) {
+    virtualizer.<span class="token-fn">scrollToIndex</span>(messages.length - <span class="token-str">1</span>, {
+      align: <span class="token-str">'end'</span>, behavior: <span class="token-str">'smooth'</span>,
+    });
+  }
+}, [messages.length]);</pre>
+
+      <h3>Stable keys</h3>
+      <p>Virtual lists need stable item identities. The current <code>key={i}</code> (array index) causes unnecessary remounts. Assign each message a UUID at creation time and key by that.</p>
+
+      <div class="card">
+        <div class="card-title">Performance expectations</div>
+        <table class="spec-table">
+          <thead><tr><th>Session length</th><th>Current DOM nodes</th><th>With virtual scroll</th></tr></thead>
+          <tbody>
+            <tr><td>10 turns</td><td>~800 nodes</td><td>~200 nodes (overscan 3 × 2)</td></tr>
+            <tr><td>50 turns</td><td>~4,000 nodes</td><td>~200 nodes</td></tr>
+            <tr><td>200 turns</td><td>~16,000 nodes</td><td>~200 nodes</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- MULTIMODAL LAYOUT -->
+    <section class="section" id="multimodal-layout">
+      <div class="eyebrow">Blueprint · D</div>
+      <h2>Multi-modal layout — Artifact Rail</h2>
+      <p class="lead">Non-text artifacts (transcribed audio, chart data, captioned images) should not interrupt reading flow. The thread stays prose-focused; artifacts surface in a contextual side rail triggered by inline chips.</p>
+
+      <h3>Layout pattern</h3>
+
+      <div class="layout-diagram">
+        <div class="layout-chrome">Ezra — Luke 15 Study</div>
+        <div class="layout-body">
+          <div class="layout-thread">
+            <div class="mock-bubble-user">What does the audio note say about the father's robe?</div>
+            <div class="mock-bubble-ai">
+              <div class="mock-line" style="width:92%"></div>
+              <div class="mock-line" style="width:78%"></div>
+              <div class="mock-line" style="width:85%"></div>
+              <div style="margin-top:8px;">
+                <span class="mock-chip">🎵 Transcript · 2:14</span>
+                <span class="mock-chip">📖 Luke 15:22</span>
+              </div>
+            </div>
+          </div>
+          <div class="layout-rail">
+            <div class="mock-rail-label">Artifacts</div>
+            <div class="mock-rail-card">
+              <div class="mock-rail-img">🎵 Audio Clip</div>
+              <div style="font-size:10px;color:var(--text-faint);">sermon-notes.mp3 · 2:14–2:48</div>
+            </div>
+            <div class="mock-rail-card">
+              <div style="font-size:10px;font-weight:600;color:var(--accent);margin-bottom:2px;">Luke 15:22 NIV</div>
+              <div style="font-size:10.5px;font-style:italic;">"Quick! Bring the best robe…"</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h3>Artifact chip → rail bridge</h3>
+      <p>Inline text renders an <code>ArtifactChip</code> wherever a non-text slot was parsed. Clicking it opens or highlights the corresponding card in the rail. On mobile, chips trigger a bottom sheet.</p>
+
+<pre><span class="token-cm">// ArtifactChip — inline in thread prose</span>
+&lt;<span class="token-ty">ArtifactChip</span>
+  icon=<span class="token-str">"🎵"</span>
+  label=<span class="token-str">"Transcript · 2:14"</span>
+  onClick={() => railDispatch({ type: <span class="token-str">'focus'</span>, artifactId })}
+/&gt;</pre>
+
+      <h3>Rail state</h3>
+      <p>The rail accumulates artifacts across the entire session, not just the current message. It's a scratchpad: pinnable, reorderable. A session that analyzes a video and two PDFs ends up with a consolidated artifact workspace.</p>
+    </section>
+
+    <!-- ATOMS -->
+    <section class="section" id="atoms">
+      <div class="eyebrow">Component Library · Atoms</div>
+      <h2>Atomic components</h2>
+      <p class="lead">Small, stateless, composable. Each atom has a single visual responsibility and owns its own accessibility semantics.</p>
+
+      <div class="comp-grid">
+        <div class="comp-card">
+          <div class="comp-card-tier">Atom</div>
+          <div class="comp-card-name">VerseChip</div>
+          <div class="comp-card-desc">Inline pill rendering a scripture reference. Tapping opens a <code>VerseCard</code> popover. Parses <code>"Luke 15:11–32"</code> into book + range. Accessible via keyboard.</div>
+        </div>
+        <div class="comp-card">
+          <div class="comp-card-tier">Atom</div>
+          <div class="comp-card-name">CitationBadge</div>
+          <div class="comp-card-desc">Verdict pill: verified / partial / unverified. Fades in after citation check resolves. Currently exists — remove the tooltip-on-hover-only pattern; make the label always visible.</div>
+        </div>
+        <div class="comp-card">
+          <div class="comp-card-tier">Atom</div>
+          <div class="comp-card-name">StreamCursor</div>
+          <div class="comp-card-desc">Blinking <code>▋</code> appended to the last character of a streaming response. Removed on stream end. Signals "more is coming" without a separate loader.</div>
+        </div>
+        <div class="comp-card">
+          <div class="comp-card-tier">Atom</div>
+          <div class="comp-card-name">ArtifactChip</div>
+          <div class="comp-card-desc">Inline artifact reference chip with an icon, label, and rail-focus onClick. Appears within prose at the position of the delimiter, keeps reading flow.</div>
+        </div>
+        <div class="comp-card">
+          <div class="comp-card-tier">Atom</div>
+          <div class="comp-card-name">SkeletonBlock</div>
+          <div class="comp-card-desc">Animated shimmer placeholder. Parameterized by content type: <code>type="prose"</code> (variable-width lines), <code>type="card"</code> (header + lines), <code>type="image"</code>.</div>
+        </div>
+        <div class="comp-card">
+          <div class="comp-card-tier">Atom</div>
+          <div class="comp-card-name">PipelineDot</div>
+          <div class="comp-card-desc">Pulsing indicator dot that changes color based on pipeline stage. Replaces the current <code>mary-pulse-dot</code> CSS class with a typed state prop.</div>
+        </div>
+      </div>
+
+      <h3>Verdict badge states</h3>
+      <div class="verdict-row">
+        <span class="verdict green">✓ Citations verified</span>
+        <span class="verdict amber">⚠ Partially verified</span>
+        <span class="verdict red">✗ Unverified</span>
+      </div>
+    </section>
+
+    <!-- MOLECULES -->
+    <section class="section" id="molecules">
+      <div class="eyebrow">Component Library · Molecules</div>
+      <h2>Molecule components</h2>
+      <p class="lead">Composed of atoms, each molecule handles one discrete content type from the RAG pipeline. Each mounts deferred — only after the stream ends — to keep the compositor focused during streaming.</p>
+
+      <div class="comp-grid">
+        <div class="comp-card">
+          <div class="comp-card-tier">Molecule</div>
+          <div class="comp-card-name">VerseCard</div>
+          <div class="comp-card-desc">Full verse display with translation switcher (NIV / ESV / NASB), cross-reference chips, and a "Copy" action. Opens as a rail card or inline popover.</div>
+        </div>
+        <div class="comp-card">
+          <div class="comp-card-tier">Molecule</div>
+          <div class="comp-card-name">TranscriptCard</div>
+          <div class="comp-card-desc">Collapsible audio transcript. Segments with <code>[mm:ss]</code> markers are clickable — fires a custom event that seeks the source audio if it's in the rail. Non-speech annotations in brackets are styled distinctly.</div>
+        </div>
+        <div class="comp-card">
+          <div class="comp-card-tier">Molecule</div>
+          <div class="comp-card-name">ChartCard</div>
+          <div class="comp-card-desc">Recharts chart extracted from <code>&lt;&lt;&lt;CHART type="bar"&gt;&gt;&gt;</code> delimiter. Uses the CVD-validated categorical palette. Includes an "Export CSV" action. The chart spec comes from the RAG pipeline's chart-data extraction.</div>
+        </div>
+        <div class="comp-card">
+          <div class="comp-card-tier">Molecule</div>
+          <div class="comp-card-name">CitationTable</div>
+          <div class="comp-card-desc">Sortable source table from <code>rag_chunks</code>. Columns: source title, collection, relevance score, modality icon. Replaces the tab-based <code>MarySourcesTabs</code> for RAG-retrieved sources.</div>
+        </div>
+        <div class="comp-card">
+          <div class="comp-card-tier">Molecule</div>
+          <div class="comp-card-name">PipelineIndicator</div>
+          <div class="comp-card-desc">Replaces <code>MaryThinkingTrace</code>. State-machine driven: condensing → retrieving (n sources) → reading → streaming. Each transition is triggered by a real <code>__nexus</code> event.</div>
+        </div>
+        <div class="comp-card">
+          <div class="comp-card-tier">Molecule</div>
+          <div class="comp-card-name">MemoryHeader</div>
+          <div class="comp-card-desc">Compact strip at thread top when <code>memorySummary</code> is present: "Ezra recalls: preaching Luke 15 on Easter Sunday · 3 active facts". Expandable to show full facts list.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ORGANISMS -->
+    <section class="section" id="organisms">
+      <div class="eyebrow">Component Library · Organisms</div>
+      <h2>Organism components</h2>
+      <p class="lead">Organisms compose molecules into self-contained UI regions. Each owns its own scroll context and manages layout independently of its siblings.</p>
+
+      <div class="comp-grid" style="grid-template-columns:1fr">
+        <div class="comp-card">
+          <div class="comp-card-tier">Organism</div>
+          <div class="comp-card-name">VirtualThread</div>
+          <div class="comp-card-desc">Replaces <code>MaryThread</code>. Owns the scroll container, <code>useVirtualizer</code> instance, scroll-anchor logic, and the message-key registry. Receives typed <code>ContentSlot[][]</code> per message (already routed by the stream parser) and delegates rendering to molecule components. Does not know about RAG; only knows about slot types.</div>
+        </div>
+        <div class="comp-card">
+          <div class="comp-card-tier">Organism</div>
+          <div class="comp-card-name">ArtifactRail</div>
+          <div class="comp-card-desc">Right-side panel. Accumulates artifacts from all messages in the session. Managed by a <code>useArtifactRail</code> hook that exposes <code>dispatch({ type: 'add' | 'focus' | 'pin' })</code>. On narrow screens: hidden by default, opened via a floating artifact count badge.</div>
+        </div>
+        <div class="comp-card">
+          <div class="comp-card-tier">Organism</div>
+          <div class="comp-card-name">EzraAssistBar (Write)</div>
+          <div class="comp-card-desc">The Write-page floating assistant bar (P136). Already implemented. Upgrade: add a skeleton state when <code>busy</code>, and animate the Insert/Replace card in with a scale transition after result arrives.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LATENCY PLAN -->
+    <section class="section" id="latency-plan">
+      <div class="eyebrow">Performance</div>
+      <h2>Latency mitigation — four wins</h2>
+      <p class="lead">Each of these is implementable independently. Combined, they eliminate the perceived lag even when the RAG pipeline itself takes 2–3 seconds.</p>
+
+      <ul class="checklist">
+        <li>
+          <div class="check-num">1</div>
+          <div class="check-body">
+            <strong>Surface pipeline telemetry as staged UI copy</strong>
+            Wire the existing <code>__nexus</code> preamble events into <code>PipelineIndicator</code>. "Searching 3 sources in your Luke 15 collection…" changes the wait from opaque to transparent. Users tolerate latency they can observe far better than latency they can only feel. <strong>Estimated perceived-latency reduction: 40–60%.</strong>
+          </div>
+        </li>
+        <li>
+          <div class="check-num">2</div>
+          <div class="check-body">
+            <strong>Defer artifact mounting until stream ends</strong>
+            Mount <code>InlineDocumentCard</code>, <code>TranscriptCard</code>, and <code>ChartCard</code> only after <code>isLoading</code> flips false. During streaming, render a <code>SkeletonBlock type="card"</code> placeholder at the artifact position. This keeps the compositor budget free for the typewriter animation — the part the user is actively watching.
+          </div>
+        </li>
+        <li>
+          <div class="check-num">3</div>
+          <div class="check-body">
+            <strong>Virtual scroll with dynamic measurement</strong>
+            Install <code>@tanstack/react-virtual</code> with <code>measureElement</code>. Cap rendered DOM nodes at ~200 regardless of session length. This is the single highest-impact change for long-session users — the scroll jank is proportional to message count, and it compounds quickly above 30 turns.
+          </div>
+        </li>
+        <li>
+          <div class="check-num">4</div>
+          <div class="check-body">
+            <strong>CSS paint isolation on streaming cells</strong>
+            Add <code>contain: layout style</code> to message list items. Add <code>will-change: transform</code> to the scroll container only (not individual cells — promotes too many layers). Remove <code>box-shadow</code> from elements during streaming; apply it via a class toggle after stream ends. These are compositable properties — the browser doesn't repaint the whole thread on each token.
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <!-- PAINT BUDGET -->
+    <section class="section" id="paint-budget">
+      <div class="eyebrow">Performance</div>
+      <h2>Animation &amp; paint budget</h2>
+      <p class="lead">The typewriter drain loop already runs on <code>requestAnimationFrame</code>. Everything else should stay out of its way — no layout-triggering properties during streaming, no heavy shadows on animated elements.</p>
+
+      <div style="overflow-x:auto;">
+        <table class="spec-table">
+          <thead>
+            <tr><th>Element</th><th>Animation</th><th>Property</th><th>Duration</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Message enter</td>
+              <td>Fade + rise</td>
+              <td><code>opacity</code>, <code>translateY(8px→0)</code></td>
+              <td>200ms ease-out</td>
+            </tr>
+            <tr>
+              <td>Typewriter</td>
+              <td>Character reveal</td>
+              <td>Text node mutation via RAF</td>
+              <td>Continuous (~22ms/tick)</td>
+            </tr>
+            <tr>
+              <td>Artifact reveal</td>
+              <td>Unmask + scale</td>
+              <td><code>opacity</code>, <code>scale(0.98→1)</code></td>
+              <td>250ms, staggered 180ms</td>
+            </tr>
+            <tr>
+              <td>Citation badge</td>
+              <td>Fade in</td>
+              <td><code>opacity</code></td>
+              <td>150ms after verify response</td>
+            </tr>
+            <tr>
+              <td>PipelineIndicator</td>
+              <td>Stage text crossfade</td>
+              <td><code>opacity</code></td>
+              <td>120ms on each state transition</td>
+            </tr>
+            <tr>
+              <td>Rail slide-in</td>
+              <td>Expand</td>
+              <td><code>width / max-width</code></td>
+              <td>220ms ease-out</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout">
+        <strong>Reduced motion:</strong> Every animation above checks <code>prefers-reduced-motion</code>. When set, transitions are disabled and typewriter speed doubles (content appears faster, not animated). This is already implemented in the drain loop — extend the pattern to all new animations.
+      </div>
+
+      <div class="callout" style="margin-top:12px; border-left-color: var(--green); background: var(--green-bg);">
+        <strong>What not to animate:</strong> Scroll position, height changes during streaming, box-shadow during active RAF loops. These trigger layout recalculation on every frame and are the primary cause of jank in streaming chat UIs.
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script>
+  // Active nav link tracking
+  const links = document.querySelectorAll('.nav a');
+  const sections = document.querySelectorAll('section[id]');
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        links.forEach(l => l.classList.remove('active'));
+        const link = document.querySelector(`.nav a[href="#${e.target.id}"]`);
+        if (link) link.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-20% 0px -60% 0px', threshold: 0 });
+  sections.forEach(s => obs.observe(s));
+
+  // Respect prefers-reduced-motion
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.documentElement.style.setProperty('--transition-dur', '0ms');
+  }
+</script>
+
+</body>
+</html>

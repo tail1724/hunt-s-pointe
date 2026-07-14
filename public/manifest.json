@@ -1,0 +1,12 @@
+{
+  "name": "Ezra Research",
+  "short_name": "Ezra Research",
+  "description": "An AI assistant for sermon prep, Bible study, and ministry writing.",
+  "start_url": "/app/ezra",
+  "display": "standalone",
+  "background_color": "#0C1118",
+  "theme_color": "#0C1118",
+  "icons": [
+    { "src": "/favicon.ico", "sizes": "48x48", "type": "image/x-icon" }
+  ]
+}

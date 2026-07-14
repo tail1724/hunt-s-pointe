@@ -1,0 +1,812 @@
+{
+  "translations": [
+    {
+      "id": "KJV",
+      "name": "King James Version",
+      "lang": "en",
+      "license": "Public domain (Crown patent in the UK)",
+      "books": [
+        {
+          "slug": "genesis",
+          "name": "Genesis",
+          "section": "ot-pentateuch",
+          "chapters": 50
+        },
+        {
+          "slug": "exodus",
+          "name": "Exodus",
+          "section": "ot-pentateuch",
+          "chapters": 40
+        },
+        {
+          "slug": "leviticus",
+          "name": "Leviticus",
+          "section": "ot-pentateuch",
+          "chapters": 27
+        },
+        {
+          "slug": "numbers",
+          "name": "Numbers",
+          "section": "ot-pentateuch",
+          "chapters": 36
+        },
+        {
+          "slug": "deuteronomy",
+          "name": "Deuteronomy",
+          "section": "ot-pentateuch",
+          "chapters": 34
+        },
+        {
+          "slug": "joshua",
+          "name": "Joshua",
+          "section": "ot-history",
+          "chapters": 24
+        },
+        {
+          "slug": "judges",
+          "name": "Judges",
+          "section": "ot-history",
+          "chapters": 21
+        },
+        {
+          "slug": "ruth",
+          "name": "Ruth",
+          "section": "ot-history",
+          "chapters": 4
+        },
+        {
+          "slug": "i-samuel",
+          "name": "1 Samuel",
+          "section": "ot-history",
+          "chapters": 31
+        },
+        {
+          "slug": "ii-samuel",
+          "name": "2 Samuel",
+          "section": "ot-history",
+          "chapters": 24
+        },
+        {
+          "slug": "i-kings",
+          "name": "1 Kings",
+          "section": "ot-history",
+          "chapters": 22
+        },
+        {
+          "slug": "ii-kings",
+          "name": "2 Kings",
+          "section": "ot-history",
+          "chapters": 25
+        },
+        {
+          "slug": "i-chronicles",
+          "name": "1 Chronicles",
+          "section": "ot-history",
+          "chapters": 29
+        },
+        {
+          "slug": "ii-chronicles",
+          "name": "2 Chronicles",
+          "section": "ot-history",
+          "chapters": 36
+        },
+        {
+          "slug": "ezra",
+          "name": "Ezra",
+          "section": "ot-history",
+          "chapters": 10
+        },
+        {
+          "slug": "nehemiah",
+          "name": "Nehemiah",
+          "section": "ot-history",
+          "chapters": 13
+        },
+        {
+          "slug": "esther",
+          "name": "Esther",
+          "section": "ot-history",
+          "chapters": 10
+        },
+        {
+          "slug": "job",
+          "name": "Job",
+          "section": "ot-wisdom",
+          "chapters": 42
+        },
+        {
+          "slug": "psalms",
+          "name": "Psalms",
+          "section": "ot-wisdom",
+          "chapters": 150
+        },
+        {
+          "slug": "proverbs",
+          "name": "Proverbs",
+          "section": "ot-wisdom",
+          "chapters": 31
+        },
+        {
+          "slug": "ecclesiastes",
+          "name": "Ecclesiastes",
+          "section": "ot-wisdom",
+          "chapters": 12
+        },
+        {
+          "slug": "song-of-solomon",
+          "name": "Song of Solomon",
+          "section": "ot-wisdom",
+          "chapters": 8
+        },
+        {
+          "slug": "isaiah",
+          "name": "Isaiah",
+          "section": "ot-prophets-major",
+          "chapters": 66
+        },
+        {
+          "slug": "jeremiah",
+          "name": "Jeremiah",
+          "section": "ot-prophets-major",
+          "chapters": 52
+        },
+        {
+          "slug": "lamentations",
+          "name": "Lamentations",
+          "section": "ot-prophets-major",
+          "chapters": 5
+        },
+        {
+          "slug": "ezekiel",
+          "name": "Ezekiel",
+          "section": "ot-prophets-major",
+          "chapters": 48
+        },
+        {
+          "slug": "daniel",
+          "name": "Daniel",
+          "section": "ot-prophets-major",
+          "chapters": 12
+        },
+        {
+          "slug": "hosea",
+          "name": "Hosea",
+          "section": "ot-prophets-minor",
+          "chapters": 14
+        },
+        {
+          "slug": "joel",
+          "name": "Joel",
+          "section": "ot-prophets-minor",
+          "chapters": 3
+        },
+        {
+          "slug": "amos",
+          "name": "Amos",
+          "section": "ot-prophets-minor",
+          "chapters": 9
+        },
+        {
+          "slug": "obadiah",
+          "name": "Obadiah",
+          "section": "ot-prophets-minor",
+          "chapters": 1
+        },
+        {
+          "slug": "jonah",
+          "name": "Jonah",
+          "section": "ot-prophets-minor",
+          "chapters": 4
+        },
+        {
+          "slug": "micah",
+          "name": "Micah",
+          "section": "ot-prophets-minor",
+          "chapters": 7
+        },
+        {
+          "slug": "nahum",
+          "name": "Nahum",
+          "section": "ot-prophets-minor",
+          "chapters": 3
+        },
+        {
+          "slug": "habakkuk",
+          "name": "Habakkuk",
+          "section": "ot-prophets-minor",
+          "chapters": 3
+        },
+        {
+          "slug": "zephaniah",
+          "name": "Zephaniah",
+          "section": "ot-prophets-minor",
+          "chapters": 3
+        },
+        {
+          "slug": "haggai",
+          "name": "Haggai",
+          "section": "ot-prophets-minor",
+          "chapters": 2
+        },
+        {
+          "slug": "zechariah",
+          "name": "Zechariah",
+          "section": "ot-prophets-minor",
+          "chapters": 14
+        },
+        {
+          "slug": "malachi",
+          "name": "Malachi",
+          "section": "ot-prophets-minor",
+          "chapters": 4
+        },
+        {
+          "slug": "matthew",
+          "name": "Matthew",
+          "section": "nt-gospels-acts",
+          "chapters": 28
+        },
+        {
+          "slug": "mark",
+          "name": "Mark",
+          "section": "nt-gospels-acts",
+          "chapters": 16
+        },
+        {
+          "slug": "luke",
+          "name": "Luke",
+          "section": "nt-gospels-acts",
+          "chapters": 24
+        },
+        {
+          "slug": "john",
+          "name": "John",
+          "section": "nt-gospels-acts",
+          "chapters": 21
+        },
+        {
+          "slug": "acts",
+          "name": "Acts",
+          "section": "nt-gospels-acts",
+          "chapters": 28
+        },
+        {
+          "slug": "romans",
+          "name": "Romans",
+          "section": "nt-epistles",
+          "chapters": 16
+        },
+        {
+          "slug": "i-corinthians",
+          "name": "1 Corinthians",
+          "section": "nt-epistles",
+          "chapters": 16
+        },
+        {
+          "slug": "ii-corinthians",
+          "name": "2 Corinthians",
+          "section": "nt-epistles",
+          "chapters": 13
+        },
+        {
+          "slug": "galatians",
+          "name": "Galatians",
+          "section": "nt-epistles",
+          "chapters": 6
+        },
+        {
+          "slug": "ephesians",
+          "name": "Ephesians",
+          "section": "nt-epistles",
+          "chapters": 6
+        },
+        {
+          "slug": "philippians",
+          "name": "Philippians",
+          "section": "nt-epistles",
+          "chapters": 4
+        },
+        {
+          "slug": "colossians",
+          "name": "Colossians",
+          "section": "nt-epistles",
+          "chapters": 4
+        },
+        {
+          "slug": "i-thessalonians",
+          "name": "1 Thessalonians",
+          "section": "nt-epistles",
+          "chapters": 5
+        },
+        {
+          "slug": "ii-thessalonians",
+          "name": "2 Thessalonians",
+          "section": "nt-epistles",
+          "chapters": 3
+        },
+        {
+          "slug": "i-timothy",
+          "name": "1 Timothy",
+          "section": "nt-epistles",
+          "chapters": 6
+        },
+        {
+          "slug": "ii-timothy",
+          "name": "2 Timothy",
+          "section": "nt-epistles",
+          "chapters": 4
+        },
+        {
+          "slug": "titus",
+          "name": "Titus",
+          "section": "nt-epistles",
+          "chapters": 3
+        },
+        {
+          "slug": "philemon",
+          "name": "Philemon",
+          "section": "nt-epistles",
+          "chapters": 1
+        },
+        {
+          "slug": "hebrews",
+          "name": "Hebrews",
+          "section": "nt-epistles",
+          "chapters": 13
+        },
+        {
+          "slug": "james",
+          "name": "James",
+          "section": "nt-epistles",
+          "chapters": 5
+        },
+        {
+          "slug": "i-peter",
+          "name": "1 Peter",
+          "section": "nt-epistles",
+          "chapters": 5
+        },
+        {
+          "slug": "ii-peter",
+          "name": "2 Peter",
+          "section": "nt-epistles",
+          "chapters": 3
+        },
+        {
+          "slug": "i-john",
+          "name": "1 John",
+          "section": "nt-epistles",
+          "chapters": 5
+        },
+        {
+          "slug": "ii-john",
+          "name": "2 John",
+          "section": "nt-epistles",
+          "chapters": 1
+        },
+        {
+          "slug": "iii-john",
+          "name": "3 John",
+          "section": "nt-epistles",
+          "chapters": 1
+        },
+        {
+          "slug": "jude",
+          "name": "Jude",
+          "section": "nt-epistles",
+          "chapters": 1
+        },
+        {
+          "slug": "revelation-of-john",
+          "name": "Revelation",
+          "section": "nt-revelation",
+          "chapters": 22
+        }
+      ]
+    },
+    {
+      "id": "NHEB",
+      "name": "New Heart English Bible",
+      "lang": "en",
+      "license": "Public domain",
+      "books": [
+        {
+          "slug": "genesis",
+          "name": "Genesis",
+          "section": "ot-pentateuch",
+          "chapters": 50
+        },
+        {
+          "slug": "exodus",
+          "name": "Exodus",
+          "section": "ot-pentateuch",
+          "chapters": 40
+        },
+        {
+          "slug": "leviticus",
+          "name": "Leviticus",
+          "section": "ot-pentateuch",
+          "chapters": 27
+        },
+        {
+          "slug": "numbers",
+          "name": "Numbers",
+          "section": "ot-pentateuch",
+          "chapters": 36
+        },
+        {
+          "slug": "deuteronomy",
+          "name": "Deuteronomy",
+          "section": "ot-pentateuch",
+          "chapters": 34
+        },
+        {
+          "slug": "joshua",
+          "name": "Joshua",
+          "section": "ot-history",
+          "chapters": 24
+        },
+        {
+          "slug": "judges",
+          "name": "Judges",
+          "section": "ot-history",
+          "chapters": 21
+        },
+        {
+          "slug": "ruth",
+          "name": "Ruth",
+          "section": "ot-history",
+          "chapters": 4
+        },
+        {
+          "slug": "i-samuel",
+          "name": "1 Samuel",
+          "section": "ot-history",
+          "chapters": 31
+        },
+        {
+          "slug": "ii-samuel",
+          "name": "2 Samuel",
+          "section": "ot-history",
+          "chapters": 24
+        },
+        {
+          "slug": "i-kings",
+          "name": "1 Kings",
+          "section": "ot-history",
+          "chapters": 22
+        },
+        {
+          "slug": "ii-kings",
+          "name": "2 Kings",
+          "section": "ot-history",
+          "chapters": 25
+        },
+        {
+          "slug": "i-chronicles",
+          "name": "1 Chronicles",
+          "section": "ot-history",
+          "chapters": 29
+        },
+        {
+          "slug": "ii-chronicles",
+          "name": "2 Chronicles",
+          "section": "ot-history",
+          "chapters": 36
+        },
+        {
+          "slug": "ezra",
+          "name": "Ezra",
+          "section": "ot-history",
+          "chapters": 10
+        },
+        {
+          "slug": "nehemiah",
+          "name": "Nehemiah",
+          "section": "ot-history",
+          "chapters": 13
+        },
+        {
+          "slug": "esther",
+          "name": "Esther",
+          "section": "ot-history",
+          "chapters": 10
+        },
+        {
+          "slug": "job",
+          "name": "Job",
+          "section": "ot-wisdom",
+          "chapters": 42
+        },
+        {
+          "slug": "psalms",
+          "name": "Psalms",
+          "section": "ot-wisdom",
+          "chapters": 150
+        },
+        {
+          "slug": "proverbs",
+          "name": "Proverbs",
+          "section": "ot-wisdom",
+          "chapters": 31
+        },
+        {
+          "slug": "ecclesiastes",
+          "name": "Ecclesiastes",
+          "section": "ot-wisdom",
+          "chapters": 12
+        },
+        {
+          "slug": "song-of-solomon",
+          "name": "Song of Solomon",
+          "section": "ot-wisdom",
+          "chapters": 8
+        },
+        {
+          "slug": "isaiah",
+          "name": "Isaiah",
+          "section": "ot-prophets-major",
+          "chapters": 66
+        },
+        {
+          "slug": "jeremiah",
+          "name": "Jeremiah",
+          "section": "ot-prophets-major",
+          "chapters": 52
+        },
+        {
+          "slug": "lamentations",
+          "name": "Lamentations",
+          "section": "ot-prophets-major",
+          "chapters": 5
+        },
+        {
+          "slug": "ezekiel",
+          "name": "Ezekiel",
+          "section": "ot-prophets-major",
+          "chapters": 48
+        },
+        {
+          "slug": "daniel",
+          "name": "Daniel",
+          "section": "ot-prophets-major",
+          "chapters": 12
+        },
+        {
+          "slug": "hosea",
+          "name": "Hosea",
+          "section": "ot-prophets-minor",
+          "chapters": 14
+        },
+        {
+          "slug": "joel",
+          "name": "Joel",
+          "section": "ot-prophets-minor",
+          "chapters": 3
+        },
+        {
+          "slug": "amos",
+          "name": "Amos",
+          "section": "ot-prophets-minor",
+          "chapters": 9
+        },
+        {
+          "slug": "obadiah",
+          "name": "Obadiah",
+          "section": "ot-prophets-minor",
+          "chapters": 1
+        },
+        {
+          "slug": "jonah",
+          "name": "Jonah",
+          "section": "ot-prophets-minor",
+          "chapters": 4
+        },
+        {
+          "slug": "micah",
+          "name": "Micah",
+          "section": "ot-prophets-minor",
+          "chapters": 7
+        },
+        {
+          "slug": "nahum",
+          "name": "Nahum",
+          "section": "ot-prophets-minor",
+          "chapters": 3
+        },
+        {
+          "slug": "habakkuk",
+          "name": "Habakkuk",
+          "section": "ot-prophets-minor",
+          "chapters": 3
+        },
+        {
+          "slug": "zephaniah",
+          "name": "Zephaniah",
+          "section": "ot-prophets-minor",
+          "chapters": 3
+        },
+        {
+          "slug": "haggai",
+          "name": "Haggai",
+          "section": "ot-prophets-minor",
+          "chapters": 2
+        },
+        {
+          "slug": "zechariah",
+          "name": "Zechariah",
+          "section": "ot-prophets-minor",
+          "chapters": 14
+        },
+        {
+          "slug": "malachi",
+          "name": "Malachi",
+          "section": "ot-prophets-minor",
+          "chapters": 4
+        },
+        {
+          "slug": "matthew",
+          "name": "Matthew",
+          "section": "nt-gospels-acts",
+          "chapters": 28
+        },
+        {
+          "slug": "mark",
+          "name": "Mark",
+          "section": "nt-gospels-acts",
+          "chapters": 16
+        },
+        {
+          "slug": "luke",
+          "name": "Luke",
+          "section": "nt-gospels-acts",
+          "chapters": 24
+        },
+        {
+          "slug": "john",
+          "name": "John",
+          "section": "nt-gospels-acts",
+          "chapters": 21
+        },
+        {
+          "slug": "acts",
+          "name": "Acts",
+          "section": "nt-gospels-acts",
+          "chapters": 28
+        },
+        {
+          "slug": "romans",
+          "name": "Romans",
+          "section": "nt-epistles",
+          "chapters": 16
+        },
+        {
+          "slug": "i-corinthians",
+          "name": "1 Corinthians",
+          "section": "nt-epistles",
+          "chapters": 16
+        },
+        {
+          "slug": "ii-corinthians",
+          "name": "2 Corinthians",
+          "section": "nt-epistles",
+          "chapters": 13
+        },
+        {
+          "slug": "galatians",
+          "name": "Galatians",
+          "section": "nt-epistles",
+          "chapters": 6
+        },
+        {
+          "slug": "ephesians",
+          "name": "Ephesians",
+          "section": "nt-epistles",
+          "chapters": 6
+        },
+        {
+          "slug": "philippians",
+          "name": "Philippians",
+          "section": "nt-epistles",
+          "chapters": 4
+        },
+        {
+          "slug": "colossians",
+          "name": "Colossians",
+          "section": "nt-epistles",
+          "chapters": 4
+        },
+        {
+          "slug": "i-thessalonians",
+          "name": "1 Thessalonians",
+          "section": "nt-epistles",
+          "chapters": 5
+        },
+        {
+          "slug": "ii-thessalonians",
+          "name": "2 Thessalonians",
+          "section": "nt-epistles",
+          "chapters": 3
+        },
+        {
+          "slug": "i-timothy",
+          "name": "1 Timothy",
+          "section": "nt-epistles",
+          "chapters": 6
+        },
+        {
+          "slug": "ii-timothy",
+          "name": "2 Timothy",
+          "section": "nt-epistles",
+          "chapters": 4
+        },
+        {
+          "slug": "titus",
+          "name": "Titus",
+          "section": "nt-epistles",
+          "chapters": 3
+        },
+        {
+          "slug": "philemon",
+          "name": "Philemon",
+          "section": "nt-epistles",
+          "chapters": 1
+        },
+        {
+          "slug": "hebrews",
+          "name": "Hebrews",
+          "section": "nt-epistles",
+          "chapters": 13
+        },
+        {
+          "slug": "james",
+          "name": "James",
+          "section": "nt-epistles",
+          "chapters": 5
+        },
+        {
+          "slug": "i-peter",
+          "name": "1 Peter",
+          "section": "nt-epistles",
+          "chapters": 5
+        },
+        {
+          "slug": "ii-peter",
+          "name": "2 Peter",
+          "section": "nt-epistles",
+          "chapters": 3
+        },
+        {
+          "slug": "i-john",
+          "name": "1 John",
+          "section": "nt-epistles",
+          "chapters": 5
+        },
+        {
+          "slug": "ii-john",
+          "name": "2 John",
+          "section": "nt-epistles",
+          "chapters": 1
+        },
+        {
+          "slug": "iii-john",
+          "name": "3 John",
+          "section": "nt-epistles",
+          "chapters": 1
+        },
+        {
+          "slug": "jude",
+          "name": "Jude",
+          "section": "nt-epistles",
+          "chapters": 1
+        },
+        {
+          "slug": "revelation-of-john",
+          "name": "Revelation",
+          "section": "nt-revelation",
+          "chapters": 22
+        }
+      ]
+    }
+  ]
+}

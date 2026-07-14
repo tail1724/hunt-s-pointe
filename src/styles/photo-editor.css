@@ -1,0 +1,113 @@
+/* Ezra photo editor — full-screen, dark studio chrome so the artwork is the
+   only thing with color. One tool visible at a time; big touch targets. */
+
+.photo-editor {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  grid-template-rows: auto 1fr auto auto;
+  background: #0c0f13;
+  color: #fff;
+}
+
+.photo-editor__bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: calc(env(safe-area-inset-top, 0) + 10px) 14px 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+.photo-editor__title {
+  font-family: "Spectral", Georgia, serif;
+  font-size: 16px;
+  font-weight: 600;
+}
+.photo-editor__icon {
+  display: inline-flex;
+  height: 40px;
+  width: 40px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  color: rgba(255, 255, 255, 0.85);
+}
+.photo-editor__icon:active { background: rgba(255, 255, 255, 0.1); }
+
+.photo-editor__ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 36px;
+  padding: 0 12px;
+  border-radius: 10px;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.08);
+}
+.photo-editor__ghost:disabled { opacity: 0.4; }
+
+.photo-editor__save {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 36px;
+  padding: 0 14px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #16222d;
+  background: #c79a4b;
+}
+.photo-editor__save:disabled { opacity: 0.5; }
+
+.photo-editor__stage {
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  overflow: hidden;
+}
+.photo-editor__canvas {
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: 8px;
+  box-shadow: 0 20px 60px -20px rgba(0, 0, 0, 0.8);
+  touch-action: none;
+  cursor: grab;
+}
+.photo-editor__canvas:active { cursor: grabbing; }
+
+.photo-editor__panel {
+  padding: 14px 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  min-height: 96px;
+}
+
+.photo-editor__rail {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: env(safe-area-inset-bottom, 0);
+}
+.photo-editor__tool {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 12px 0;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.6);
+  transition: color 0.15s;
+}
+.photo-editor__tool--active { color: #c79a4b; }
+
+@media (min-width: 768px) {
+  .photo-editor {
+    inset: 4vh 6vw;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 40px 120px -30px rgba(0, 0, 0, 0.9);
+  }
+}

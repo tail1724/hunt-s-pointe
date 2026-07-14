@@ -1,0 +1,110 @@
+[
+  {
+    "id": "mt-001",
+    "turns": [
+      { "role": "user", "content": "I'm preaching on Luke 15 this Sunday. What's the main theme?" },
+      { "role": "assistant", "content": "Luke 15 centers on God's relentless pursuit of the lost, told through three parables: the lost sheep, the lost coin, and the prodigal son." },
+      { "role": "user", "content": "How does the parable of the prodigal son connect to the other two?" },
+      { "role": "assistant", "content": "All three follow an escalating pattern: lost property → lost savings → lost relationship. The prodigal son adds human agency — unlike a sheep or coin, the son chose to leave and chose to return." },
+      { "role": "user", "content": "What's a good sermon angle for a youth group?" }
+    ],
+    "expected_topics": ["prodigal son", "youth", "Luke 15", "identity", "grace"],
+    "ground_truth": "For youth, emphasize the son's search for identity outside home and the father's unconditional welcome — teens relate to the tension between independence and belonging."
+  },
+  {
+    "id": "mt-002",
+    "turns": [
+      { "role": "user", "content": "What does Romans 8:28 actually mean in the Greek?" },
+      { "role": "assistant", "content": "The key phrase is 'synergei eis agathon' — God works all things together (synergeo) toward good. The 'all things' (panta) is comprehensive, not selective." },
+      { "role": "user", "content": "Is it saying God causes suffering or redeems it?" }
+    ],
+    "expected_topics": ["Romans 8:28", "Greek", "sovereignty", "suffering", "redemption"],
+    "ground_truth": "The verse doesn't say God causes all things but that he works within all circumstances. The verb synergeo implies cooperative action, not unilateral causation."
+  },
+  {
+    "id": "mt-003",
+    "turns": [
+      { "role": "user", "content": "I need to write a prayer for a hospital chaplaincy visit." },
+      { "role": "assistant", "content": "Here's a framework: acknowledge the person's situation without minimizing it, invoke God's presence rather than promising outcomes, and close with comfort language." },
+      { "role": "user", "content": "Can you draft one for someone facing surgery tomorrow?" }
+    ],
+    "expected_topics": ["prayer", "hospital", "surgery", "chaplaincy", "pastoral care"],
+    "ground_truth": "Lord, we bring [Name] before you on the eve of surgery. We don't ask for the absence of fear but for your steady presence within it. Guide the hands of the surgical team and grant peace that passes understanding."
+  },
+  {
+    "id": "mt-004",
+    "turns": [
+      { "role": "user", "content": "Compare the Beatitudes in Matthew 5 and Luke 6." },
+      { "role": "assistant", "content": "Matthew has 8-9 beatitudes with spiritual qualifiers ('poor in spirit'), while Luke has 4 with matching woes and is more materially direct ('blessed are you who are poor')." },
+      { "role": "user", "content": "Which version should I use for a social justice sermon?" },
+      { "role": "assistant", "content": "Luke 6 is more direct for social justice since it names concrete economic and physical conditions without spiritualizing them." },
+      { "role": "user", "content": "Give me three sermon points from Luke's version." }
+    ],
+    "expected_topics": ["Beatitudes", "Luke 6", "Matthew 5", "social justice", "poverty"],
+    "ground_truth": "1. God's economy inverts worldly status (poor are blessed, rich are warned). 2. Present suffering is not God's final word (hungry will be filled). 3. The woes call the comfortable to solidarity, not guilt."
+  },
+  {
+    "id": "mt-005",
+    "turns": [
+      { "role": "user", "content": "What's the best Bible translation for academic study?" },
+      { "role": "assistant", "content": "The NRSV and ESV are strong for academic work. NRSV is preferred in mainline seminaries; ESV in evangelical ones. For the most literal, try the NASB." },
+      { "role": "user", "content": "What about for congregational reading aloud?" }
+    ],
+    "expected_topics": ["Bible translations", "NRSV", "ESV", "congregational reading", "accessibility"],
+    "ground_truth": "For reading aloud, the NIV or NLT flow better. The CEB is also excellent for public reading with contemporary cadence while maintaining accuracy."
+  },
+  {
+    "id": "mt-006",
+    "turns": [
+      { "role": "user", "content": "Explain the concept of already/not yet eschatology." },
+      { "role": "assistant", "content": "Already/not yet (inaugurated eschatology) holds that God's kingdom has already broken in through Christ but is not yet fully consummated. We live in the overlap of the ages." },
+      { "role": "user", "content": "How do I explain this to a small group without using jargon?" }
+    ],
+    "expected_topics": ["eschatology", "already not yet", "kingdom of God", "teaching", "small group"],
+    "ground_truth": "Use the analogy of D-Day and V-Day: the decisive battle has been won (cross/resurrection), but the war isn't over yet. We live between the victory and the celebration."
+  },
+  {
+    "id": "mt-007",
+    "turns": [
+      { "role": "user", "content": "I'm doing a sermon series on the Apostles' Creed. How many weeks should it be?" },
+      { "role": "assistant", "content": "Common approaches: 6 weeks (grouping clauses), 8 weeks (one per article), or 12 weeks (deep dive into each phrase). For most congregations, 6-8 works best." },
+      { "role": "user", "content": "Let's go with 8. Outline the weekly topics." },
+      { "role": "assistant", "content": "Week 1: I believe in God the Father. Week 2: Jesus Christ, his only Son. Week 3: Born of the Virgin Mary, suffered under Pontius Pilate. Week 4: Crucified, dead, buried, descended. Week 5: Rose again, ascended. Week 6: Will come to judge. Week 7: I believe in the Holy Spirit. Week 8: The holy catholic church, communion of saints, resurrection of the body." },
+      { "role": "user", "content": "For week 4, what's a good way to handle 'he descended into hell' for a Baptist congregation?" }
+    ],
+    "expected_topics": ["Apostles' Creed", "descended into hell", "Baptist", "sermon series", "1 Peter 3:19"],
+    "ground_truth": "Acknowledge the phrase is debated even among Baptists. Present the three main views: literal descent, metaphor for the grave (Sheol), or Christ's victory proclamation (1 Peter 3:19). Let the congregation sit with mystery rather than forcing a single reading."
+  },
+  {
+    "id": "mt-008",
+    "turns": [
+      { "role": "user", "content": "What are the best worship songs for Advent?" },
+      { "role": "assistant", "content": "Traditional: O Come O Come Emmanuel, Come Thou Long Expected Jesus. Contemporary: While We Wait (Maverick City), Prepare Him Room (Passion)." },
+      { "role": "user", "content": "We need something that works for both traditional and contemporary services." }
+    ],
+    "expected_topics": ["Advent", "worship", "blended worship", "hymns", "contemporary"],
+    "ground_truth": "O Come O Come Emmanuel bridges both styles — its melody is ancient but adapts well to modern arrangements. Also consider Come Thou Long Expected Jesus with updated instrumentation."
+  },
+  {
+    "id": "mt-009",
+    "turns": [
+      { "role": "user", "content": "How should I structure a funeral sermon for someone who wasn't religious?" },
+      { "role": "assistant", "content": "Focus on: honoring the person's life and relationships, offering comfort without presuming their beliefs, speaking hope without making claims about their eternal destiny, and being present to grief rather than fixing it." },
+      { "role": "user", "content": "What scripture passages work in this context?" }
+    ],
+    "expected_topics": ["funeral", "non-religious", "pastoral care", "scripture", "grief"],
+    "ground_truth": "Ecclesiastes 3:1-8 (a time for everything) resonates universally. Psalm 23 is culturally familiar even to non-churchgoers. Romans 8:38-39 (nothing separates us from God's love) speaks hope without requiring the deceased's assent."
+  },
+  {
+    "id": "mt-010",
+    "turns": [
+      { "role": "user", "content": "I'm studying the book of James. What's the scholarly consensus on authorship?" },
+      { "role": "assistant", "content": "Most scholars identify the author as James the brother of Jesus, though some argue for pseudepigraphy. The letter's Jewish-Christian character and early date (possibly 40s-50s CE) support traditional authorship." },
+      { "role": "user", "content": "How does James' view of faith and works relate to Paul's?" },
+      { "role": "assistant", "content": "They use 'faith' and 'works' differently. Paul argues against works of the Law as a means of justification; James argues against dead faith that produces no action. They address different problems, not contradictory theology." },
+      { "role": "user", "content": "Can you summarize this for a Bible study handout in 100 words?" }
+    ],
+    "expected_topics": ["James", "Paul", "faith and works", "authorship", "Bible study"],
+    "ground_truth": "James and Paul aren't contradicting each other — they're answering different questions. Paul asks: how are we made right with God? Answer: by grace through faith, not by earning it. James asks: what does real faith look like? Answer: it shows up in how we live. Paul fights the idea that we can earn salvation. James fights the idea that believing the right things is enough if it doesn't change us. Together they give the full picture: we're saved by grace, and that grace transforms how we act."
+  }
+]

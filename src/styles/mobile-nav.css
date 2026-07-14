@@ -1,0 +1,309 @@
+/* Mobile navigation shell — fixed header with a five-bar hamburger and a
+   left slide-out drawer, replacing the old bottom pull-up dock.
+   Scoped so desktop and the public marketing surface are untouched. */
+
+.mobile-app-shell {
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+  height: 100vh;
+  position: relative;
+  background: hsl(var(--background));
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
+.mobile-header {
+  position: relative;
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 60px;
+  padding: 0 10px 0 6px;
+  padding-top: env(safe-area-inset-top, 0);
+  border-bottom: 1px solid hsl(var(--border) / 0.5);
+  background: hsl(var(--background) / 0.92);
+  backdrop-filter: blur(10px);
+  z-index: 30;
+}
+
+.mobile-header__menu {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 44px;
+  width: 44px;
+  border-radius: 12px;
+  color: hsl(var(--foreground));
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.15s;
+}
+.mobile-header__menu:active {
+  background: hsl(var(--accent) / 0.16);
+}
+
+/* The masthead is absolutely centered so it spans the full width of the bar
+   regardless of the hamburger on the left — the wordmark reads as the fixed
+   anchor of the app, editorial and unhurried. */
+.mobile-header__wordmark {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, calc(-50% + env(safe-area-inset-top, 0) / 2));
+  font-family: "Spectral", Georgia, serif;
+  font-size: 21px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  line-height: 1;
+  color: hsl(var(--foreground));
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+
+.mobile-app-shell__main {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ---------------------------------------------------------------- */
+/* Nav drawer                                                       */
+/* ---------------------------------------------------------------- */
+
+.mobile-nav-drawer {
+  display: flex;
+  flex-direction: column;
+}
+
+.mobile-nav-drawer__header {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: calc(env(safe-area-inset-top, 0) + 18px) 20px 16px;
+}
+.mobile-nav-drawer__brand-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 34px;
+  width: 34px;
+  border-radius: 10px;
+  flex-shrink: 0;
+  background: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+  box-shadow: 0 0 16px -4px hsl(var(--primary) / 0.5);
+}
+.mobile-nav-drawer__brand-name {
+  font-family: "Spectral", Georgia, serif;
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: hsl(var(--foreground));
+}
+
+.mobile-nav-drawer__list {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 4px 12px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.mobile-nav-drawer__item {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  height: 48px;
+  padding: 0 12px;
+  border-radius: 12px;
+  color: hsl(var(--foreground) / 0.78);
+  font-size: 15px;
+  font-weight: 500;
+  position: relative;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.15s, color 0.15s;
+}
+.mobile-nav-drawer__item svg {
+  opacity: 0.7;
+  flex-shrink: 0;
+}
+.mobile-nav-drawer__item:active {
+  background: hsl(var(--accent) / 0.14);
+}
+.mobile-nav-drawer__item--active {
+  background: hsl(var(--accent) / 0.16);
+  color: hsl(var(--foreground));
+  font-weight: 600;
+}
+.mobile-nav-drawer__item--active svg {
+  opacity: 1;
+  color: hsl(var(--accent));
+}
+.mobile-nav-drawer__item--active::before {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: 10px;
+  bottom: 10px;
+  width: 3px;
+  border-radius: 3px;
+  background: hsl(var(--accent));
+}
+
+.mobile-nav-drawer__footer {
+  flex: 0 0 auto;
+  border-top: 1px solid hsl(var(--border) / 0.5);
+  padding: 10px 10px calc(env(safe-area-inset-bottom, 0) + 10px) 14px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.mobile-nav-drawer__user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 6px 8px;
+  border-radius: 12px;
+  text-align: left;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.15s;
+}
+.mobile-nav-drawer__user:active {
+  background: hsl(var(--accent) / 0.14);
+}
+.mobile-nav-drawer__avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  width: 32px;
+  flex-shrink: 0;
+  border-radius: 999px;
+  background: hsl(var(--primary) / 0.16);
+  border: 1px solid hsl(var(--primary) / 0.3);
+  color: hsl(var(--primary));
+  font-size: 12px;
+  font-weight: 700;
+}
+.mobile-nav-drawer__user-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: hsl(var(--foreground));
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.mobile-nav-drawer__user-plan {
+  font-size: 11px;
+  color: hsl(var(--muted-foreground));
+}
+
+.mobile-nav-drawer__utility {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex: 0 0 auto;
+}
+.mobile-nav-drawer__utility button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  width: 40px;
+  border-radius: 10px;
+  color: hsl(var(--muted-foreground));
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.15s, color 0.15s;
+}
+.mobile-nav-drawer__utility button:active {
+  background: hsl(var(--accent) / 0.14);
+  color: hsl(var(--foreground));
+}
+
+/* ---------------------------------------------------------------- */
+/* Account modal (bottom sheet)                                     */
+/* ---------------------------------------------------------------- */
+
+.mobile-account-modal {
+  padding: 14px 16px calc(env(safe-area-inset-bottom, 0) + 16px);
+}
+.mobile-account-modal__email {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.02em;
+  color: hsl(var(--muted-foreground));
+  padding: 4px 4px 10px;
+  border-bottom: 1px solid hsl(var(--border) / 0.5);
+  margin-bottom: 8px;
+  word-break: break-all;
+}
+.mobile-account-modal__list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.mobile-account-modal__row {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  height: 48px;
+  padding: 0 4px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 500;
+  color: hsl(var(--foreground));
+  width: 100%;
+  text-align: left;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.15s;
+}
+.mobile-account-modal__row:active {
+  background: hsl(var(--accent) / 0.14);
+}
+.mobile-account-modal__row svg {
+  opacity: 0.75;
+  flex-shrink: 0;
+}
+.mobile-account-modal__row--destructive {
+  color: hsl(var(--destructive));
+}
+.mobile-account-modal__divider {
+  height: 1px;
+  background: hsl(var(--border) / 0.5);
+  margin: 8px 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mobile-header__menu,
+  .mobile-nav-drawer__item,
+  .mobile-nav-drawer__user,
+  .mobile-nav-drawer__utility button,
+  .mobile-account-modal__row {
+    transition: none !important;
+  }
+}
+
+/* Hide the mobile shell entirely on >=md; desktop nav is untouched. */
+@media (min-width: 768px) {
+  .mobile-app-shell {
+    display: contents;
+  }
+  .mobile-header {
+    display: none;
+  }
+  .mobile-app-shell__main {
+    overflow: visible;
+  }
+}

@@ -1,0 +1,112 @@
+{
+  "en": {
+    "shards": [
+      {
+        "key": "ot-pentateuch",
+        "books": [
+          "genesis",
+          "exodus",
+          "leviticus",
+          "numbers",
+          "deuteronomy"
+        ]
+      },
+      {
+        "key": "ot-history",
+        "books": [
+          "joshua",
+          "judges",
+          "ruth",
+          "i-samuel",
+          "ii-samuel",
+          "i-kings",
+          "ii-kings",
+          "i-chronicles",
+          "ii-chronicles",
+          "ezra",
+          "nehemiah",
+          "esther"
+        ]
+      },
+      {
+        "key": "ot-wisdom",
+        "books": [
+          "job",
+          "psalms",
+          "proverbs",
+          "ecclesiastes",
+          "song-of-solomon"
+        ]
+      },
+      {
+        "key": "ot-prophets-major",
+        "books": [
+          "isaiah",
+          "jeremiah",
+          "lamentations",
+          "ezekiel",
+          "daniel"
+        ]
+      },
+      {
+        "key": "ot-prophets-minor",
+        "books": [
+          "hosea",
+          "joel",
+          "amos",
+          "obadiah",
+          "jonah",
+          "micah",
+          "nahum",
+          "habakkuk",
+          "zephaniah",
+          "haggai",
+          "zechariah",
+          "malachi"
+        ]
+      },
+      {
+        "key": "nt-gospels-acts",
+        "books": [
+          "matthew",
+          "mark",
+          "luke",
+          "john",
+          "acts"
+        ]
+      },
+      {
+        "key": "nt-epistles",
+        "books": [
+          "romans",
+          "i-corinthians",
+          "ii-corinthians",
+          "galatians",
+          "ephesians",
+          "philippians",
+          "colossians",
+          "i-thessalonians",
+          "ii-thessalonians",
+          "i-timothy",
+          "ii-timothy",
+          "titus",
+          "philemon",
+          "hebrews",
+          "james",
+          "i-peter",
+          "ii-peter",
+          "i-john",
+          "ii-john",
+          "iii-john",
+          "jude"
+        ]
+      },
+      {
+        "key": "nt-revelation",
+        "books": [
+          "revelation-of-john"
+        ]
+      }
+    ]
+  }
+}

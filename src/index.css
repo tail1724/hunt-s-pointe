@@ -1,0 +1,1093 @@
+/* Fonts are self-hosted via @fontsource imports in main.tsx — no network CSS. */
+@import url('./styles/public-theme.css');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Unified brand palette — matches the public ezra-public theme exactly:
+       warm paper surface (#E8E5D8), slate ink (#16222D), brass accent (#A8823A).
+       The authenticated workspace and the marketing site now read as one product. */
+    --background: 49 26% 88%;        /* #E8E5D8 paper */
+    --foreground: 209 34% 13%;       /* #16222D ink */
+
+    --card: 51 29% 91%;              /* #EFEDE2 paper-hi */
+    --card-foreground: 209 34% 13%;
+
+    --popover: 51 29% 91%;
+    --popover-foreground: 209 34% 13%;
+
+    --primary: 209 34% 13%;          /* ink — the public site's CTA color */
+    --primary-foreground: 51 29% 91%;
+
+    --secondary: 205 18% 31%;        /* #41525E ink-2 */
+    --secondary-foreground: 51 29% 91%;
+
+    --accent: 39 49% 44%;            /* #A8823A brass */
+    --accent-foreground: 209 34% 13%;
+
+    --muted: 49 22% 84%;
+    --muted-foreground: 205 18% 31%;
+
+    --destructive: 0 72% 48%;
+    --destructive-foreground: 51 29% 91%;
+
+    --border: 49 17% 75%;            /* #CBC7B6 line */
+    --input: 49 17% 75%;
+    --ring: 39 49% 44%;
+
+    --radius: 0.5rem;
+
+    --sidebar-background: 51 29% 91%;
+    --sidebar-foreground: 209 34% 13%;
+    --sidebar-primary: 209 34% 13%;
+    --sidebar-primary-foreground: 51 29% 91%;
+    --sidebar-accent: 49 22% 84%;
+    --sidebar-accent-foreground: 209 34% 13%;
+    --sidebar-border: 49 17% 78%;
+    --sidebar-ring: 39 49% 44%;
+
+    --gradient-pulse: linear-gradient(90deg, hsl(209 34% 13%), hsl(40 49% 53%));
+    --shadow-card: 0 2px 8px -2px hsl(209 34% 13% / 0.10);
+    --shadow-card-hover: 0 8px 24px -4px hsl(209 34% 13% / 0.16);
+    --glow-zest: 0 0 12px 2px hsl(40 49% 53% / 0.45);
+    --glow-cool: 0 0 12px 2px hsl(209 34% 25% / 0.45);
+  }
+
+  .dark {
+    /* Slate anchor — matches the public site's dark panels (#152029/#1B2832) */
+    --background: 207 32% 12%;       /* #152029 slate */
+    --foreground: 43 35% 87%;        /* #E9E2D1 on-slate */
+
+    --card: 206 30% 15%;             /* #1B2832 slate-2 */
+    --card-foreground: 43 35% 87%;
+
+    --popover: 206 30% 15%;
+    --popover-foreground: 43 35% 87%;
+
+    --primary: 40 49% 53%;           /* #C29B4B brass-hi */
+    --primary-foreground: 207 32% 12%;
+
+    --secondary: 202 21% 25%;        /* #33444E slate-line */
+    --secondary-foreground: 43 35% 87%;
+
+    --accent: 40 49% 53%;
+    --accent-foreground: 207 32% 12%;
+
+    --muted: 205 26% 19%;
+    --muted-foreground: 201 16% 67%; /* #9CAEB8 on-slate-2 */
+
+    --destructive: 0 62% 50%;
+    --destructive-foreground: 43 35% 87%;
+
+    --border: 202 21% 25%;
+    --input: 202 21% 25%;
+    --ring: 40 49% 53%;
+
+    --sidebar-background: 208 34% 9%;
+    --sidebar-foreground: 43 35% 87%;
+    --sidebar-primary: 40 49% 53%;
+    --sidebar-primary-foreground: 207 32% 12%;
+    --sidebar-accent: 205 28% 17%;
+    --sidebar-accent-foreground: 43 35% 87%;
+    --sidebar-border: 202 21% 25%;
+    --sidebar-ring: 40 49% 53%;
+  }
+}
+
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    /* Same body type as the public site */
+    font-family: 'Hanken Grotesk', ui-sans-serif, system-ui, sans-serif;
+  }
+  /* Anchor the horizontal axis app-wide so no surface can rubber-band
+     sideways. `clip` (not `hidden`) is deliberate: it does not turn these
+     elements into vertical scroll containers, so body/marketing-page
+     scrolling and `position: sticky` keep working. */
+  html, body, #root {
+    max-width: 100%;
+    overflow-x: clip;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    /* Same display serif as the public site */
+    font-family: 'Spectral', Georgia, serif;
+    font-weight: 500;
+    letter-spacing: -0.015em;
+  }
+  code, pre, .font-mono {
+    font-family: 'JetBrains Mono', monospace;
+  }
+}
+
+@layer utilities {
+  /* Tangerine Circuit Trace */
+  .shimmer {
+    background: linear-gradient(90deg, hsl(207 97% 15%), hsl(18 100% 60%), hsl(207 97% 15%));
+    background-size: 200% 100%;
+    animation: tangerine-trace 2.5s ease-in-out infinite;
+  }
+
+  @keyframes tangerine-trace {
+    0% { background-position: 200% 0; }
+    50% { background-position: 0% 0; }
+    100% { background-position: -200% 0; }
+  }
+
+  /* Spark flicker for leading edges */
+  @keyframes spark-flicker {
+    0%, 100% { opacity: 0.8; filter: brightness(1); }
+    50% { opacity: 1; filter: brightness(1.5); }
+  }
+  .spark-flicker {
+    animation: spark-flicker 0.6s ease-in-out infinite;
+  }
+
+  /* Kinetic shimmer for progress bars */
+  @keyframes kinetic-shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+  .kinetic-shimmer {
+    animation: kinetic-shimmer 1.5s ease-in-out infinite;
+  }
+
+  /* Success reveal glow */
+  @keyframes success-reveal {
+    0% { box-shadow: 0 0 0px hsl(18 100% 60%); }
+    100% { box-shadow: 0 0 30px hsl(18 100% 60% / 0.6); }
+  }
+
+  @keyframes vibe-breathe {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-2px); }
+  }
+  .vibe-breathe {
+    animation: vibe-breathe 3s ease-in-out infinite;
+  }
+
+  @keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+  .marquee-track {
+    animation: marquee 30s linear infinite;
+  }
+
+  /* Border pulse — tangerine circuit */
+  @keyframes border-pulse {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 200% 50%; }
+  }
+  .border-pulse {
+    background: linear-gradient(90deg, hsl(207 97% 15%), hsl(18 100% 60%), hsl(207 97% 15%));
+    background-size: 200% 100%;
+    animation: border-pulse 2s infinite linear;
+  }
+
+  /* Vibe Shift — neutralized (animated gradient removed for calmer UI) */
+  .vibe-shift-bg {
+    background: hsl(var(--background));
+  }
+
+  /* Glow border */
+  @keyframes glow-pulse {
+    0%, 100% { box-shadow: 0 0 8px 1px hsl(18 100% 60% / 0.15); }
+    50% { box-shadow: 0 0 20px 4px hsl(18 100% 60% / 0.35); }
+  }
+  .glow-border {
+    border: 1px solid hsl(18 100% 60% / 0.25);
+    animation: glow-pulse 4s ease-in-out infinite;
+  }
+
+  /* Sentient pulse */
+  /* Sentient pulse — neutralized (animation removed for calmer UI) */
+  .sentient-pulse {
+    opacity: 1;
+  }
+
+  /* Nexus anchor ambient glow — static */
+  .nexus-breathe {
+    box-shadow: 0 0 12px 2px hsl(40 100% 60% / 0.2);
+  }
+
+  /* Conflict amber — static border */
+  .conflict-pulse {
+    border-color: hsl(40 100% 50% / 0.5);
+  }
+
+  /* Biomorphic utilities — static */
+  .bio-glow {
+    box-shadow: 0 0 16px 3px hsl(35 100% 60% / 0.2);
+  }
+
+  .bio-breathe {
+    /* no-op: animation removed */
+  }
+
+  .bio-bruise {
+    border-color: hsl(40 100% 50% / 0.5);
+    box-shadow: 0 0 16px 3px hsl(40 100% 50% / 0.2);
+  }
+
+  /* Landing page utilities -------------------------------------------------- */
+
+  /* Gradient mesh background for hero & final CTA */
+  .gradient-mesh {
+    background-image:
+      radial-gradient(at 12% 18%, hsl(var(--primary) / 0.20) 0px, transparent 50%),
+      radial-gradient(at 88% 12%, hsl(var(--secondary) / 0.18) 0px, transparent 50%),
+      radial-gradient(at 50% 95%, hsl(var(--primary) / 0.14) 0px, transparent 55%),
+      radial-gradient(at 75% 60%, hsl(var(--accent) / 0.10) 0px, transparent 50%);
+  }
+
+  /* Subtle dot grid backdrop */
+  .dot-grid {
+    background-image: radial-gradient(hsl(var(--foreground) / 0.08) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+
+  /* Hover lift used across landing cards */
+  .lift {
+    @apply transition-all duration-300 hover:-translate-y-1 hover:shadow-[var(--shadow-card-hover)];
+  }
+
+  /* Fade-in keyframe (used by tailwind class animate-fade-in) */
+  @keyframes fade-in {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .animate-fade-in {
+    animation: fade-in 0.5s ease-out both;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+    50% { transform: translate3d(0, -8px, 0) scale(1.015); }
+  }
+
+  /* Slow marquee variant for trust strip */
+  .marquee-slow {
+    animation: marquee 45s linear infinite;
+  }
+  .marquee-slow:hover {
+    animation-play-state: paused;
+  }
+
+  /* ---- Cloud Workspace shell tokens & utilities ---- */
+  :root {
+    --ease-tactile: cubic-bezier(0.32, 0.72, 0, 1);
+    --shadow-canvas: 0 1px 0 hsl(var(--border)), 0 24px 48px -24px hsl(222 67% 6% / 0.35);
+  }
+
+  /* Tactile drawer motion on the sidebar width transition */
+  [data-sidebar="sidebar"],
+  [data-collapsible],
+  .group\/sidebar-wrapper [style*="--sidebar-width"] {
+    transition-timing-function: var(--ease-tactile) !important;
+    transition-duration: 320ms !important;
+  }
+
+  /* Floating canvas container — the unique "drawer" surface */
+  .workspace-canvas {
+    @apply relative rounded-3xl border border-border bg-card/90 backdrop-blur-md overflow-hidden;
+    box-shadow: var(--shadow-canvas);
+  }
+
+  /* Soft cobalt vignette behind the canvas (empty-state ambience) */
+  .workspace-vignette {
+    background:
+      radial-gradient(ellipse 60% 40% at 50% 38%, hsl(var(--primary) / 0.10), transparent 70%),
+      radial-gradient(ellipse 80% 50% at 50% 100%, hsl(var(--primary) / 0.06), transparent 70%);
+  }
+
+  /* Composer glow used in empty-state hero */
+  .composer-glow {
+    box-shadow:
+      0 0 0 1px hsl(var(--border)),
+      0 0 40px -8px hsl(var(--primary) / 0.35),
+      0 20px 60px -24px hsl(var(--primary) / 0.30);
+  }
+
+  /* Tactile press for interactive controls */
+  .tactile {
+    transition: transform 160ms var(--ease-tactile), background-color 160ms ease-out, box-shadow 160ms ease-out;
+  }
+  .tactile:active {
+    transform: scale(0.97);
+  }
+
+  /* ---- Workspace polish kit ---- */
+
+  /* Staggered rise-in for card grids; set --stagger-i per item */
+  @keyframes rise-in {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .rise-in {
+    animation: rise-in 420ms var(--ease-tactile) both;
+    animation-delay: calc(var(--stagger-i, 0) * 45ms);
+  }
+
+  /* Hover elevation for interactive cards */
+  .card-elevate {
+    transition: transform 220ms var(--ease-tactile), box-shadow 220ms ease-out, border-color 220ms ease-out;
+  }
+  .card-elevate:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-card-hover);
+  }
+
+  /* Hairline top accent that draws in on hover */
+  .accent-draw {
+    position: relative;
+  }
+  .accent-draw::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 12%;
+    right: 88%;
+    height: 2px;
+    border-radius: 9999px;
+    background: hsl(var(--accent));
+    opacity: 0;
+    transition: right 320ms var(--ease-tactile), opacity 200ms ease-out;
+  }
+  .accent-draw:hover::after {
+    right: 12%;
+    opacity: 1;
+  }
+
+  /* Shimmering "thinking" text — gold sweep over muted ink */
+  @keyframes think-sweep {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+  .think-shimmer {
+    background: linear-gradient(
+      90deg,
+      hsl(var(--muted-foreground)) 35%,
+      hsl(var(--accent)) 50%,
+      hsl(var(--muted-foreground)) 65%
+    );
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: think-sweep 2.4s linear infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .rise-in { animation: none; }
+    .card-elevate, .card-elevate:hover { transition: none; transform: none; }
+    .think-shimmer { animation: none; -webkit-text-fill-color: currentColor; background: none; }
+  }
+}
+
+/* Color theme palettes */
+[data-color-theme="reverent"] {
+  --primary: 209 34% 13%;
+  --accent: 39 49% 44%;
+  --secondary: 205 18% 31%;
+  --ring: 39 49% 44%;
+  --sidebar-primary: 209 34% 13%;
+  --sidebar-ring: 39 49% 44%;
+}
+[data-color-theme="reverent"].dark,
+.dark[data-color-theme="reverent"] {
+  --primary: 40 49% 53%;
+  --accent: 40 49% 53%;
+  --secondary: 202 21% 25%;
+  --ring: 40 49% 53%;
+}
+
+[data-color-theme="ocean"] {
+  --primary: 210 80% 50%;
+  --secondary: 190 70% 60%;
+  --ring: 210 80% 50%;
+  --sidebar-primary: 210 80% 50%;
+  --sidebar-ring: 210 80% 50%;
+}
+[data-color-theme="ocean"].dark,
+.dark[data-color-theme="ocean"] {
+  --primary: 210 80% 55%;
+  --secondary: 190 60% 45%;
+}
+
+[data-color-theme="sunset"] {
+  --primary: 20 90% 55%;
+  --secondary: 35 85% 60%;
+  --ring: 20 90% 55%;
+  --sidebar-primary: 20 90% 55%;
+  --sidebar-ring: 20 90% 55%;
+}
+[data-color-theme="sunset"].dark,
+.dark[data-color-theme="sunset"] {
+  --primary: 20 90% 58%;
+  --secondary: 35 75% 45%;
+}
+
+[data-color-theme="forest"] {
+  --primary: 150 60% 40%;
+  --secondary: 120 40% 55%;
+  --ring: 150 60% 40%;
+  --sidebar-primary: 150 60% 40%;
+  --sidebar-ring: 150 60% 40%;
+}
+[data-color-theme="forest"].dark,
+.dark[data-color-theme="forest"] {
+  --primary: 150 55% 45%;
+  --secondary: 120 35% 40%;
+}
+
+[data-color-theme="lavender"] {
+  --primary: 270 60% 60%;
+  --secondary: 290 50% 70%;
+  --ring: 270 60% 60%;
+  --sidebar-primary: 270 60% 60%;
+  --sidebar-ring: 270 60% 60%;
+}
+[data-color-theme="lavender"].dark,
+.dark[data-color-theme="lavender"] {
+  --primary: 270 55% 62%;
+  --secondary: 290 45% 55%;
+}
+
+[data-color-theme="monochrome"] {
+  --primary: 0 0% 30%;
+  --secondary: 0 0% 60%;
+  --ring: 0 0% 30%;
+  --sidebar-primary: 0 0% 30%;
+  --sidebar-ring: 0 0% 30%;
+}
+[data-color-theme="monochrome"].dark,
+.dark[data-color-theme="monochrome"] {
+  --primary: 0 0% 70%;
+  --secondary: 0 0% 45%;
+}
+
+/* ============================================================
+   TipTap document editor — editorial, print-ready word processor
+   ============================================================ */
+.tiptap-doc {
+  font-family: 'Lora', Georgia, 'Times New Roman', serif;
+  line-height: 1.78;
+  color: hsl(var(--foreground));
+  font-size: 18px;
+  max-width: 68ch;
+  margin-left: auto;
+  margin-right: auto;
+  caret-color: hsl(var(--primary));
+}
+.tiptap-doc ::selection { background: hsl(var(--primary) / 0.18); }
+.tiptap-doc p { margin: 0 0 1.1em; }
+.tiptap-doc h1 { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; font-size: 1.65em; font-weight: 800; letter-spacing: -0.015em; margin: 1.4em 0 0.5em; line-height: 1.2; }
+.tiptap-doc h2 { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; font-size: 1.32em; font-weight: 700; letter-spacing: -0.01em; margin: 1.3em 0 0.45em; line-height: 1.25; }
+.tiptap-doc h3 { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; font-size: 1.12em; font-weight: 700; margin: 1.15em 0 0.35em; line-height: 1.3; }
+.tiptap-doc h1:first-child, .tiptap-doc h2:first-child, .tiptap-doc h3:first-child { margin-top: 0; }
+.tiptap-doc strong { font-weight: 700; color: hsl(var(--foreground)); }
+.tiptap-doc em { font-style: italic; }
+.tiptap-doc ul, .tiptap-doc ol { padding-left: 1.5em; margin: 0 0 1.1em; }
+.tiptap-doc ul li { list-style: disc; margin: 0.3em 0; }
+.tiptap-doc ol li { list-style: decimal; margin: 0.3em 0; }
+.tiptap-doc ul li::marker { color: hsl(var(--accent)); }
+.tiptap-doc ol li::marker { color: hsl(var(--accent) / 0.85); font-weight: 600; }
+.tiptap-doc blockquote {
+  border-left: 3px solid hsl(var(--accent));
+  padding: 0.35em 0 0.35em 1.2em;
+  margin: 1.2em 0;
+  color: hsl(var(--primary));
+  font-style: italic;
+}
+.tiptap-doc a { color: hsl(var(--primary)); text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; transition: color 0.15s; }
+.tiptap-doc a:hover { color: hsl(var(--accent)); }
+.tiptap-doc code {
+  background: hsl(var(--muted));
+  padding: 0.12em 0.4em;
+  border-radius: 4px;
+  font-size: 0.9em;
+  font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+.tiptap-doc hr { border: 0; border-top: 1px solid hsl(var(--border)); margin: 2.2em auto; width: 40%; }
+.tiptap-doc p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  color: hsl(var(--muted-foreground) / 0.55);
+  font-style: italic;
+  float: left;
+  height: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+}
+.tiptap-doc ul[data-type="taskList"] { list-style: none; padding-left: 0.2em; }
+.tiptap-doc ul[data-type="taskList"] li { display: flex; gap: 0.6em; align-items: flex-start; }
+.tiptap-doc ul[data-type="taskList"] li > label { margin-top: 0.3em; }
+.tiptap-doc [data-text-align="center"] { text-align: center; }
+.tiptap-doc [data-text-align="right"] { text-align: right; }
+.tiptap-doc [data-text-align="left"] { text-align: left; }
+
+/* Drop cap — only for long-form drafts (toggled via .with-dropcap wrapper) */
+.with-dropcap .tiptap-doc > p:first-of-type::first-letter {
+  font-family: 'Plus Jakarta Sans', Georgia, serif;
+  font-weight: 800;
+  font-size: 3.4em;
+  line-height: 0.92;
+  float: left;
+  margin: 0.06em 0.12em 0 -0.04em;
+  color: hsl(var(--accent));
+  letter-spacing: -0.02em;
+}
+
+/* Title underline — hairline gold accent that grows on focus */
+.title-underline {
+  background-image: linear-gradient(to right, hsl(var(--accent)), hsl(var(--accent)));
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  background-size: 0 2px;
+  transition: background-size 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.title-underline:focus { background-size: 56px 2px; }
+
+/* Editor desk — soft vignette behind the page */
+.editor-desk {
+  background:
+    radial-gradient(ellipse at top, hsl(var(--muted) / 0.55), transparent 65%),
+    hsl(var(--background));
+}
+.dark .editor-desk {
+  background:
+    radial-gradient(ellipse at top, hsl(var(--primary) / 0.12), transparent 65%),
+    hsl(var(--background));
+}
+
+/* Page mount animation */
+@keyframes pageLift {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.page-lift { animation: pageLift 320ms cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+
+/* Saved-state gold pulse on the status ribbon accent bar */
+@keyframes savedPulse {
+  0% { box-shadow: 0 0 0 0 hsl(var(--accent) / 0.55); opacity: 1; }
+  60% { box-shadow: 0 0 0 6px hsl(var(--accent) / 0); opacity: 1; }
+  100% { box-shadow: 0 0 0 0 hsl(var(--accent) / 0); opacity: 1; }
+}
+.saved-pulse { animation: savedPulse 700ms ease-out 1; }
+
+@media print {
+  body * { visibility: hidden; }
+  .editor-desk, .editor-desk * { visibility: visible; }
+  .editor-desk { background: white !important; }
+  header, .print\:hidden { display: none !important; }
+  .tiptap-doc { max-width: none; padding: 0.5in 0.75in !important; font-size: 12pt; color: black !important; }
+  .with-dropcap .tiptap-doc > p:first-of-type::first-letter { color: black; }
+}
+
+/* ============================================================
+   Ezra surface — scoped near-black aesthetic w/ cobalt radial
+   ============================================================ */
+.ezra-surface {
+  /* Light mode (default) — same paper/ink/brass system as the public site */
+  --ezra-bg: hsl(49 26% 88%);
+  --ezra-fg: hsl(209 34% 13%);
+  --ezra-fg-muted: hsl(205 18% 31%);
+  --ezra-border: hsl(49 17% 75%);
+  --ezra-panel: hsl(49 31% 90%);
+  --ezra-panel-soft: hsl(49 25% 86%);
+  --ezra-composer-bg: hsl(51 29% 92%);
+  --ezra-composer-border: hsl(49 17% 70%);
+  --ezra-active-bg: hsl(39 49% 44% / 0.16);
+  --ezra-active-border: hsl(39 49% 44%);
+  --ezra-hover-bg: hsl(49 22% 84%);
+  --ezra-radial-warm: hsl(40 49% 53% / 0.12);
+  --ezra-radial-cool: hsl(207 32% 40% / 0.14);
+  --ezra-accent: hsl(39 49% 40%);
+  --ezra-accent-fg: hsl(51 29% 92%);
+  background: var(--ezra-bg);
+  color: var(--ezra-fg);
+}
+
+.dark .ezra-surface {
+  --ezra-bg: hsl(207 32% 12%);
+  --ezra-fg: hsl(43 35% 87%);
+  --ezra-fg-muted: hsl(201 16% 67%);
+  --ezra-border: hsl(202 21% 25%);
+  --ezra-panel: hsl(206 30% 15%);
+  --ezra-panel-soft: hsl(208 32% 10%);
+  --ezra-composer-bg: hsl(206 30% 16%);
+  --ezra-composer-border: hsl(202 21% 27%);
+  --ezra-active-bg: hsl(40 49% 53% / 0.18);
+  --ezra-active-border: hsl(40 49% 53%);
+  --ezra-hover-bg: hsl(205 28% 18%);
+  --ezra-radial-warm: hsl(40 49% 53% / 0.10);
+  --ezra-radial-cool: hsl(207 32% 26% / 0.35);
+  --ezra-accent: hsl(40 49% 53%);
+  --ezra-accent-fg: hsl(207 32% 12%);
+}
+
+.ezra-radial {
+  background:
+    radial-gradient(60% 50% at 50% 55%, var(--ezra-radial-warm), transparent 70%),
+    radial-gradient(80% 60% at 50% 100%, var(--ezra-radial-cool), transparent 75%);
+}
+
+.ezra-composer-glow {
+  position: relative;
+}
+.ezra-composer-glow::before {
+  content: "";
+  position: absolute;
+  inset: -40px;
+  background: radial-gradient(50% 60% at 50% 50%, hsl(40 56% 51% / 0.14), transparent 70%);
+  filter: blur(20px);
+  z-index: -1;
+  pointer-events: none;
+}
+
+.ezra-composer-focus:focus-within {
+  border-color: var(--ezra-accent);
+  box-shadow:
+    inset 0 1px 0 var(--ezra-border),
+    0 0 0 3px hsl(40 56% 51% / 0.20);
+}
+
+/* Tactile button feedback */
+.ezra-tactile {
+  transition: transform 80ms cubic-bezier(0.32, 0.72, 0, 1),
+              background-color 150ms ease,
+              color 150ms ease,
+              border-color 150ms ease;
+}
+.ezra-tactile:active {
+  transform: scale(0.96);
+}
+
+/* Rail drawer transition */
+.ezra-rail-transition {
+  transition: width 220ms cubic-bezier(0.32, 0.72, 0, 1);
+  will-change: width;
+}
+
+/* Message enter */
+@keyframes ezra-msg-enter {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.ezra-msg-enter {
+  animation: ezra-msg-enter 180ms cubic-bezier(0.32, 0.72, 0, 1) both;
+}
+
+/* Thinking pulse */
+.ezra-pulse-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 9999px;
+  background: hsl(40 56% 55%);
+  box-shadow: 0 0 12px hsl(40 56% 55% / 0.6);
+  animation: ezra-pulse 1.2s ease-in-out infinite;
+}
+@keyframes ezra-pulse {
+  0%, 100% { opacity: 0.4; transform: scale(0.9); }
+  50%      { opacity: 1;   transform: scale(1.1); }
+}
+
+@keyframes ezra-trace-fade {
+  from { opacity: 0; transform: translateY(2px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.ezra-trace-fade {
+  animation: ezra-trace-fade 280ms cubic-bezier(0.32, 0.72, 0, 1) both;
+}
+
+/* The conversation scrolls without a visible scrollbar — the thread reads
+   as a page, not a widget. Wheel/trackpad/keyboard scrolling still work. */
+.ezra-scroll-hidden {
+  scrollbar-width: none;
+}
+.ezra-scroll-hidden::-webkit-scrollbar {
+  display: none;
+}
+
+/* Message cell paint isolation.
+   content-visibility skips layout/paint for off-screen turns entirely, so a
+   200-turn session costs the same per frame as a 10-turn one. contain keeps
+   each cell's layout from invalidating its siblings while text streams in. */
+.ezra-msg-cell {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 280px;
+  contain: layout style;
+}
+
+/* Streaming caret — blinks at the end of the last block while text arrives. */
+.ezra-stream-caret > :last-child::after {
+  content: "";
+  display: inline-block;
+  width: 3px;
+  height: 1.05em;
+  margin-left: 2px;
+  vertical-align: -0.15em;
+  border-radius: 1px;
+  background: var(--ezra-accent);
+  animation: ezra-caret-blink 1s steps(2, start) infinite;
+}
+@keyframes ezra-caret-blink {
+  50% { opacity: 0; }
+}
+
+/* Post-stream artifact reveal — scripture cards, drafts, and follow-ups
+   unmask in sequence once the stream closes (compositor-only properties). */
+@keyframes ezra-artifact-reveal {
+  from { opacity: 0; transform: scale(0.98) translateY(4px); }
+  to   { opacity: 1; transform: none; }
+}
+.ezra-artifact-reveal {
+  animation: ezra-artifact-reveal 250ms cubic-bezier(0.32, 0.72, 0, 1) both;
+  animation-delay: calc(var(--reveal-i, 0) * 180ms);
+}
+
+/* Verdict / memory badges fade in when their async check resolves. */
+@keyframes ezra-badge-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+.ezra-badge-in {
+  animation: ezra-badge-in 150ms ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ezra-rail-transition,
+  .ezra-tactile,
+  .ezra-composer-focus,
+  .ezra-msg-enter,
+  .ezra-pulse-dot,
+  .ezra-trace-fade,
+  .ezra-artifact-reveal,
+  .ezra-badge-in {
+    transition: none !important;
+    animation: none !important;
+  }
+  .ezra-stream-caret > :last-child::after {
+    animation: none !important;
+    opacity: 0.7;
+  }
+}
+
+
+/* ============================================================
+   Bible reader — paper spread in the public-site aesthetic
+   ============================================================ */
+.bible-surface {
+  position: relative;
+}
+/* The same fractal-noise grain the marketing site wears */
+.bible-surface::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.bible-chapter-title {
+  font-family: 'Spectral', Georgia, serif;
+  font-weight: 500;
+  font-size: clamp(1.9rem, 4vw, 2.8rem);
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+}
+
+/* The open book: one flowing text, two facing pages on desktop */
+.bible-spread {
+  position: relative;
+  z-index: 1;
+  margin: 0 auto;
+  max-width: 72rem;
+  border: 1px solid hsl(var(--border));
+  border-radius: 18px;
+  background: hsl(var(--card));
+  box-shadow: 0 30px 70px -34px hsl(var(--foreground) / 0.35);
+  padding: clamp(1.5rem, 4vw, 3.5rem);
+}
+/* Center gutter shadow — the fold of the book (desktop only) */
+@media (min-width: 768px) {
+  .bible-spread::before {
+    content: "";
+    position: absolute;
+    top: 8%;
+    bottom: 6%;
+    left: 50%;
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, hsl(var(--border)), transparent);
+    pointer-events: none;
+  }
+  .bible-page {
+    columns: 2;
+    column-gap: clamp(3.5rem, 7vw, 6.5rem);
+  }
+}
+
+.bible-page {
+  font-family: 'Spectral', Georgia, serif;
+  font-size: 1.06rem;
+  line-height: 1.85;
+  color: hsl(var(--foreground) / 0.92);
+  text-align: justify;
+  hyphens: auto;
+}
+
+/* Drop cap on the first verse of the chapter (book view only — in the
+   parallel view every verse is alone in its wrapper and would qualify) */
+.bible-page--book .bible-verse:first-of-type::first-letter {
+  font-family: 'Spectral', Georgia, serif;
+  font-weight: 600;
+  font-size: 3.2em;
+  line-height: 0.85;
+  float: left;
+  margin: 0.06em 0.1em 0 0;
+  color: hsl(var(--accent));
+}
+
+.bible-verse {
+  cursor: pointer;
+  border-radius: 3px;
+  transition: background-color 160ms ease, box-shadow 160ms ease;
+  -webkit-tap-highlight-color: transparent;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+.bible-verse:hover {
+  background: hsl(var(--accent) / 0.08);
+}
+.bible-verse:focus-visible {
+  outline: 2px solid hsl(var(--accent));
+  outline-offset: 2px;
+}
+.bible-verse-selected {
+  background: hsl(var(--accent) / 0.14);
+  box-shadow: 0 1.5px 0 hsl(var(--accent));
+}
+
+.bible-verse-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.58em;
+  color: hsl(var(--accent));
+  margin-right: 0.35em;
+  letter-spacing: 0.02em;
+  user-select: none;
+}
+
+.bible-note-dot {
+  display: inline-block;
+  width: 0.72em;
+  height: 0.72em;
+  margin-left: 0.25em;
+  vertical-align: super;
+  color: hsl(var(--accent));
+}
+
+/* Highlight underlays — translucent so the ink stays crisp */
+.bible-hl-gold { background: hsl(40 49% 53% / 0.26); }
+.bible-hl-sage { background: hsl(95 30% 50% / 0.24); }
+.bible-hl-sky { background: hsl(205 50% 55% / 0.22); }
+.bible-hl-rose { background: hsl(355 50% 60% / 0.20); }
+.dark .bible-hl-gold { background: hsl(40 49% 53% / 0.30); }
+.dark .bible-hl-sage { background: hsl(95 30% 50% / 0.28); }
+.dark .bible-hl-sky { background: hsl(205 50% 55% / 0.26); }
+.dark .bible-hl-rose { background: hsl(355 50% 60% / 0.24); }
+
+/* Search landing: the found verse gets a persistent brass flag on its left
+   edge plus a soft parchment glow so the reader spots it at a glance. It
+   stays until they tap another verse or turn the page (cleared in Bible.tsx),
+   with a one-time emphasis pulse on arrival. */
+@keyframes bible-land-pulse {
+  0%   { background: hsl(var(--accent) / 0.40); }
+  100% { background: hsl(var(--accent) / 0.12); }
+}
+.bible-verse-landed {
+  position: relative;
+  background: hsl(var(--accent) / 0.12);
+  border-radius: 3px;
+  box-shadow: -0.35em 0 0 hsl(var(--accent) / 0.12); /* extend tint under the flag */
+  animation: bible-land-pulse 1.6s ease-out;
+}
+.bible-verse-landed::before {
+  content: "";
+  position: absolute;
+  left: -0.55em;
+  top: 0.15em;
+  bottom: 0.15em;
+  width: 3px;
+  border-radius: 3px;
+  background: hsl(var(--accent));
+  box-shadow: 0 0 8px 1px hsl(var(--accent) / 0.5);
+}
+.dark .bible-verse-landed { background: hsl(var(--accent) / 0.18); }
+
+/* ============================================================
+   Organize — same desk + paper language as the reader and Write
+   ============================================================ */
+.organize-surface {
+  position: relative;
+  background:
+    radial-gradient(ellipse at top, hsl(var(--muted) / 0.5), transparent 65%),
+    hsl(var(--background));
+}
+.dark .organize-surface {
+  background:
+    radial-gradient(ellipse at top, hsl(var(--primary) / 0.10), transparent 65%),
+    hsl(var(--background));
+}
+/* The reader's fractal-noise grain */
+.organize-surface::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Paper panels: the bible-spread's surface at component scale */
+.organize-panel {
+  border: 1px solid hsl(var(--border));
+  border-radius: 18px;
+  background: hsl(var(--card));
+  box-shadow: 0 30px 70px -34px hsl(var(--foreground) / 0.35);
+}
+.organize-column {
+  border: 1px solid hsl(var(--border));
+  border-radius: 16px;
+  background: hsl(var(--card));
+  box-shadow: 0 22px 48px -30px hsl(var(--foreground) / 0.3);
+}
+
+/* ============================================================
+   Help (authenticated) — the same docs layout as public Learning,
+   re-skinned with app tokens so it matches dark/light theme.
+   ============================================================ */
+.help-surface {
+  position: relative;
+  background:
+    radial-gradient(ellipse at top, hsl(var(--muted) / 0.5), transparent 65%),
+    hsl(var(--background));
+}
+.dark .help-surface {
+  background:
+    radial-gradient(ellipse at top, hsl(var(--primary) / 0.10), transparent 65%),
+    hsl(var(--background));
+}
+
+.help-layout { display: grid; grid-template-columns: 230px minmax(0, 1fr) 190px; gap: 40px; align-items: start; }
+.help-nav { position: sticky; top: 88px; font-size: 0.9rem; }
+.help-nav__home {
+  display: inline-block; margin-bottom: 16px; font-family: 'JetBrains Mono', monospace;
+  font-size: 0.66rem; letter-spacing: 0.14em; text-transform: uppercase;
+  color: hsl(var(--muted-foreground)); text-decoration: none;
+}
+.help-nav__home:hover { color: hsl(var(--accent)); }
+.help-nav__group { margin-bottom: 18px; }
+.help-nav__cat {
+  font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; letter-spacing: 0.16em;
+  text-transform: uppercase; color: hsl(var(--muted-foreground)); margin: 0 0 8px;
+}
+.help-nav__link {
+  display: block; padding: 5px 10px; margin-left: -10px; border-radius: 7px;
+  color: hsl(var(--foreground) / 0.75); text-decoration: none; line-height: 1.3;
+  transition: color 0.15s, background 0.15s;
+}
+.help-nav__link:hover { color: hsl(var(--foreground)); background: hsl(var(--muted) / 0.6); }
+.help-nav__link.is-active {
+  color: hsl(var(--foreground)); font-weight: 600; background: hsl(var(--accent) / 0.14);
+  box-shadow: inset 2px 0 0 hsl(var(--accent));
+}
+
+.help-toc { position: sticky; top: 88px; }
+.help-toc__label {
+  font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; letter-spacing: 0.16em;
+  text-transform: uppercase; color: hsl(var(--muted-foreground)); margin: 0 0 10px;
+}
+.help-toc ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 7px; border-left: 1px solid hsl(var(--border)); }
+.help-toc a {
+  display: block; padding-left: 12px; margin-left: -1px; font-size: 0.82rem;
+  color: hsl(var(--muted-foreground)); text-decoration: none; border-left: 2px solid transparent;
+  line-height: 1.35; transition: color 0.15s, border-color 0.15s;
+}
+.help-toc a:hover { color: hsl(var(--foreground)); border-left-color: hsl(var(--accent)); }
+
+@media (max-width: 900px) {
+  .help-layout { grid-template-columns: 1fr; gap: 22px; }
+  .help-nav { position: static; display: flex; flex-wrap: wrap; gap: 10px 22px; padding-bottom: 14px; border-bottom: 1px solid hsl(var(--border)); }
+  .help-nav__group { margin-bottom: 0; }
+  .help-toc { display: none; }
+}
+
+/* Chapter bookmark ribbon: the ribbon a physical Bible would have, tucked
+   over the page edge. Grows and turns brass when set. */
+.bible-ribbon {
+  position: absolute;
+  top: -1px;
+  right: 1.75rem;
+  z-index: 2;
+  width: 26px;
+  height: 30px;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 50% calc(100% - 9px), 0 100%);
+  background: hsl(var(--muted-foreground) / 0.35);
+  transition: height 220ms cubic-bezier(0.2, 0.9, 0.3, 1.35), background 160ms ease;
+}
+.bible-ribbon:hover {
+  height: 40px;
+  background: hsl(var(--accent) / 0.6);
+}
+.bible-ribbon[aria-pressed="true"] {
+  height: 52px;
+  background: hsl(var(--accent));
+  box-shadow: 0 8px 16px -8px hsl(var(--accent) / 0.7);
+}
+@media (prefers-reduced-motion: reduce) {
+  .bible-ribbon { transition: none; }
+}
+
+/* Scripture Audio: the verse being read aloud. A soft breathing parchment
+   glow — distinct from selection (solid underline) and search landing (flag). */
+@keyframes bible-speak-breathe {
+  0%, 100% { background: hsl(var(--accent) / 0.10); }
+  50%      { background: hsl(var(--accent) / 0.22); }
+}
+.bible-verse-speaking {
+  border-radius: 3px;
+  background: hsl(var(--accent) / 0.14);
+  animation: bible-speak-breathe 2.8s ease-in-out infinite;
+}
+.dark .bible-verse-speaking { background: hsl(var(--accent) / 0.20); }
+
+.bible-actionbar {
+  max-width: min(92vw, 44rem);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bible-verse { transition: none; }
+  .bible-verse-landed { animation: none; }
+  .bible-verse-speaking { animation: none; }
+}
+
+/* Voice ghost-stream interim transcript */
+@keyframes ghost-stream-in {
+  from { opacity: 0; filter: blur(4px); transform: translateY(2px); }
+  to   { opacity: 0.85; filter: blur(0); transform: translateY(0); }
+}
+.ghost-stream {
+  display: inline-block;
+  animation: ghost-stream-in 180ms ease-out;
+}
+@media (prefers-reduced-motion: reduce) {
+  .ghost-stream { animation: none; }
+}
