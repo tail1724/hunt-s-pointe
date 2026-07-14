@@ -401,9 +401,13 @@ function DocumentEditorPage({ documentId }: { documentId: string }) {
                 <input
                   value={title}
                   onChange={(e) => { markDirty(); setTitle(e.target.value); }}
-                  placeholder={DEFAULT_TITLE}
+                  placeholder="Headline"
                   className="w-full bg-transparent border-0 outline-none font-display text-[38px] md:text-[42px] font-extrabold tracking-tight leading-[1.1] text-foreground placeholder:text-muted-foreground/40 title-underline pb-3"
-                  aria-label="Document title"
+                  aria-label="Headline"
+                />
+                <ArticleHeader
+                  value={meta}
+                  onChange={(patch) => { markDirty(); setMeta((m) => ({ ...m, ...patch })); }}
                 />
               </div>
               <DocumentEditor
