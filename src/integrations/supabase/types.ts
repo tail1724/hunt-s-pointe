@@ -586,35 +586,47 @@ export type Database = {
       }
       collections: {
         Row: {
+          angle: string | null
+          assigned_to: string[]
           color: string
           created_at: string
+          deadline: string | null
           description: string | null
           icon: string
           id: string
           is_archived: boolean
           name: string
+          status: string
           updated_at: string
           user_id: string
         }
         Insert: {
+          angle?: string | null
+          assigned_to?: string[]
           color?: string
           created_at?: string
+          deadline?: string | null
           description?: string | null
           icon?: string
           id?: string
           is_archived?: boolean
           name: string
+          status?: string
           updated_at?: string
           user_id: string
         }
         Update: {
+          angle?: string | null
+          assigned_to?: string[]
           color?: string
           created_at?: string
+          deadline?: string | null
           description?: string | null
           icon?: string
           id?: string
           is_archived?: boolean
           name?: string
+          status?: string
           updated_at?: string
           user_id?: string
         }
@@ -663,14 +675,22 @@ export type Database = {
         Row: {
           archived_at: string | null
           auto_created: boolean
+          byline: string[]
           content: Json
           content_text: string
           created_at: string
+          dek: string | null
           deleted_at: string | null
+          headline: string | null
           id: string
+          publish_at: string | null
+          section: string | null
           source: Database["public"]["Enums"]["document_source"]
           source_message_id: string | null
           source_session_id: string | null
+          status: string
+          story_package_id: string | null
+          story_tags: string[]
           title: string
           updated_at: string
           user_id: string
@@ -678,14 +698,22 @@ export type Database = {
         Insert: {
           archived_at?: string | null
           auto_created?: boolean
+          byline?: string[]
           content?: Json
           content_text?: string
           created_at?: string
+          dek?: string | null
           deleted_at?: string | null
+          headline?: string | null
           id?: string
+          publish_at?: string | null
+          section?: string | null
           source?: Database["public"]["Enums"]["document_source"]
           source_message_id?: string | null
           source_session_id?: string | null
+          status?: string
+          story_package_id?: string | null
+          story_tags?: string[]
           title?: string
           updated_at?: string
           user_id: string
@@ -693,19 +721,35 @@ export type Database = {
         Update: {
           archived_at?: string | null
           auto_created?: boolean
+          byline?: string[]
           content?: Json
           content_text?: string
           created_at?: string
+          dek?: string | null
           deleted_at?: string | null
+          headline?: string | null
           id?: string
+          publish_at?: string | null
+          section?: string | null
           source?: Database["public"]["Enums"]["document_source"]
           source_message_id?: string | null
           source_session_id?: string | null
+          status?: string
+          story_package_id?: string | null
+          story_tags?: string[]
           title?: string
           updated_at?: string
           user_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "documents_story_package_id_fkey"
+            columns: ["story_package_id"]
+            isOneToOne: false
+            referencedRelation: "collections"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       events: {
         Row: {
