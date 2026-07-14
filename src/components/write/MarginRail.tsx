@@ -1,12 +1,13 @@
 import { useCallback, useEffect, useState } from "react";
 import type { Editor } from "@tiptap/react";
-import { ArrowUp, Check, Loader2, X } from "lucide-react";
+import { ArrowUp, Check, Loader2, TriangleAlert, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { useActiveCollection } from "@/lib/collections/useActiveCollection";
 import { useDocumentAnnotations } from "@/lib/annotations/useDocumentAnnotations";
 import { useDocumentVersions } from "@/lib/annotations/useDocumentVersions";
 import { applyAnnotationToEditor } from "@/lib/annotations/applyAnnotation";
+import { cadenceWouldFlatten } from "@/lib/authenticity/cadence";
 import type { DocumentAnnotation } from "@/lib/annotations/types";
 import { toast } from "sonner";
 
@@ -32,10 +33,14 @@ export function MarginRail({
   editor,
   annotations,
   versions,
+  voiceLocks,
+  styleRules,
 }: {
   editor: Editor | null;
   annotations: ReturnType<typeof useDocumentAnnotations>;
   versions: ReturnType<typeof useDocumentVersions>;
+  voiceLocks?: string[];
+  styleRules?: string[];
 }) {
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);
@@ -69,6 +74,8 @@ export function MarginRail({
           selected_text: selected || undefined,
           surrounding_text: surrounding.slice(0, 3000) || undefined,
           collection_id: collection?.id || undefined,
+          voice_locks: voiceLocks,
+          style_rules: styleRules,
         }),
       });
       if (!resp.ok) throw new Error(`Error ${resp.status}`);
@@ -89,7 +96,7 @@ export function MarginRail({
     } finally {
       setBusy(false);
     }
-  }, [input, busy, editor, collection, annotations]);
+  }, [input, busy, editor, collection, annotations, voiceLocks, styleRules]);
 
   const applyAnnotation = useCallback(async (a: DocumentAnnotation) => {
     if (!editor) return;
@@ -172,25 +179,34 @@ export function MarginRail({
             </div>
           </div>
         ) : (
-          annotations.open.map((a) => (
-            <div key={a.id} className="ezra-artifact-reveal rounded-lg border border-ai/25 bg-ai-wash/10 p-3">
-              <p className="mb-1.5 text-[10px] uppercase tracking-wider text-ai/80">{a.body}</p>
-              {a.anchor_text && (
-                <p className="mb-1.5 rounded bg-muted/40 px-2 py-1 text-xs text-muted-foreground line-through decoration-muted-foreground/40">
-                  {a.anchor_text.slice(0, 160)}
-                </p>
-              )}
-              <p className="mb-2.5 whitespace-pre-wrap text-xs leading-relaxed text-foreground">{a.proposed_text}</p>
-              <div className="flex items-center gap-2">
-                <Button size="sm" variant="default" className="h-7 gap-1 text-xs" onClick={() => applyAnnotation(a)}>
-                  <Check className="h-3 w-3" /> Apply
-                </Button>
-                <Button size="sm" variant="ghost" className="h-7 gap-1 text-xs" onClick={() => dismiss(a)}>
-                  <X className="h-3 w-3" /> Dismiss
-                </Button>
+          annotations.open.map((a) => {
+            const flattens = !!(a.anchor_text && a.proposed_text && cadenceWouldFlatten(a.anchor_text, a.proposed_text));
+            return (
+              <div key={a.id} className="ezra-artifact-reveal rounded-lg border border-ai/25 bg-ai-wash/10 p-3">
+                <p className="mb-1.5 text-[10px] uppercase tracking-wider text-ai/80">{a.body}</p>
+                {a.anchor_text && (
+                  <p className="mb-1.5 rounded bg-muted/40 px-2 py-1 text-xs text-muted-foreground line-through decoration-muted-foreground/40">
+                    {a.anchor_text.slice(0, 160)}
+                  </p>
+                )}
+                <p className="mb-2.5 whitespace-pre-wrap text-xs leading-relaxed text-foreground">{a.proposed_text}</p>
+                {flattens && (
+                  <p className="mb-2.5 flex items-start gap-1.5 rounded bg-guardrail/10 px-2 py-1.5 text-[11px] text-guardrail">
+                    <TriangleAlert className="mt-0.5 h-3 w-3 shrink-0" />
+                    This edit flattens your natural cadence — sentence rhythm reads more uniform than your original.
+                  </p>
+                )}
+                <div className="flex items-center gap-2">
+                  <Button size="sm" variant="default" className="h-7 gap-1 text-xs" onClick={() => applyAnnotation(a)}>
+                    <Check className="h-3 w-3" /> Apply
+                  </Button>
+                  <Button size="sm" variant="ghost" className="h-7 gap-1 text-xs" onClick={() => dismiss(a)}>
+                    <X className="h-3 w-3" /> Dismiss
+                  </Button>
+                </div>
               </div>
-            </div>
-          ))
+            );
+          })
         )}
       </div>
     </div>

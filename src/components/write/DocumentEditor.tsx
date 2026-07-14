@@ -10,6 +10,7 @@ import TextAlign from "@tiptap/extension-text-align";
 import { useEffect, useRef } from "react";
 import { AIBubbleMenu } from "./AIBubbleMenu";
 import { SlashMenu } from "./SlashMenu";
+import { TellHighlight } from "./TellHighlightExtension";
 import type { ProposeAnnotationFn } from "@/lib/annotations/types";
 
 export interface DocumentEditorProps {
@@ -30,6 +31,9 @@ export interface DocumentEditorProps {
    * menu) routes suggestions through this instead of editing in place.
    */
   onPropose?: ProposeAnnotationFn;
+  /** Passed through to the bubble/slash menus' AI requests. */
+  voiceLocks?: string[];
+  styleRules?: string[];
 }
 
 export function DocumentEditor({
@@ -40,6 +44,8 @@ export function DocumentEditor({
   placeholder = "Begin writing… highlight any text for AI suggestions, or type / for commands.",
   onReady,
   onPropose,
+  voiceLocks,
+  styleRules,
 }: DocumentEditorProps) {
   const lastJsonRef = useRef<string>("");
 
@@ -53,6 +59,7 @@ export function DocumentEditor({
       TaskList,
       TaskItem.configure({ nested: true }),
       TextAlign.configure({ types: ["heading", "paragraph"] }),
+      TellHighlight,
     ],
     content: initialContent && Object.keys(initialContent).length > 0 ? initialContent : undefined,
     editable: !readOnly,
@@ -95,8 +102,8 @@ export function DocumentEditor({
   return (
     <div className="relative">
       <EditorContent editor={editor} />
-      {!readOnly && onPropose && <AIBubbleMenu editor={editor} onPropose={onPropose} />}
-      {!readOnly && onPropose && <SlashMenu editor={editor} onPropose={onPropose} />}
+      {!readOnly && onPropose && <AIBubbleMenu editor={editor} onPropose={onPropose} voiceLocks={voiceLocks} styleRules={styleRules} />}
+      {!readOnly && onPropose && <SlashMenu editor={editor} onPropose={onPropose} voiceLocks={voiceLocks} styleRules={styleRules} />}
     </div>
   );
 }

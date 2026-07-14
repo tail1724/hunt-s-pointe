@@ -32,9 +32,11 @@ export interface SlashMenuProps {
    * as a margin annotation, same as the bubble menu (addendum feature 15).
    */
   onPropose: ProposeAnnotationFn;
+  voiceLocks?: string[];
+  styleRules?: string[];
 }
 
-export function SlashMenu({ editor, onPropose }: SlashMenuProps) {
+export function SlashMenu({ editor, onPropose, voiceLocks, styleRules }: SlashMenuProps) {
   const [pos, setPos] = useState<Pos | null>(null);
   const [busy, setBusy] = useState(false);
   const [query, setQuery] = useState("");
@@ -79,7 +81,7 @@ export function SlashMenu({ editor, onPropose }: SlashMenuProps) {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token ?? import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
         },
-        body: JSON.stringify({ action: "continue", context: before }),
+        body: JSON.stringify({ action: "continue", context: before, voice_locks: voiceLocks, style_rules: styleRules }),
       });
       if (!resp.ok) {
         if (resp.status === 429) toast.error("Rate limited.");

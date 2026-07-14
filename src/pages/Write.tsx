@@ -11,6 +11,8 @@ import { EditorToolbar } from "@/components/write/EditorToolbar";
 import { EzraAssistBar } from "@/components/write/EzraAssistBar";
 import { MarginRail } from "@/components/write/MarginRail";
 import { HistoryDrawer } from "@/components/write/HistoryDrawer";
+import { ProvenanceCertificate } from "@/components/write/ProvenanceCertificate";
+import { useProvenanceTracking } from "@/lib/provenance/useProvenanceTracking";
 import { DocumentSwitcherBar } from "@/components/write/DocumentSwitcherBar";
 import { useAutosave } from "@/hooks/useAutosave";
 import { useActiveCollection } from "@/lib/collections/useActiveCollection";
@@ -18,6 +20,8 @@ import { tagArtifact } from "@/lib/collections/useCollections";
 import { useDocumentAnnotations } from "@/lib/annotations/useDocumentAnnotations";
 import { useDocumentVersions } from "@/lib/annotations/useDocumentVersions";
 import type { DocumentVersion } from "@/lib/annotations/types";
+import { useStyleGuide } from "@/lib/authenticity/useStyleGuide";
+import { useVoiceProfile } from "@/lib/authenticity/useVoiceProfile";
 import { CollectionPicker } from "@/components/collections/CollectionPicker";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
@@ -199,7 +203,10 @@ function DocumentEditorPage({ documentId }: { documentId: string }) {
 
   const annotations = useDocumentAnnotations(documentId);
   const versions = useDocumentVersions(documentId);
+  const styleGuide = useStyleGuide();
+  const voiceProfile = useVoiceProfile();
   const [historyOpen, setHistoryOpen] = useState(false);
+  const [provenanceOpen, setProvenanceOpen] = useState(false);
   // Snapshot a human-attributed version at most once every 2 minutes of
   // active saving — every autosave tick would otherwise flood the History
   // drawer with near-duplicate entries.
@@ -251,6 +258,8 @@ function DocumentEditorPage({ documentId }: { documentId: string }) {
   });
 
   const [editor, setEditor] = useState<Editor | null>(null);
+
+  useProvenanceTracking(documentId, editor?.view.dom as HTMLElement | null ?? null);
 
   const handleRestore = useCallback((version: DocumentVersion) => {
     if (!editor) return;
@@ -369,6 +378,7 @@ function DocumentEditorPage({ documentId }: { documentId: string }) {
           onToggleFocus={() => setFocusMode((v) => !v)}
           onBack={() => navigate("/app/file-cabinet")}
           onOpenHistory={() => setHistoryOpen(true)}
+          onOpenProvenance={() => setProvenanceOpen(true)}
         />
       </div>
       <EditorToolbar editor={editor} focusMode={focusMode} />
@@ -417,6 +427,8 @@ function DocumentEditorPage({ documentId }: { documentId: string }) {
                 initialContent={content}
                 onReady={setEditor}
                 onPropose={annotations.propose}
+                voiceLocks={voiceProfile.lockedTraits}
+                styleRules={styleGuide.asRules()}
                 onChange={(json, text) => {
                   markDirty();
                   setContent(json);
@@ -435,7 +447,13 @@ function DocumentEditorPage({ documentId }: { documentId: string }) {
             never editing the page directly (addendum feature 15). */}
         {!focusMode && (
           <aside className="hidden lg:block w-[330px] shrink-0 py-3 pr-3">
-            <MarginRail editor={editor} annotations={annotations} versions={versions} />
+            <MarginRail
+              editor={editor}
+              annotations={annotations}
+              versions={versions}
+              voiceLocks={voiceProfile.lockedTraits}
+              styleRules={styleGuide.asRules()}
+            />
           </aside>
         )}
       </div>
@@ -445,6 +463,8 @@ function DocumentEditorPage({ documentId }: { documentId: string }) {
           editor={editor}
           annotations={annotations}
           versions={versions}
+          voiceLocks={voiceProfile.lockedTraits}
+          styleRules={styleGuide.asRules()}
           hidden={focusMode}
         />
       </div>
@@ -453,6 +473,12 @@ function DocumentEditorPage({ documentId }: { documentId: string }) {
         onOpenChange={setHistoryOpen}
         versions={versions}
         onRestore={handleRestore}
+      />
+      <ProvenanceCertificate
+        open={provenanceOpen}
+        onOpenChange={setProvenanceOpen}
+        documentId={documentId}
+        versions={versions}
       />
     </div>
   );

@@ -24,9 +24,13 @@ export interface AIBubbleMenuProps {
    * proposal appears in the margin rail for the editor to apply by hand.
    */
   onPropose: ProposeAnnotationFn;
+  /** Protected stylistic traits (addendum feature 13) — never sanitized away. */
+  voiceLocks?: string[];
+  /** House style constraints (addendum feature 2) every proposal must satisfy. */
+  styleRules?: string[];
 }
 
-export function AIBubbleMenu({ editor, onPropose }: AIBubbleMenuProps) {
+export function AIBubbleMenu({ editor, onPropose, voiceLocks, styleRules }: AIBubbleMenuProps) {
   const [pos, setPos] = useState<Pos | null>(null);
   const [busy, setBusy] = useState(false);
   const [askingFree, setAskingFree] = useState(false);
@@ -75,7 +79,7 @@ export function AIBubbleMenu({ editor, onPropose }: AIBubbleMenuProps) {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token ?? import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
         },
-        body: JSON.stringify({ action: "rewrite", preset: presetId, instruction, selection }),
+        body: JSON.stringify({ action: "rewrite", preset: presetId, instruction, selection, voice_locks: voiceLocks, style_rules: styleRules }),
       });
       if (!resp.ok) {
         const err = await resp.json().catch(() => ({}));

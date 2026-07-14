@@ -558,6 +558,15 @@
 .tiptap-doc [data-text-align="right"] { text-align: right; }
 .tiptap-doc [data-text-align="left"] { text-align: left; }
 
+/* Algorithmic tell highlight (addendum feature 14) — a dotted Tiger Lily
+   Orange underline under over-indexed AI vocabulary. Never auto-replaces;
+   hover shows the reason via the decoration's title attribute. */
+.ai-tell-highlight {
+  background: hsl(var(--guardrail) / 0.12);
+  border-bottom: 2px dotted hsl(var(--guardrail) / 0.7);
+  cursor: help;
+}
+
 /* Drop cap — only for long-form drafts (toggled via .with-dropcap wrapper) */
 .with-dropcap .tiptap-doc > p:first-of-type::first-letter {
   font-family: 'Plus Jakarta Sans', Georgia, serif;

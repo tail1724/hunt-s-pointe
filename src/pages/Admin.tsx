@@ -12,6 +12,7 @@ import { useColorTheme, type ColorTheme } from "@/hooks/useColorTheme";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Check } from "lucide-react";
+import { VoiceStyleSettings } from "@/components/admin/VoiceStyleSettings";
 
 const PALETTES: { key: ColorTheme; label: string; preview: string }[] = [
   { key: "reverent", label: "Vibrant (Default)", preview: "bg-gradient-to-r from-[hsl(271,91%,65%)] to-[hsl(212,96%,78%)]" },
@@ -199,6 +200,8 @@ export default function Admin() {
           </div>
         </CardContent>
       </Card>
+
+      <VoiceStyleSettings />
 
       {/* Notifications */}
       <Card>

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { ArrowUp, Check, Loader2, X } from "lucide-react";
+import { ArrowUp, Check, Loader2, TriangleAlert, X } from "lucide-react";
 import type { Editor } from "@tiptap/react";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
@@ -7,6 +7,7 @@ import { useActiveCollection } from "@/lib/collections/useActiveCollection";
 import { useDocumentAnnotations } from "@/lib/annotations/useDocumentAnnotations";
 import { useDocumentVersions } from "@/lib/annotations/useDocumentVersions";
 import { applyAnnotationToEditor } from "@/lib/annotations/applyAnnotation";
+import { cadenceWouldFlatten } from "@/lib/authenticity/cadence";
 import { cn } from "@/lib/utils";
 import ReactMarkdown from "react-markdown";
 import { toast } from "sonner";
@@ -26,6 +27,8 @@ interface Props {
   annotations: ReturnType<typeof useDocumentAnnotations>;
   versions: ReturnType<typeof useDocumentVersions>;
   hidden?: boolean;
+  voiceLocks?: string[];
+  styleRules?: string[];
   /**
    * "panel"    — full-height side panel beside the editor (desktop).
    * "floating" — compact bar pinned under the page (small screens).
@@ -45,6 +48,8 @@ export function EzraAssistBar({
   annotations,
   versions,
   hidden,
+  voiceLocks,
+  styleRules,
   variant = "floating",
 }: Props) {
   const [input, setInput] = useState("");
@@ -84,6 +89,8 @@ export function EzraAssistBar({
           selected_text: selected || undefined,
           surrounding_text: surrounding.slice(0, 3000) || undefined,
           collection_id: collection?.id || undefined,
+          voice_locks: voiceLocks,
+          style_rules: styleRules,
         }),
       });
       if (!resp.ok) throw new Error(`Error ${resp.status}`);
@@ -103,7 +110,7 @@ export function EzraAssistBar({
     } finally {
       setBusy(false);
     }
-  }, [input, busy, editor, collection, annotations]);
+  }, [input, busy, editor, collection, annotations, voiceLocks, styleRules]);
 
   const apply = useCallback(async () => {
     if (!editor || !latest) return;
@@ -173,12 +180,20 @@ export function EzraAssistBar({
     </div>
   );
 
+  const latestFlattens = !!(latest?.anchor_text && latest?.proposed_text && cadenceWouldFlatten(latest.anchor_text, latest.proposed_text));
+
   const suggestionCard = latest && (
     <div className="ezra-artifact-reveal space-y-3 border-t border-ai/25 bg-ai-wash/10 px-4 py-3">
       <p className="text-[10px] uppercase tracking-wider text-ai/80">{latest.body}</p>
       <div className="prose prose-sm max-h-48 max-w-none overflow-y-auto text-sm text-foreground">
         <ReactMarkdown>{latest.proposed_text ?? ""}</ReactMarkdown>
       </div>
+      {latestFlattens && (
+        <p className="flex items-start gap-1.5 rounded bg-guardrail/10 px-2 py-1.5 text-[11px] text-guardrail">
+          <TriangleAlert className="mt-0.5 h-3 w-3 shrink-0" />
+          This flattens your natural cadence.
+        </p>
+      )}
       <div className="flex items-center gap-2">
         <Button size="sm" variant="default" className="gap-1" onClick={apply}>
           <Check className="h-3.5 w-3.5" /> Apply
