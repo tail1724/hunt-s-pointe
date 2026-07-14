@@ -208,19 +208,109 @@ export default function CollectionDetail() {
           <Tabs value={tab} onValueChange={(v) => setTab(v as any)}>
             <div className="flex flex-wrap items-center justify-between gap-3">
               <TabsList>
-                <TabsTrigger value="context">Context ({items.length})</TabsTrigger>
+                <TabsTrigger value="brief">Brief</TabsTrigger>
+                <TabsTrigger value="research">Research ({items.length})</TabsTrigger>
+                <TabsTrigger value="drafts">Drafts ({drafts.length})</TabsTrigger>
                 <TabsTrigger value="artifacts">Artifacts ({artifacts.length})</TabsTrigger>
               </TabsList>
-              {tab === "context" && (
+              {tab === "research" && (
                 <AddItemSheet
                   collectionId={collection.id}
                   onAdded={refresh}
                   trigger={<Button size="sm" className="rounded-full"><Plus className="h-4 w-4 mr-1.5" />Add</Button>}
                 />
               )}
+              {tab === "drafts" && (
+                <Button size="sm" className="rounded-full" asChild>
+                  <Link to={`/app/write?package=${collection.id}`}><Plus className="h-4 w-4 mr-1.5" />New draft</Link>
+                </Button>
+              )}
             </div>
 
-            <TabsContent value="context" className="mt-5 space-y-4">
+            <TabsContent value="brief" className="mt-5 space-y-5">
+              <div className="rounded-2xl border border-border bg-card/60 p-5 space-y-5">
+                <div>
+                  <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Angle</label>
+                  <Textarea
+                    value={brief.angle}
+                    onChange={(e) => setBrief({ ...brief, angle: e.target.value })}
+                    onBlur={() => saveBrief({})}
+                    placeholder="One sentence: what's the story, and why now?"
+                    className="mt-1.5 min-h-[72px] resize-none bg-background"
+                  />
+                </div>
+
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <div>
+                    <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
+                      <Calendar className="h-3.5 w-3.5" /> Deadline
+                    </label>
+                    <Input
+                      type="date"
+                      value={brief.deadline ? brief.deadline.slice(0, 10) : ""}
+                      onChange={(e) => saveBrief({ deadline: e.target.value })}
+                      className="mt-1.5 bg-background"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Status</label>
+                    <div className="mt-1.5 flex flex-wrap gap-1.5">
+                      {PACKAGE_STATUSES.map((s) => (
+                        <button
+                          key={s.value}
+                          type="button"
+                          onClick={() => saveBrief({ status: s.value })}
+                          className={`rounded-full border px-3 py-1 text-xs font-medium transition-colors ${
+                            brief.status === s.value ? s.className : "border-border text-muted-foreground hover:bg-muted"
+                          }`}
+                        >
+                          {s.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
+                    <Users className="h-3.5 w-3.5" /> Assigned to
+                  </label>
+                  <div className="mt-1.5 flex flex-wrap items-center gap-1.5">
+                    {brief.assigned_to.map((name) => (
+                      <Badge key={name} variant="secondary" className="gap-1">
+                        {name}
+                        <button
+                          type="button"
+                          onClick={() => saveBrief({ assigned_to: brief.assigned_to.filter((n) => n !== name) })}
+                          className="ml-0.5 text-muted-foreground hover:text-foreground"
+                          aria-label={`Remove ${name}`}
+                        >×</button>
+                      </Badge>
+                    ))}
+                    <Input
+                      value={assignedEntry}
+                      onChange={(e) => setAssignedEntry(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" && assignedEntry.trim()) {
+                          e.preventDefault();
+                          const name = assignedEntry.trim();
+                          if (!brief.assigned_to.includes(name)) {
+                            saveBrief({ assigned_to: [...brief.assigned_to, name] });
+                          }
+                          setAssignedEntry("");
+                        }
+                      }}
+                      placeholder="Add reporter, press Enter"
+                      className="h-8 w-48 bg-background text-sm"
+                    />
+                  </div>
+                </div>
+
+                {savingBrief && <p className="text-[11px] text-muted-foreground">Saving…</p>}
+              </div>
+            </TabsContent>
+
+            <TabsContent value="research" className="mt-5 space-y-4">
               <ContextBudgetMeter totalChars={totalChars} />
               {items.length === 0 ? (
                 <div className="rounded-2xl border border-dashed border-border bg-card/50 p-10 text-center">
@@ -231,19 +321,50 @@ export default function CollectionDetail() {
                   >
                     <Plus className="h-5 w-5 text-white" />
                   </div>
-                  <h3 className="mt-4 font-display text-base font-semibold text-foreground">Build the context once</h3>
+                  <h3 className="mt-4 font-display text-base font-semibold text-foreground">Load the research once</h3>
                   <p className="mx-auto mt-1 max-w-sm text-sm text-muted-foreground">
-                    Notes, files, and links you add here ride along every time this collection is active in Ezra or Write.
+                    Notes, source docs, and links you add here ride along every time this package is active in the assistant or Write.
                   </p>
                   <AddItemSheet
                     collectionId={collection.id}
                     onAdded={refresh}
-                    trigger={<Button size="sm" className="mt-5 rounded-full"><Plus className="h-4 w-4 mr-1.5" />Add your first item</Button>}
+                    trigger={<Button size="sm" className="mt-5 rounded-full"><Plus className="h-4 w-4 mr-1.5" />Add your first source</Button>}
                   />
                 </div>
               ) : (
                 <div className="space-y-2">
                   {items.map((it) => <ItemRow key={it.id} item={it} onDelete={deleteItem} />)}
+                </div>
+              )}
+            </TabsContent>
+
+            <TabsContent value="drafts" className="mt-5">
+              {drafts.length === 0 ? (
+                <div className="rounded-2xl border border-dashed border-border bg-card/50 p-10 text-center">
+                  <FileText className="mx-auto h-8 w-8 text-muted-foreground/60" />
+                  <h3 className="mt-3 font-display text-base font-semibold text-foreground">No drafts yet</h3>
+                  <p className="mx-auto mt-1 max-w-sm text-sm text-muted-foreground">
+                    Start a draft from this package and it appears here with its live status.
+                  </p>
+                  <Button size="sm" className="mt-5 rounded-full" asChild>
+                    <Link to={`/app/write?package=${collection.id}`}><Plus className="h-4 w-4 mr-1.5" />Start a draft</Link>
+                  </Button>
+                </div>
+              ) : (
+                <div className="space-y-2">
+                  {drafts.map((d) => (
+                    <Link
+                      key={d.id}
+                      to={`/app/write/${d.id}`}
+                      className="flex items-center justify-between rounded-xl border border-border bg-card px-4 py-3 hover:bg-muted/40 transition-colors"
+                    >
+                      <div className="min-w-0">
+                        <p className="truncate font-display text-sm font-semibold">{d.title || "Untitled article"}</p>
+                        {d.dek && <p className="mt-0.5 truncate text-xs text-muted-foreground">{d.dek}</p>}
+                      </div>
+                      <Badge variant="outline" className="capitalize">{(d.status ?? "draft").replace("_", " ")}</Badge>
+                    </Link>
+                  ))}
                 </div>
               )}
             </TabsContent>
@@ -254,11 +375,11 @@ export default function CollectionDetail() {
                   <Sparkles className="mx-auto h-8 w-8 text-muted-foreground/60" />
                   <h3 className="mt-3 font-display text-base font-semibold text-foreground">Nothing collected yet</h3>
                   <p className="mx-auto mt-1 max-w-sm text-sm text-muted-foreground">
-                    Activate this collection in Ezra or Write and every thread, draft, and image you create flows back here automatically.
+                    Activate this package in the assistant or Write and every thread, draft, and image you create flows back here automatically.
                   </p>
                   <div className="mt-5 flex justify-center gap-2">
                     <Button size="sm" variant={isActiveEzra ? "default" : "outline"} onClick={() => ezra.setActive(collection.id)}>
-                      Use in Ezra
+                      Use in assistant
                     </Button>
                     <Button size="sm" variant={isActiveWrite ? "default" : "outline"} onClick={() => write.setActive(collection.id)}>
                       Use in Write
