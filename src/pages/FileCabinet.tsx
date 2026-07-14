@@ -175,19 +175,19 @@ export default function FileCabinet() {
         <div>
           <h1 className="font-display text-2xl font-extrabold tracking-tight flex items-center gap-2">
             <Archive className="h-6 w-6 text-primary" />
-            File Cabinet
+            Newsroom
           </h1>
           <p className="text-sm text-muted-foreground mt-1">
             {tab === "documents"
-              ? <>Every draft, filed automatically — {docs.length} document{docs.length === 1 ? "" : "s"} on hand.</>
-              : <>Every image from the Ezra studio, filed automatically.</>}
+              ? <>Every article on the desk — {docs.length} draft{docs.length === 1 ? "" : "s"} on hand.</>
+              : <>Every image from the studio, filed automatically.</>}
           </p>
         </div>
         <div className="flex items-center gap-2">
           {tab === "documents" && <TrashButton count={trashCount} onClick={() => setTrashOpen(true)} />}
           {tab === "documents" ? (
             <Button asChild size="sm" className="gap-1.5">
-              <Link to="/app/write"><Plus className="h-4 w-4" /> New document</Link>
+              <Link to="/app/write"><Plus className="h-4 w-4" /> New article</Link>
             </Button>
           ) : (
             <Button asChild size="sm" className="gap-1.5">
