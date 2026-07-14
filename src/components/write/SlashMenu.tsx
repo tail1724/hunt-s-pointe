@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import type { Editor } from "@tiptap/react";
-import { Heading1, Heading2, List, ListOrdered, Quote, BookOpen, Sparkles, Loader2 } from "lucide-react";
+import { Heading1, Heading2, List, ListOrdered, Quote, BookOpen, Sparkles, Loader2, Zap, Eye, Hash, MessageSquareQuote, Link2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
@@ -12,6 +12,17 @@ type Item = {
 };
 
 interface Pos { top: number; left: number; }
+
+/** Insert an Axios-style callout block: bold label + placeholder body. */
+function insertCallout(e: Editor, label: string, placeholder: string) {
+  e.chain()
+    .focus()
+    .insertContent([
+      { type: "heading", attrs: { level: 3 }, content: [{ type: "text", text: label }] },
+      { type: "paragraph", content: [{ type: "text", text: placeholder }] },
+    ])
+    .run();
+}
 
 export function SlashMenu({ editor }: { editor: Editor }) {
   const [pos, setPos] = useState<Pos | null>(null);
@@ -26,8 +37,14 @@ export function SlashMenu({ editor }: { editor: Editor }) {
     { id: "ul", label: "Bullet list", icon: List, run: (e) => e.chain().focus().toggleBulletList().run() },
     { id: "ol", label: "Numbered list", icon: ListOrdered, run: (e) => e.chain().focus().toggleOrderedList().run() },
     { id: "quote", label: "Quote", icon: Quote, run: (e) => e.chain().focus().toggleBlockquote().run() },
-    { id: "scripture", label: "Add Scripture Reference", icon: BookOpen, run: (e) => e.chain().focus().insertContent("\n> _Scripture reference here_\n").run() },
-    { id: "continue", label: "✨ Continue writing with Ezra", icon: Sparkles, run: async (e) => await runContinue(e) },
+    // Smart-brevity newsroom blocks
+    { id: "why", label: "Why it matters", icon: Zap, run: (e) => insertCallout(e, "Why it matters:", "One sentence on the stakes.") },
+    { id: "big", label: "The big picture", icon: Eye, run: (e) => insertCallout(e, "The big picture:", "Zoom out. What's the trend?") },
+    { id: "numbers", label: "By the numbers", icon: Hash, run: (e) => insertCallout(e, "By the numbers:", "Lead with the number that matters.") },
+    { id: "saying", label: "What they're saying", icon: MessageSquareQuote, run: (e) => insertCallout(e, "What they're saying:", "\"Quote here.\" — Source, title") },
+    { id: "deeper", label: "Go deeper", icon: Link2, run: (e) => insertCallout(e, "Go deeper:", "Link to the primary source.") },
+    { id: "scripture", label: "Add reference", icon: BookOpen, run: (e) => e.chain().focus().insertContent("\n> _Reference here_\n").run() },
+    { id: "continue", label: "✨ Continue writing with AI", icon: Sparkles, run: async (e) => await runContinue(e) },
   ];
 
   const filtered = query

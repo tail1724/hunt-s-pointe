@@ -15,6 +15,8 @@ import { formatDistanceToNowStrict } from "date-fns";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 
+import { ARTICLE_STATUSES, type ArticleStatus } from "@/components/write/ArticleHeader";
+
 interface DocRow {
   id: string;
   title: string;
@@ -22,19 +24,22 @@ interface DocRow {
   source: "manual" | "mary" | "build_prompts";
   auto_created: boolean;
   updated_at: string;
+  dek?: string | null;
+  byline?: string[] | null;
+  section?: string | null;
+  status?: ArticleStatus | null;
 }
 
-type SourceFilter = "all" | "ezra" | "manual";
+type StatusFilter = "all" | ArticleStatus;
 type SortKey = "recent" | "alpha";
 
-function SourceBadge({ source, autoCreated }: { source: DocRow["source"]; autoCreated: boolean }) {
-  const map = {
-    mary: { label: autoCreated ? "Auto-saved from Ezra" : "Ezra", className: "bg-primary/10 text-primary border-primary/20" },
-    build_prompts: { label: "Ezra", className: "bg-primary/10 text-primary border-primary/20" },
-    manual: { label: "Manual", className: "bg-muted text-muted-foreground border-border" },
-  } as const;
-  const m = map[source];
-  return <span className={`inline-flex items-center text-[10px] px-1.5 py-0.5 rounded-full border ${m.className}`}>{m.label}</span>;
+function StatusPill({ status }: { status: ArticleStatus }) {
+  const s = ARTICLE_STATUSES.find((x) => x.value === status) ?? ARTICLE_STATUSES[0];
+  return (
+    <span className={`inline-flex items-center text-[10px] px-1.5 py-0.5 rounded-full border font-medium ${s.className}`}>
+      {s.label}
+    </span>
+  );
 }
 
 function wordCount(text: string): number {
@@ -55,7 +60,7 @@ export default function FileCabinet() {
   const [trashOpen, setTrashOpen] = useState(false);
   const [trashCount, setTrashCount] = useState(0);
   const [query, setQuery] = useState("");
-  const [sourceFilter, setSourceFilter] = useState<SourceFilter>("all");
+  const [statusFilter, setStatusFilter] = useState<StatusFilter>("all");
   const [sort, setSort] = useState<SortKey>("recent");
 
   const loadTrashCount = useCallback(async () => {
@@ -73,7 +78,7 @@ export default function FileCabinet() {
     setLoading(true);
     const { data, error } = await supabase
       .from("documents" as any)
-      .select("id, title, content_text, source, auto_created, updated_at")
+      .select("id, title, content_text, source, auto_created, updated_at, dek, byline, section, status")
       .eq("user_id", user.id)
       .is("archived_at", null)
       .is("deleted_at", null)
@@ -130,24 +135,32 @@ export default function FileCabinet() {
 
   const filtered = useMemo(() => {
     let rows = docs;
-    if (sourceFilter === "ezra") rows = rows.filter((d) => d.source !== "manual");
-    if (sourceFilter === "manual") rows = rows.filter((d) => d.source === "manual");
+    if (statusFilter !== "all") {
+      rows = rows.filter((d) => (d.status ?? "draft") === statusFilter);
+    }
     const q = query.trim().toLowerCase();
     if (q) {
       rows = rows.filter(
-        (d) => (d.title || "").toLowerCase().includes(q) || (d.content_text || "").toLowerCase().includes(q),
+        (d) =>
+          (d.title || "").toLowerCase().includes(q) ||
+          (d.dek || "").toLowerCase().includes(q) ||
+          (d.byline || []).some((b) => b.toLowerCase().includes(q)) ||
+          (d.content_text || "").toLowerCase().includes(q),
       );
     }
     if (sort === "alpha") {
       rows = [...rows].sort((a, b) => (a.title || "Untitled").localeCompare(b.title || "Untitled"));
     }
     return rows;
-  }, [docs, sourceFilter, query, sort]);
+  }, [docs, statusFilter, query, sort]);
 
-  const filters: { key: SourceFilter; label: string }[] = [
+  const filters: { key: StatusFilter; label: string }[] = [
     { key: "all", label: "All" },
-    { key: "ezra", label: "From Ezra" },
-    { key: "manual", label: "Manual" },
+    { key: "draft", label: "Draft" },
+    { key: "in_review", label: "In review" },
+    { key: "ready", label: "Ready" },
+    { key: "published", label: "Published" },
+    { key: "archived", label: "Archived" },
   ];
 
   return (
@@ -162,19 +175,19 @@ export default function FileCabinet() {
         <div>
           <h1 className="font-display text-2xl font-extrabold tracking-tight flex items-center gap-2">
             <Archive className="h-6 w-6 text-primary" />
-            File Cabinet
+            Newsroom
           </h1>
           <p className="text-sm text-muted-foreground mt-1">
             {tab === "documents"
-              ? <>Every draft, filed automatically — {docs.length} document{docs.length === 1 ? "" : "s"} on hand.</>
-              : <>Every image from the Ezra studio, filed automatically.</>}
+              ? <>Every article on the desk — {docs.length} draft{docs.length === 1 ? "" : "s"} on hand.</>
+              : <>Every image from the studio, filed automatically.</>}
           </p>
         </div>
         <div className="flex items-center gap-2">
           {tab === "documents" && <TrashButton count={trashCount} onClick={() => setTrashOpen(true)} />}
           {tab === "documents" ? (
             <Button asChild size="sm" className="gap-1.5">
-              <Link to="/app/write"><Plus className="h-4 w-4" /> New document</Link>
+              <Link to="/app/write"><Plus className="h-4 w-4" /> New article</Link>
             </Button>
           ) : (
             <Button asChild size="sm" className="gap-1.5">
@@ -217,19 +230,19 @@ export default function FileCabinet() {
           <Input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search documents…"
+            placeholder="Search headline, byline, dek…"
             className="h-9 pl-9 text-sm bg-card"
           />
         </div>
-        <div className="flex items-center gap-1 rounded-full bg-muted/70 p-1">
+        <div className="flex items-center gap-1 rounded-full bg-muted/70 p-1 flex-wrap">
           {filters.map((f) => (
             <button
               key={f.key}
               type="button"
-              onClick={() => setSourceFilter(f.key)}
+              onClick={() => setStatusFilter(f.key)}
               className={cn(
                 "rounded-full px-3 py-1 text-xs font-medium tactile transition-colors",
-                sourceFilter === f.key
+                statusFilter === f.key
                   ? "bg-card text-foreground shadow-sm"
                   : "text-muted-foreground hover:text-foreground",
               )}
@@ -287,22 +300,38 @@ export default function FileCabinet() {
               >
                 <Link to={`/app/write/${d.id}`} className="absolute inset-0 z-0" aria-label={`Open ${d.title || "Untitled Document"} in Write`} />
 
-                {/* Paper preview — the snippet reads like the page it opens into */}
+                {/* Paper preview — headline, dek, byline, section */}
                 <div className="pointer-events-none border-b border-border/50 bg-gradient-to-b from-muted/30 to-transparent px-4 pb-3 pt-4">
                   <h3 className="font-display text-sm font-semibold leading-snug text-foreground line-clamp-1">
-                    {d.title || "Untitled Document"}
+                    {d.title || "Untitled article"}
                   </h3>
-                  <p
-                    className="mt-2 min-h-[3.9em] text-[13px] italic leading-relaxed text-muted-foreground line-clamp-3"
-                    style={{ fontFamily: "'Lora', Georgia, serif" }}
-                  >
-                    {snippet || "Empty document"}
-                  </p>
+                  {d.dek ? (
+                    <p
+                      className="mt-1.5 min-h-[2.6em] text-[12px] italic leading-snug text-muted-foreground line-clamp-2"
+                      style={{ fontFamily: "'Lora', Georgia, serif" }}
+                    >
+                      {d.dek}
+                    </p>
+                  ) : (
+                    <p
+                      className="mt-1.5 min-h-[2.6em] text-[12px] leading-snug text-muted-foreground/80 line-clamp-2"
+                    >
+                      {snippet || "No dek yet."}
+                    </p>
+                  )}
+                  <div className="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-[10px] text-muted-foreground">
+                    {d.byline && d.byline.length > 0 && (
+                      <span className="uppercase tracking-wider">By {d.byline.join(", ")}</span>
+                    )}
+                    {d.section && (
+                      <span className="rounded-full border border-border bg-card px-1.5 py-0.5">{d.section}</span>
+                    )}
+                  </div>
                 </div>
 
                 <div className="flex items-center justify-between px-4 py-2.5">
                   <div className="flex items-center gap-2">
-                    <SourceBadge source={d.source} autoCreated={d.auto_created} />
+                    <StatusPill status={(d.status ?? "draft") as ArticleStatus} />
                     {words > 0 && (
                       <span className="text-[10px] tabular-nums text-muted-foreground">{words.toLocaleString()} words</span>
                     )}

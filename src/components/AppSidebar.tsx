@@ -38,10 +38,10 @@ export const workspaceItems: NavItem[] = [
 ];
 
 
-export const libraryFileCabinet: NavItem = { title: "File Cabinet", url: "/app/file-cabinet", icon: Archive };
+export const libraryFileCabinet: NavItem = { title: "Newsroom", url: "/app/file-cabinet", icon: Archive };
 /** @deprecated Use libraryFileCabinet. Kept as alias to avoid breaking imports. */
 export const libraryExport = libraryFileCabinet;
-export const libraryKnowledge: NavItem = { title: "Collections", url: "/app/knowledge", icon: Library };
+export const libraryKnowledge: NavItem = { title: "Story Packages", url: "/app/knowledge", icon: Library };
 
 export const insightsItems: NavItem[] = [
   { title: "Analytics", url: "/app/analytics", icon: BarChart3 },

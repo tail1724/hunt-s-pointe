@@ -18,6 +18,7 @@ import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useMobileNav } from "@/components/mobile/mobile-nav-context";
+import { ArticleHeader, type ArticleMeta, type ArticleStatus } from "@/components/write/ArticleHeader";
 
 interface DocRow {
   id: string;
@@ -27,6 +28,12 @@ interface DocRow {
   source: "manual" | "mary" | "build_prompts";
   auto_created: boolean;
   updated_at: string;
+  dek?: string | null;
+  byline?: string[] | null;
+  section?: string | null;
+  status?: ArticleStatus | null;
+  story_tags?: string[] | null;
+  publish_at?: string | null;
 }
 
 const DEFAULT_TITLE = "Untitled Document";
@@ -121,6 +128,14 @@ function DocumentEditorPage({ documentId }: { documentId: string }) {
   const [content, setContent] = useState<any>(null);
   const [contentText, setContentText] = useState("");
   const [notFound, setNotFound] = useState(false);
+  const [meta, setMeta] = useState<ArticleMeta>({
+    dek: "",
+    byline: [],
+    section: "",
+    status: "draft",
+    storyTags: [],
+    publishAt: null,
+  });
   const [focusMode, setFocusMode] = useState(false);
   // Scrolled into the document: header bars tuck away, the floating toolbar
   // stays right above the page for editing from anywhere in the manuscript.
@@ -151,7 +166,7 @@ function DocumentEditorPage({ documentId }: { documentId: string }) {
     (async () => {
       const { data, error } = await supabase
         .from("documents" as any)
-        .select("id, title, content, content_text, source, auto_created, updated_at")
+        .select("id, title, content, content_text, source, auto_created, updated_at, dek, byline, section, status, story_tags, publish_at")
         .eq("id", documentId)
         .eq("user_id", user.id)
         .maybeSingle();
@@ -161,10 +176,21 @@ function DocumentEditorPage({ documentId }: { documentId: string }) {
       setTitle(row.title || "");
       setContent(row.content || EMPTY_DOC);
       setContentText(row.content_text || "");
+      setMeta({
+        dek: row.dek ?? "",
+        byline: row.byline ?? [],
+        section: row.section ?? "",
+        status: (row.status as ArticleStatus) ?? "draft",
+        storyTags: row.story_tags ?? [],
+        publishAt: row.publish_at ?? null,
+      });
     })();
   }, [user, documentId]);
 
-  const saveValue = useMemo(() => ({ title, content, contentText }), [title, content, contentText]);
+  const saveValue = useMemo(
+    () => ({ title, content, contentText, meta }),
+    [title, content, contentText, meta],
+  );
 
   const { status, savedAt, flush } = useAutosave({
     value: saveValue,
@@ -174,7 +200,19 @@ function DocumentEditorPage({ documentId }: { documentId: string }) {
       if (!user) return;
       const { error } = await supabase
         .from("documents" as any)
-        .update({ title: v.title || DEFAULT_TITLE, content: v.content as any, content_text: v.contentText, auto_created: false } as any)
+        .update({
+          title: v.title || DEFAULT_TITLE,
+          content: v.content as any,
+          content_text: v.contentText,
+          auto_created: false,
+          dek: v.meta.dek || null,
+          byline: v.meta.byline,
+          section: v.meta.section || null,
+          status: v.meta.status,
+          story_tags: v.meta.storyTags,
+          publish_at: v.meta.publishAt,
+          headline: v.title || DEFAULT_TITLE,
+        } as any)
         .eq("id", documentId)
         .eq("user_id", user.id);
       if (error) throw error;
@@ -363,9 +401,13 @@ function DocumentEditorPage({ documentId }: { documentId: string }) {
                 <input
                   value={title}
                   onChange={(e) => { markDirty(); setTitle(e.target.value); }}
-                  placeholder={DEFAULT_TITLE}
+                  placeholder="Headline"
                   className="w-full bg-transparent border-0 outline-none font-display text-[38px] md:text-[42px] font-extrabold tracking-tight leading-[1.1] text-foreground placeholder:text-muted-foreground/40 title-underline pb-3"
-                  aria-label="Document title"
+                  aria-label="Headline"
+                />
+                <ArticleHeader
+                  value={meta}
+                  onChange={(patch) => { markDirty(); setMeta((m) => ({ ...m, ...patch })); }}
                 />
               </div>
               <DocumentEditor
