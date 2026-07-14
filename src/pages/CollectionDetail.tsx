@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useCollection } from "@/lib/collections/useCollections";
 import { useActiveCollection } from "@/lib/collections/useActiveCollection";
@@ -10,7 +10,9 @@ import { ContextBudgetMeter } from "@/components/collections/ContextBudgetMeter"
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, Plus, Sparkles, Trash2 } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { ArrowLeft, Plus, Sparkles, Trash2, Calendar, Users, FileText } from "lucide-react";
 import {
   AlertDialog, AlertDialogTrigger, AlertDialogContent, AlertDialogHeader, AlertDialogTitle,
   AlertDialogDescription, AlertDialogFooter, AlertDialogCancel, AlertDialogAction,
@@ -19,13 +21,76 @@ import { supabase } from "@/integrations/supabase/client";
 import { motion } from "framer-motion";
 import { toast } from "sonner";
 
+type PackageStatus = "open" | "drafting" | "ready" | "shipped";
+const PACKAGE_STATUSES: { value: PackageStatus; label: string; className: string }[] = [
+  { value: "open",     label: "Open",     className: "bg-muted text-muted-foreground border-border" },
+  { value: "drafting", label: "Drafting", className: "bg-amber-500/10 text-amber-700 dark:text-amber-300 border-amber-500/30" },
+  { value: "ready",    label: "Ready",    className: "bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border-emerald-500/30" },
+  { value: "shipped",  label: "Shipped",  className: "bg-primary/10 text-primary border-primary/30" },
+];
+
+interface DraftRow { id: string; title: string; dek: string | null; status: string | null; updated_at: string; }
+
 export default function CollectionDetail() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { collection, items, artifacts, loading, refresh } = useCollection(id ?? null);
   const ezra = useActiveCollection("mary");
   const write = useActiveCollection("write");
-  const [tab, setTab] = useState<"context" | "artifacts">("context");
+  const [tab, setTab] = useState<"brief" | "research" | "drafts" | "artifacts">("brief");
+
+  // Editable brief state — hydrated from the collection row.
+  const c0: any = collection ?? {};
+  const [brief, setBrief] = useState({
+    angle: "",
+    deadline: "" as string,
+    assigned_to: [] as string[],
+    status: "open" as PackageStatus,
+  });
+  const [assignedEntry, setAssignedEntry] = useState("");
+  const [drafts, setDrafts] = useState<DraftRow[]>([]);
+  const [savingBrief, setSavingBrief] = useState(false);
+
+  useEffect(() => {
+    if (!collection) return;
+    const c: any = collection;
+    setBrief({
+      angle: c.angle ?? "",
+      deadline: c.deadline ?? "",
+      assigned_to: c.assigned_to ?? [],
+      status: (c.status ?? "open") as PackageStatus,
+    });
+  }, [collection]);
+
+  useEffect(() => {
+    if (!id) return;
+    (async () => {
+      const { data } = await supabase
+        .from("documents" as any)
+        .select("id, title, dek, status, updated_at")
+        .eq("story_package_id", id)
+        .is("deleted_at", null)
+        .is("archived_at", null)
+        .order("updated_at", { ascending: false });
+      setDrafts(((data as any[]) ?? []) as DraftRow[]);
+    })();
+  }, [id, tab]);
+
+  const saveBrief = async (patch: Partial<typeof brief>) => {
+    if (!collection) return;
+    const next = { ...brief, ...patch };
+    setBrief(next);
+    setSavingBrief(true);
+    const payload: any = {
+      angle: next.angle || null,
+      deadline: next.deadline || null,
+      assigned_to: next.assigned_to,
+      status: next.status,
+    };
+    const { error } = await supabase.from("collections" as any).update(payload).eq("id", collection.id);
+    setSavingBrief(false);
+    if (error) toast.error(error.message);
+  };
 
   const totalChars = useMemo(
     () => items.filter((i) => i.status === "ready").reduce((s, i) => s + (i.char_count || 0), 0),
