@@ -78,7 +78,7 @@ export default function FileCabinet() {
     setLoading(true);
     const { data, error } = await supabase
       .from("documents" as any)
-      .select("id, title, content_text, source, auto_created, updated_at")
+      .select("id, title, content_text, source, auto_created, updated_at, dek, byline, section, status")
       .eq("user_id", user.id)
       .is("archived_at", null)
       .is("deleted_at", null)
