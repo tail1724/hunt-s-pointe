@@ -18,6 +18,7 @@ import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useMobileNav } from "@/components/mobile/mobile-nav-context";
+import { ArticleHeader, type ArticleMeta, type ArticleStatus } from "@/components/write/ArticleHeader";
 
 interface DocRow {
   id: string;
@@ -27,6 +28,12 @@ interface DocRow {
   source: "manual" | "mary" | "build_prompts";
   auto_created: boolean;
   updated_at: string;
+  dek?: string | null;
+  byline?: string[] | null;
+  section?: string | null;
+  status?: ArticleStatus | null;
+  story_tags?: string[] | null;
+  publish_at?: string | null;
 }
 
 const DEFAULT_TITLE = "Untitled Document";
