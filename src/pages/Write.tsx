@@ -448,6 +448,7 @@ function DocumentEditorPage({ documentId }: { documentId: string }) {
         {!focusMode && (
           <aside className="hidden lg:block w-[330px] shrink-0 py-3 pr-3">
             <MarginRail
+              documentId={documentId}
               editor={editor}
               annotations={annotations}
               versions={versions}
