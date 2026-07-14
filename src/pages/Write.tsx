@@ -12,6 +12,7 @@ import { EzraAssistBar } from "@/components/write/EzraAssistBar";
 import { MarginRail } from "@/components/write/MarginRail";
 import { HistoryDrawer } from "@/components/write/HistoryDrawer";
 import { ProvenanceCertificate } from "@/components/write/ProvenanceCertificate";
+import { DistributePanel } from "@/components/write/DistributePanel";
 import { useProvenanceTracking } from "@/lib/provenance/useProvenanceTracking";
 import { DocumentSwitcherBar } from "@/components/write/DocumentSwitcherBar";
 import { useAutosave } from "@/hooks/useAutosave";
@@ -207,6 +208,7 @@ function DocumentEditorPage({ documentId }: { documentId: string }) {
   const voiceProfile = useVoiceProfile();
   const [historyOpen, setHistoryOpen] = useState(false);
   const [provenanceOpen, setProvenanceOpen] = useState(false);
+  const [distributeOpen, setDistributeOpen] = useState(false);
   // Snapshot a human-attributed version at most once every 2 minutes of
   // active saving — every autosave tick would otherwise flood the History
   // drawer with near-duplicate entries.
@@ -379,6 +381,7 @@ function DocumentEditorPage({ documentId }: { documentId: string }) {
           onBack={() => navigate("/app/file-cabinet")}
           onOpenHistory={() => setHistoryOpen(true)}
           onOpenProvenance={() => setProvenanceOpen(true)}
+          onOpenDistribute={() => setDistributeOpen(true)}
         />
       </div>
       <EditorToolbar editor={editor} focusMode={focusMode} />
@@ -480,6 +483,15 @@ function DocumentEditorPage({ documentId }: { documentId: string }) {
         onOpenChange={setProvenanceOpen}
         documentId={documentId}
         versions={versions}
+      />
+      <DistributePanel
+        open={distributeOpen}
+        onOpenChange={setDistributeOpen}
+        documentId={documentId}
+        title={title}
+        contentText={contentText}
+        meta={meta}
+        voiceLocks={voiceProfile.lockedTraits}
       />
     </div>
   );
