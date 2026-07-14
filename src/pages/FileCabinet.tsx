@@ -15,6 +15,8 @@ import { formatDistanceToNowStrict } from "date-fns";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 
+import { ARTICLE_STATUSES, type ArticleStatus } from "@/components/write/ArticleHeader";
+
 interface DocRow {
   id: string;
   title: string;
@@ -22,19 +24,22 @@ interface DocRow {
   source: "manual" | "mary" | "build_prompts";
   auto_created: boolean;
   updated_at: string;
+  dek?: string | null;
+  byline?: string[] | null;
+  section?: string | null;
+  status?: ArticleStatus | null;
 }
 
-type SourceFilter = "all" | "ezra" | "manual";
+type StatusFilter = "all" | ArticleStatus;
 type SortKey = "recent" | "alpha";
 
-function SourceBadge({ source, autoCreated }: { source: DocRow["source"]; autoCreated: boolean }) {
-  const map = {
-    mary: { label: autoCreated ? "Auto-saved from Ezra" : "Ezra", className: "bg-primary/10 text-primary border-primary/20" },
-    build_prompts: { label: "Ezra", className: "bg-primary/10 text-primary border-primary/20" },
-    manual: { label: "Manual", className: "bg-muted text-muted-foreground border-border" },
-  } as const;
-  const m = map[source];
-  return <span className={`inline-flex items-center text-[10px] px-1.5 py-0.5 rounded-full border ${m.className}`}>{m.label}</span>;
+function StatusPill({ status }: { status: ArticleStatus }) {
+  const s = ARTICLE_STATUSES.find((x) => x.value === status) ?? ARTICLE_STATUSES[0];
+  return (
+    <span className={`inline-flex items-center text-[10px] px-1.5 py-0.5 rounded-full border font-medium ${s.className}`}>
+      {s.label}
+    </span>
+  );
 }
 
 function wordCount(text: string): number {
