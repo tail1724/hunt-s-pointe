@@ -230,19 +230,19 @@ export default function FileCabinet() {
           <Input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search documents…"
+            placeholder="Search headline, byline, dek…"
             className="h-9 pl-9 text-sm bg-card"
           />
         </div>
-        <div className="flex items-center gap-1 rounded-full bg-muted/70 p-1">
+        <div className="flex items-center gap-1 rounded-full bg-muted/70 p-1 flex-wrap">
           {filters.map((f) => (
             <button
               key={f.key}
               type="button"
-              onClick={() => setSourceFilter(f.key)}
+              onClick={() => setStatusFilter(f.key)}
               className={cn(
                 "rounded-full px-3 py-1 text-xs font-medium tactile transition-colors",
-                sourceFilter === f.key
+                statusFilter === f.key
                   ? "bg-card text-foreground shadow-sm"
                   : "text-muted-foreground hover:text-foreground",
               )}
