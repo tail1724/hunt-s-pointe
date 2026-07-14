@@ -300,22 +300,38 @@ export default function FileCabinet() {
               >
                 <Link to={`/app/write/${d.id}`} className="absolute inset-0 z-0" aria-label={`Open ${d.title || "Untitled Document"} in Write`} />
 
-                {/* Paper preview — the snippet reads like the page it opens into */}
+                {/* Paper preview — headline, dek, byline, section */}
                 <div className="pointer-events-none border-b border-border/50 bg-gradient-to-b from-muted/30 to-transparent px-4 pb-3 pt-4">
                   <h3 className="font-display text-sm font-semibold leading-snug text-foreground line-clamp-1">
-                    {d.title || "Untitled Document"}
+                    {d.title || "Untitled article"}
                   </h3>
-                  <p
-                    className="mt-2 min-h-[3.9em] text-[13px] italic leading-relaxed text-muted-foreground line-clamp-3"
-                    style={{ fontFamily: "'Lora', Georgia, serif" }}
-                  >
-                    {snippet || "Empty document"}
-                  </p>
+                  {d.dek ? (
+                    <p
+                      className="mt-1.5 min-h-[2.6em] text-[12px] italic leading-snug text-muted-foreground line-clamp-2"
+                      style={{ fontFamily: "'Lora', Georgia, serif" }}
+                    >
+                      {d.dek}
+                    </p>
+                  ) : (
+                    <p
+                      className="mt-1.5 min-h-[2.6em] text-[12px] leading-snug text-muted-foreground/80 line-clamp-2"
+                    >
+                      {snippet || "No dek yet."}
+                    </p>
+                  )}
+                  <div className="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-[10px] text-muted-foreground">
+                    {d.byline && d.byline.length > 0 && (
+                      <span className="uppercase tracking-wider">By {d.byline.join(", ")}</span>
+                    )}
+                    {d.section && (
+                      <span className="rounded-full border border-border bg-card px-1.5 py-0.5">{d.section}</span>
+                    )}
+                  </div>
                 </div>
 
                 <div className="flex items-center justify-between px-4 py-2.5">
                   <div className="flex items-center gap-2">
-                    <SourceBadge source={d.source} autoCreated={d.auto_created} />
+                    <StatusPill status={(d.status ?? "draft") as ArticleStatus} />
                     {words > 0 && (
                       <span className="text-[10px] tabular-nums text-muted-foreground">{words.toLocaleString()} words</span>
                     )}
