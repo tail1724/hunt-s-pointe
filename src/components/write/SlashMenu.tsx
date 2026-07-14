@@ -3,6 +3,7 @@ import type { Editor } from "@tiptap/react";
 import { Heading1, Heading2, List, ListOrdered, Quote, BookOpen, Sparkles, Loader2, Zap, Eye, Hash, MessageSquareQuote, Link2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import type { ProposeAnnotationFn } from "@/lib/annotations/types";
 
 type Item = {
   id: string;
@@ -24,7 +25,16 @@ function insertCallout(e: Editor, label: string, placeholder: string) {
     .run();
 }
 
-export function SlashMenu({ editor }: { editor: Editor }) {
+export interface SlashMenuProps {
+  editor: Editor;
+  /**
+   * "Continue writing" never inserts directly — it proposes a continuation
+   * as a margin annotation, same as the bubble menu (addendum feature 15).
+   */
+  onPropose: ProposeAnnotationFn;
+}
+
+export function SlashMenu({ editor, onPropose }: SlashMenuProps) {
   const [pos, setPos] = useState<Pos | null>(null);
   const [busy, setBusy] = useState(false);
   const [query, setQuery] = useState("");
@@ -43,8 +53,8 @@ export function SlashMenu({ editor }: { editor: Editor }) {
     { id: "numbers", label: "By the numbers", icon: Hash, run: (e) => insertCallout(e, "By the numbers:", "Lead with the number that matters.") },
     { id: "saying", label: "What they're saying", icon: MessageSquareQuote, run: (e) => insertCallout(e, "What they're saying:", "\"Quote here.\" — Source, title") },
     { id: "deeper", label: "Go deeper", icon: Link2, run: (e) => insertCallout(e, "Go deeper:", "Link to the primary source.") },
-    { id: "scripture", label: "Add reference", icon: BookOpen, run: (e) => e.chain().focus().insertContent("\n> _Reference here_\n").run() },
-    { id: "continue", label: "✨ Continue writing with AI", icon: Sparkles, run: async (e) => await runContinue(e) },
+    { id: "reference", label: "Add reference", icon: BookOpen, run: (e) => e.chain().focus().insertContent("\n> _Reference here_\n").run() },
+    { id: "continue", label: "✨ Draft a continuation (to margin)", icon: Sparkles, run: async (e) => await runContinue(e) },
   ];
 
   const filtered = query
@@ -79,7 +89,15 @@ export function SlashMenu({ editor }: { editor: Editor }) {
       }
       const { text } = await resp.json();
       if (typeof text === "string" && text.trim().length) {
-        e.chain().focus().insertContent(text.trim()).run();
+        await onPropose({
+          body: "Continue writing",
+          proposedText: text.trim(),
+          spanFrom: from,
+          spanTo: from,
+          anchorText: null,
+          source: "slash",
+        });
+        toast.success("Sent to the margin — apply it from there.");
       }
     } catch (err) {
       console.error(err);
@@ -157,7 +175,7 @@ export function SlashMenu({ editor }: { editor: Editor }) {
     >
       {busy ? (
         <div className="px-3 py-3 text-xs text-muted-foreground inline-flex items-center gap-2">
-          <Loader2 className="h-3.5 w-3.5 animate-spin" /> Ezra is writing…
+          <Loader2 className="h-3.5 w-3.5 animate-spin" /> PressRoom is drafting…
         </div>
       ) : (
         <div className="py-1 max-h-72 overflow-auto">

@@ -23,8 +23,8 @@ const ROUTE_TITLES: Record<string, string> = {
   "/app/pressroom": "PressRoom",
   "/app/bible": "Bible",
   "/app/organize": "Organize",
-  "/app/knowledge": "Collections",
-  "/app/file-cabinet": "File Cabinet",
+  "/app/knowledge": "Story Packages",
+  "/app/file-cabinet": "Newsroom",
   "/app/analytics": "Analytics",
   "/app/integrations": "Integrations",
   "/app/admin": "Profile & Settings",
@@ -168,7 +168,9 @@ function EntryTransitionRouter() {
 
   useLayoutEffect(() => {
     if (!loading && session && shouldRunEntryTransition() && !location.pathname.startsWith("/app")) {
-      navigate("/app/pressroom", { replace: true });
+      // Editor as home (Phase 2): land in the Newsroom, not the research
+      // chat — the manuscript is the product's center of gravity now.
+      navigate("/app/file-cabinet", { replace: true });
     }
   }, [loading, session, location.pathname, navigate]);
 
@@ -236,7 +238,7 @@ const App = () => (
               <Route path="/app/sentient" element={<Navigate to="/app/pressroom" replace />} />
               <Route path="/app/mary" element={<Navigate to="/app/pressroom" replace />} />
               <Route path="/app/prompt-central" element={<Navigate to="/app/pressroom" replace />} />
-              <Route path="/app" element={<Navigate to="/app/pressroom" replace />} />
+              <Route path="/app" element={<Navigate to="/app/file-cabinet" replace />} />
               <Route path="/app/history" element={<Navigate to="/app/analytics?tab=history" replace />} />
               <Route path="/app/knowledge" element={<ProtectedLayout><Collections /></ProtectedLayout>} />
               <Route path="/app/knowledge/:id" element={<ProtectedLayout><CollectionDetail /></ProtectedLayout>} />

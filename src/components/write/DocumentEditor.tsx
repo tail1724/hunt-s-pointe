@@ -10,6 +10,7 @@ import TextAlign from "@tiptap/extension-text-align";
 import { useEffect, useRef } from "react";
 import { AIBubbleMenu } from "./AIBubbleMenu";
 import { SlashMenu } from "./SlashMenu";
+import type { ProposeAnnotationFn } from "@/lib/annotations/types";
 
 export interface DocumentEditorProps {
   /** TipTap JSON document. Pass undefined for blank. */
@@ -24,6 +25,11 @@ export interface DocumentEditorProps {
   placeholder?: string;
   /** Expose the editor instance to parents. */
   onReady?: (editor: Editor) => void;
+  /**
+   * Required unless readOnly: every in-editor AI surface (bubble menu, slash
+   * menu) routes suggestions through this instead of editing in place.
+   */
+  onPropose?: ProposeAnnotationFn;
 }
 
 export function DocumentEditor({
@@ -31,8 +37,9 @@ export function DocumentEditor({
   onChange,
   compact = false,
   readOnly = false,
-  placeholder = "Begin writing… highlight any text for AI rewrites, or type / for commands.",
+  placeholder = "Begin writing… highlight any text for AI suggestions, or type / for commands.",
   onReady,
+  onPropose,
 }: DocumentEditorProps) {
   const lastJsonRef = useRef<string>("");
 
@@ -88,8 +95,8 @@ export function DocumentEditor({
   return (
     <div className="relative">
       <EditorContent editor={editor} />
-      {!readOnly && <AIBubbleMenu editor={editor} />}
-      {!readOnly && <SlashMenu editor={editor} />}
+      {!readOnly && onPropose && <AIBubbleMenu editor={editor} onPropose={onPropose} />}
+      {!readOnly && onPropose && <SlashMenu editor={editor} onPropose={onPropose} />}
     </div>
   );
 }
