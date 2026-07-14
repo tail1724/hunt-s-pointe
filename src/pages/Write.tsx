@@ -166,7 +166,7 @@ function DocumentEditorPage({ documentId }: { documentId: string }) {
     (async () => {
       const { data, error } = await supabase
         .from("documents" as any)
-        .select("id, title, content, content_text, source, auto_created, updated_at")
+        .select("id, title, content, content_text, source, auto_created, updated_at, dek, byline, section, status, story_tags, publish_at")
         .eq("id", documentId)
         .eq("user_id", user.id)
         .maybeSingle();
@@ -176,10 +176,21 @@ function DocumentEditorPage({ documentId }: { documentId: string }) {
       setTitle(row.title || "");
       setContent(row.content || EMPTY_DOC);
       setContentText(row.content_text || "");
+      setMeta({
+        dek: row.dek ?? "",
+        byline: row.byline ?? [],
+        section: row.section ?? "",
+        status: (row.status as ArticleStatus) ?? "draft",
+        storyTags: row.story_tags ?? [],
+        publishAt: row.publish_at ?? null,
+      });
     })();
   }, [user, documentId]);
 
-  const saveValue = useMemo(() => ({ title, content, contentText }), [title, content, contentText]);
+  const saveValue = useMemo(
+    () => ({ title, content, contentText, meta }),
+    [title, content, contentText, meta],
+  );
 
   const { status, savedAt, flush } = useAutosave({
     value: saveValue,
@@ -189,7 +200,19 @@ function DocumentEditorPage({ documentId }: { documentId: string }) {
       if (!user) return;
       const { error } = await supabase
         .from("documents" as any)
-        .update({ title: v.title || DEFAULT_TITLE, content: v.content as any, content_text: v.contentText, auto_created: false } as any)
+        .update({
+          title: v.title || DEFAULT_TITLE,
+          content: v.content as any,
+          content_text: v.contentText,
+          auto_created: false,
+          dek: v.meta.dek || null,
+          byline: v.meta.byline,
+          section: v.meta.section || null,
+          status: v.meta.status,
+          story_tags: v.meta.storyTags,
+          publish_at: v.meta.publishAt,
+          headline: v.title || DEFAULT_TITLE,
+        } as any)
         .eq("id", documentId)
         .eq("user_id", user.id);
       if (error) throw error;
