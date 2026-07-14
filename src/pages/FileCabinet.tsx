@@ -135,24 +135,32 @@ export default function FileCabinet() {
 
   const filtered = useMemo(() => {
     let rows = docs;
-    if (sourceFilter === "ezra") rows = rows.filter((d) => d.source !== "manual");
-    if (sourceFilter === "manual") rows = rows.filter((d) => d.source === "manual");
+    if (statusFilter !== "all") {
+      rows = rows.filter((d) => (d.status ?? "draft") === statusFilter);
+    }
     const q = query.trim().toLowerCase();
     if (q) {
       rows = rows.filter(
-        (d) => (d.title || "").toLowerCase().includes(q) || (d.content_text || "").toLowerCase().includes(q),
+        (d) =>
+          (d.title || "").toLowerCase().includes(q) ||
+          (d.dek || "").toLowerCase().includes(q) ||
+          (d.byline || []).some((b) => b.toLowerCase().includes(q)) ||
+          (d.content_text || "").toLowerCase().includes(q),
       );
     }
     if (sort === "alpha") {
       rows = [...rows].sort((a, b) => (a.title || "Untitled").localeCompare(b.title || "Untitled"));
     }
     return rows;
-  }, [docs, sourceFilter, query, sort]);
+  }, [docs, statusFilter, query, sort]);
 
-  const filters: { key: SourceFilter; label: string }[] = [
+  const filters: { key: StatusFilter; label: string }[] = [
     { key: "all", label: "All" },
-    { key: "ezra", label: "From Ezra" },
-    { key: "manual", label: "Manual" },
+    { key: "draft", label: "Draft" },
+    { key: "in_review", label: "In review" },
+    { key: "ready", label: "Ready" },
+    { key: "published", label: "Published" },
+    { key: "archived", label: "Archived" },
   ];
 
   return (
