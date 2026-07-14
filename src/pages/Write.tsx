@@ -128,6 +128,14 @@ function DocumentEditorPage({ documentId }: { documentId: string }) {
   const [content, setContent] = useState<any>(null);
   const [contentText, setContentText] = useState("");
   const [notFound, setNotFound] = useState(false);
+  const [meta, setMeta] = useState<ArticleMeta>({
+    dek: "",
+    byline: [],
+    section: "",
+    status: "draft",
+    storyTags: [],
+    publishAt: null,
+  });
   const [focusMode, setFocusMode] = useState(false);
   // Scrolled into the document: header bars tuck away, the floating toolbar
   // stays right above the page for editing from anywhere in the manuscript.
