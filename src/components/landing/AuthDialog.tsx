@@ -85,7 +85,7 @@ export function AuthDialog({ open, onOpenChange, defaultTab = "login" }: AuthDia
     if (session && open) {
       onOpenChange(false);
       playEntryTransition();
-      navigate("/app/ezra");
+      navigate("/app/pressroom");
     }
   }, [session, open, navigate, onOpenChange]);
 
@@ -113,7 +113,7 @@ export function AuthDialog({ open, onOpenChange, defaultTab = "login" }: AuthDia
       password: parsed.data.password,
       options: {
         data: { display_name: parsed.data.displayName },
-        emailRedirectTo: window.location.origin + "/app/ezra",
+        emailRedirectTo: window.location.origin + "/app/pressroom",
       },
     });
     if (error) toast.error(error.message);
@@ -154,7 +154,7 @@ export function AuthDialog({ open, onOpenChange, defaultTab = "login" }: AuthDia
           </div>
           <DialogTitle className="font-display text-xl font-extrabold tracking-tight">{APP_NAME}</DialogTitle>
           <DialogDescription>
-            {tab === "signup" && !signupSuccess ? "Your study starts in about a minute" : "Same Bible, New Format"}
+            {tab === "signup" && !signupSuccess ? "Your first draft starts in about a minute" : "Your voice, protected"}
           </DialogDescription>
         </DialogHeader>
 
@@ -164,9 +164,9 @@ export function AuthDialog({ open, onOpenChange, defaultTab = "login" }: AuthDia
               <MailCheck className="h-6 w-6 text-primary" />
             </div>
             <h3 className="font-display text-lg font-bold">One click to go{displayName ? `, ${displayName.split(" ")[0]}` : ""}</h3>
-            <p className="text-sm text-muted-foreground">We sent a confirmation link to <span className="font-medium text-foreground">{signupEmail}</span>. Open it and you'll land straight in Ezra, ready to study.</p>
+            <p className="text-sm text-muted-foreground">We sent a confirmation link to <span className="font-medium text-foreground">{signupEmail}</span>. Open it and you'll land straight in PressRoom, ready to work.</p>
             <div className="rounded-lg border border-border/60 bg-muted/40 px-3 py-2.5 text-left text-xs text-muted-foreground">
-              <span className="font-medium text-foreground">While you wait:</span> think of the passage or sermon you're working on — that's a great first thing to ask Ezra.
+              <span className="font-medium text-foreground">While you wait:</span> think of the story or draft you're working on — that's a great first thing to ask PressRoom.
             </div>
             <div className="flex flex-col gap-2">
               <Button variant="outline" size="sm" onClick={handleResendConfirmation} disabled={submitting}>
@@ -238,15 +238,15 @@ export function AuthDialog({ open, onOpenChange, defaultTab = "login" }: AuthDia
                 <ul className="grid gap-1.5 rounded-lg border border-border/60 bg-muted/30 px-3 py-2.5 text-xs text-muted-foreground">
                   <li className="flex items-center gap-2">
                     <Sparkles className="h-3.5 w-3.5 shrink-0 text-accent" />
-                    Ezra — a research partner for sermons, studies, and lessons
+                    PressRoom — a research partner for stories, sourcing, and structure
                   </li>
                   <li className="flex items-center gap-2">
                     <BookOpen className="h-3.5 w-3.5 shrink-0 text-accent" />
-                    A beautiful, fully searchable Bible you can highlight and annotate
+                    A margin-only editor that never overwrites your manuscript
                   </li>
                   <li className="flex items-center gap-2">
                     <ImageIcon className="h-3.5 w-3.5 shrink-0 text-accent" />
-                    An image studio for verse art and sermon graphics
+                    An image studio for article art and social cards
                   </li>
                 </ul>
                 <GoogleButton disabled={submitting} />

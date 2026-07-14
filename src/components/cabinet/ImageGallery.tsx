@@ -71,7 +71,7 @@ export function ImageGallery() {
   };
 
   const askEzra = (row: GenRow) => {
-    navigate("/app/ezra", {
+    navigate("/app/pressroom", {
       state: { prefill: `Let's iterate on this image concept:\n\n${row.source_prompt.slice(0, 500)}` },
     });
   };
@@ -176,12 +176,12 @@ export function ImageGallery() {
           </span>
           <h2 className="mt-4 font-display text-lg font-bold">No images yet</h2>
           <p className="mx-auto mt-1 mb-6 max-w-sm text-sm text-muted-foreground">
-            Ask Ezra anything, then choose "Create image" under the answer — verse typography, stained glass,
-            illuminated manuscript, and more. Everything you make is filed here.
+            Ask PressRoom anything, then choose "Create image" under the answer — article art, section headers,
+            social cards, and more. Everything you make is filed here.
           </p>
           <Button asChild className="gap-2">
-            <Link to="/app/ezra">
-              <Sparkles className="h-4 w-4" /> Start a study
+            <Link to="/app/pressroom">
+              <Sparkles className="h-4 w-4" /> Start a story
             </Link>
           </Button>
         </div>
@@ -257,12 +257,12 @@ export function ImageGallery() {
                         type="button"
                         onClick={() => askEzra(row)}
                         className="flex h-9 w-9 md:h-7 md:w-7 items-center justify-center rounded-md text-muted-foreground tactile hover:bg-primary/10 hover:text-primary"
-                        aria-label="Iterate with Ezra"
+                        aria-label="Iterate with PressRoom"
                       >
                         <MessagesSquare className="h-3.5 w-3.5" />
                       </button>
                     </TooltipTrigger>
-                    <TooltipContent side="bottom" className="text-xs">Iterate with Ezra</TooltipContent>
+                    <TooltipContent side="bottom" className="text-xs">Iterate with PressRoom</TooltipContent>
                   </Tooltip>
                   <Tooltip>
                     <TooltipTrigger asChild>

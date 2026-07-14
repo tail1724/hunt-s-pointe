@@ -1,7 +1,7 @@
 import { useTheme } from "next-themes";
 import { useNavigate } from "react-router-dom";
 import {
-  Hexagon, BookOpen, FileText, Archive, Library, BarChart3, Plug, LifeBuoy,
+  Hexagon, FileText, Archive, Library, BarChart3, Plug, LifeBuoy,
   Settings, Sun, Moon, KanbanSquare, type LucideIcon,
 } from "lucide-react";
 import { Sheet, SheetContent, SheetTitle, SheetDescription } from "@/components/ui/sheet";
@@ -19,12 +19,11 @@ interface NavItem {
 }
 
 const NAV_ITEMS: NavItem[] = [
-  { title: "Ezra", to: "/app/ezra", icon: Hexagon },
-  { title: "Bible", to: "/app/bible", icon: BookOpen },
-  { title: "Organize", to: "/app/organize", icon: KanbanSquare },
   { title: "Write", to: "/app/write", icon: FileText },
-  { title: "File Cabinet", to: "/app/file-cabinet", icon: Archive },
-  { title: "Collections", to: "/app/knowledge", icon: Library },
+  { title: "PressRoom", to: "/app/pressroom", icon: Hexagon },
+  { title: "Organize", to: "/app/organize", icon: KanbanSquare },
+  { title: "Newsroom", to: "/app/file-cabinet", icon: Archive },
+  { title: "Story Packages", to: "/app/knowledge", icon: Library },
   { title: "Analytics", to: "/app/analytics", icon: BarChart3 },
   { title: "Integrations", to: "/app/integrations", icon: Plug },
   { title: "Help", to: "/app/help", icon: LifeBuoy },

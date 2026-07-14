@@ -14,7 +14,7 @@ import { toast } from "sonner";
 import { Check } from "lucide-react";
 
 const PALETTES: { key: ColorTheme; label: string; preview: string }[] = [
-  { key: "reverent", label: "Reverent (Default)", preview: "bg-gradient-to-r from-[hsl(222,43%,20%)] to-[hsl(40,56%,51%)]" },
+  { key: "reverent", label: "Vibrant (Default)", preview: "bg-gradient-to-r from-[hsl(271,91%,65%)] to-[hsl(212,96%,78%)]" },
   { key: "default", label: "Classic", preview: "bg-gradient-to-r from-[hsl(18,100%,60%)] to-[hsl(207,97%,15%)]" },
   { key: "ocean", label: "Ocean", preview: "bg-gradient-to-r from-[hsl(210,80%,50%)] to-[hsl(190,70%,60%)]" },
   { key: "sunset", label: "Sunset", preview: "bg-gradient-to-r from-[hsl(20,90%,55%)] to-[hsl(35,85%,60%)]" },

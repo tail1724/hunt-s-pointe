@@ -42,26 +42,26 @@ export default function HistoryTab() {
   const continueInEzra = (item: Tables<"prompt_history">) => {
     const sid = (item as any).session_id as string | null | undefined;
     if (sid) {
-      navigate(`/app/ezra?session=${sid}`, { state: { prefill: item.seed } });
+      navigate(`/app/pressroom?session=${sid}`, { state: { prefill: item.seed } });
     } else {
-      navigate("/app/ezra", { state: { prefill: item.seed } });
+      navigate("/app/pressroom", { state: { prefill: item.seed } });
     }
   };
 
   return (
     <div className="space-y-5">
       <p className="text-sm text-muted-foreground">
-        Your past studies. Pick one up again and Ezra will carry it into a fresh conversation.
+        Your past research. Pick one up again and PressRoom will carry it into a fresh conversation.
       </p>
       {items.length === 0 ? (
         <div className="rounded-xl border border-dashed border-border bg-card/50">
           <VizEmpty
             icon={History}
-            title="No studies yet"
+            title="No research yet"
             body="Everything you generate is kept here so you can return to it."
             action={
-              <Button variant="outline" size="sm" className="gap-1.5" onClick={() => navigate("/app/ezra")}>
-                <Wand2 className="h-3.5 w-3.5" /> Open Ezra
+              <Button variant="outline" size="sm" className="gap-1.5" onClick={() => navigate("/app/pressroom")}>
+                <Wand2 className="h-3.5 w-3.5" /> Open PressRoom
               </Button>
             }
           />
@@ -93,7 +93,7 @@ export default function HistoryTab() {
 
                     <div className="mt-2.5 flex flex-wrap items-center gap-1.5">
                       {item.selected_stacks.length === 0 ? (
-                        <Badge variant="secondary" className="text-[11px]">Ezra</Badge>
+                        <Badge variant="secondary" className="text-[11px]">PressRoom</Badge>
                       ) : (
                         <Badge variant="outline" className="text-[11px] capitalize">{item.mode}</Badge>
                       )}
@@ -118,7 +118,7 @@ export default function HistoryTab() {
 
                     <div className="mt-3 flex flex-wrap items-center gap-2">
                       <Button size="sm" onClick={() => continueInEzra(item)} className="gap-1.5 text-xs">
-                        <MessagesSquare className="h-3.5 w-3.5" /> Continue in Ezra
+                        <MessagesSquare className="h-3.5 w-3.5" /> Continue in PressRoom
                       </Button>
                       <CampaignSelector
                         value={(item as any).campaign_id || null}

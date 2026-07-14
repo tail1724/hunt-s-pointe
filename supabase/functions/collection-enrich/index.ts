@@ -51,10 +51,10 @@ async function enrichBatch(chunks: ChunkRow[]): Promise<(Enrichment | null)[]> {
     {
       role: "system",
       content:
-        `You analyze reference-material chunks for a retrieval system used by pastors and researchers. ` +
+        `You analyze reference-material chunks for a retrieval system used by editors and journalists. ` +
         `For EACH numbered chunk, produce one JSON object. Reply with a JSON array only — same order and length as the input.\n` +
         `Each object: {"tags": [3-6 short lowercase topic tags], ` +
-        `"entities": [{"type": "person|place|verse_ref|topic|org", "value": "..."}] (0-6, verse_ref like "John 3:16"), ` +
+        `"entities": [{"type": "person|place|verse_ref|topic|org", "value": "..."}] (0-6; verse_ref only for scripture-style citations), ` +
         `"summary": "<one sentence, max 140 chars>", ` +
         `"time_sensitive": <true only for news/dated/announcement content>, ` +
         `"questions": [2-3 natural questions this chunk directly answers]}`,

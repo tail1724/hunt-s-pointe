@@ -88,13 +88,13 @@ export default function Collections() {
           <div>
             <div className="inline-flex items-center gap-2 rounded-full bg-card/70 backdrop-blur px-3 py-1 text-xs text-muted-foreground border border-border">
               <Sparkles className="h-3.5 w-3.5 text-primary" />
-              Context that follows you into Ezra & Write
+              Context that follows you into PressRoom & Write
             </div>
             <h1 className="mt-3 font-display text-4xl sm:text-5xl font-semibold tracking-tight text-foreground">
               Collections
             </h1>
             <p className="mt-2 max-w-xl text-sm text-muted-foreground">
-              Curate notes, files, links and images once. Activate a collection inside Ezra or Write
+              Curate notes, files, links and images once. Activate a collection inside PressRoom or Write
               and every artifact you create flows back into it automatically.
             </p>
           </div>
@@ -112,7 +112,7 @@ export default function Collections() {
               <div className="space-y-4">
                 <div>
                   <Label htmlFor="c-name">Name</Label>
-                  <Input id="c-name" value={newName} onChange={(e) => setNewName(e.target.value)} placeholder="e.g. Easter sermon series" />
+                  <Input id="c-name" value={newName} onChange={(e) => setNewName(e.target.value)} placeholder="e.g. Transit investigation" />
                 </div>
                 <div>
                   <Label htmlFor="c-desc">Description (optional)</Label>
@@ -173,7 +173,7 @@ export default function Collections() {
                 {query ? "No matches" : "Your first collection awaits"}
               </h2>
               <p className="mt-1 text-sm text-muted-foreground">
-                {query ? "Try a different search term." : "Group notes, files and links so Ezra writes with your voice."}
+                {query ? "Try a different search term." : "Group notes, files and links so PressRoom writes with your voice."}
               </p>
               {!query && (
                 <Button onClick={() => setOpen(true)} className="mt-5 rounded-full">

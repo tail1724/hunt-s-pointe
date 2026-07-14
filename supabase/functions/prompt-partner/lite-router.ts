@@ -1,41 +1,41 @@
 // Lite-mode router: keyword-first, optional cheap classifier fallback.
-// Vertical: Ezra Research — religious prose buckets.
+// Vertical: Hunt's Pointe — independent-publication editorial buckets.
 
 import { Bucket, BUCKETS, LIBRARY } from "./lite-library.ts";
 
 type Match = { bucket: Bucket; confidence: number };
 
 const KEYWORDS: Array<{ bucket: Bucket; rx: RegExp; weight: number }> = [
-  // Wedding
-  { bucket: "wedding", rx: /\b(wedding|marriage|vows?|bride|groom|matrimony|ceremony)\b/i, weight: 0.95 },
+  // Headlines & hooks
+  { bucket: "headline", rx: /\b(headline|hed|title (for|options|ideas)|clickbait|hook|a\/b test)\b/i, weight: 0.95 },
 
-  // Funeral / memorial
-  { bucket: "funeral", rx: /\b(funeral|memorial|eulogy|grief|condolence|bereavement|passing|loss|mourn(ing)?)\b/i, weight: 0.95 },
+  // SEO & metadata
+  { bucket: "seo_meta", rx: /\b(seo|meta description|title tag|slug|keyword|search (ranking|traffic)|serp)\b/i, weight: 0.95 },
 
-  // VBS
-  { bucket: "vbs", rx: /\b(vbs|vacation bible school|kids[' ]?camp|summer camp|kids week)\b/i, weight: 0.95 },
+  // Newsletter
+  { bucket: "newsletter", rx: /\b(newsletter|subject line|email (edition|blast|digest)|substack)\b/i, weight: 0.95 },
 
-  // Bible study / small group
-  { bucket: "bible_study", rx: /\b(bible study|small group|study guide|discussion guide|study lesson|sunday school lesson)\b/i, weight: 0.9 },
-  { bucket: "bible_study", rx: /\bstudy\b/i, weight: 0.55 },
+  // Social syndication
+  { bucket: "social_thread", rx: /\b(thread|tweet|social (post|copy|thread)|twitter|x post|linkedin post|instagram caption)\b/i, weight: 0.9 },
 
-  // Devotional / encouragement
-  { bucket: "devotional", rx: /\b(devotional|devotion|reflection|daily reading|encourage(ment)?|meditation)\b/i, weight: 0.9 },
+  // News briefs / press releases / wire
+  { bucket: "news_brief", rx: /\b(news brief|press release|wire (copy|feed|story)|syndication|briefs?|standardi[sz]e)\b/i, weight: 0.9 },
 
-  // Theology / independent study
-  { bucket: "theology", rx: /\b(theology|theological|doctrine|systematic|exegesis|hermeneutic|reformation|grace|sanctification|justification)\b/i, weight: 0.85 },
+  // Article outlines & structure
+  { bucket: "article_outline", rx: /\b(outline|structure|article plan|story (structure|arc|plan)|organi[sz]e (my|this|an) (article|story|piece|draft)|nut graf|lede|lead paragraph)\b/i, weight: 0.9 },
+  { bucket: "article_outline", rx: /\b(explainer|longform|feature|investigation)\b/i, weight: 0.6 },
 
-  // Youth ministry
-  { bucket: "youth", rx: /\b(youth|teen|teenager|student ministry|youth group|gen[- ]?z)\b/i, weight: 0.9 },
+  // Interviews & transcripts
+  { bucket: "interview", rx: /\b(interview|transcript|q&a|pull[- ]?quote|source prep|prep sheet)\b/i, weight: 0.9 },
 
-  // Church communications
-  { bucket: "communications", rx: /\b(announcement|newsletter|email blast|pastoral letter|congregation update|bulletin|email to (the )?church)\b/i, weight: 0.9 },
+  // Editing, style, voice
+  { bucket: "style_edit", rx: /\b(edit|copyedit|line edit|proofread|style guide|house style|passive voice|tighten|polish|tone|voice|grammar)\b/i, weight: 0.85 },
 
-  // Holidays
-  { bucket: "holidays", rx: /\b(easter|christmas|advent|good friday|palm sunday|pentecost|thanksgiving|holiday sermon|nativity)\b/i, weight: 0.95 },
+  // Fact-checking & verification
+  { bucket: "fact_check", rx: /\b(fact[- ]?check|verify|verification|source[- ]?check|citation|corroborate|accuracy|correction)\b/i, weight: 0.95 },
 
-  // Sermon → most often weddings/funerals/holidays; otherwise treat as bible_study fallback
-  { bucket: "bible_study", rx: /\bsermon\b/i, weight: 0.5 },
+  // Generic "write/draft" leans toward outline scaffolding
+  { bucket: "article_outline", rx: /\b(write|draft)\b/i, weight: 0.5 },
 ];
 
 export function routeByKeyword(text: string): Match {
@@ -62,14 +62,14 @@ export async function classifyWithModel(text: string, apiKey: string): Promise<B
       body: JSON.stringify({
         model: "google/gemini-2.5-flash-lite",
         messages: [
-          { role: "system", content: "Classify the user's pastoral / ministry request into exactly one bucket. Return only the tool call." },
+          { role: "system", content: "Classify the user's editorial / publishing request into exactly one bucket. Return only the tool call." },
           { role: "user", content: text.slice(0, 600) },
         ],
         tools: [{
           type: "function",
           function: {
             name: "classify",
-            description: "Pick the single best bucket for this ministry request.",
+            description: "Pick the single best bucket for this editorial request.",
             parameters: {
               type: "object",
               properties: { bucket: { type: "string", enum: BUCKETS as unknown as string[] } },

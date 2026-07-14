@@ -2,7 +2,7 @@ import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { z } from "https://esm.sh/zod@3.23.8";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { corsHeaders, jsonResponse, requireUser, logEvent } from "../_shared/auth.ts";
-import { DOMAIN_GUARDRAILS, prefilterPrompt, recordGuardrailEvent } from "../_shared/guardrails.ts";
+import { EDITORIAL_GUARDRAILS, prefilterPrompt, recordGuardrailEvent } from "../_shared/guardrails.ts";
 import { utilityChat } from "../_shared/utility-model.ts";
 
 const BodySchema = z.object({
@@ -12,11 +12,11 @@ const BodySchema = z.object({
   collection_id: z.string().uuid().optional(),
 });
 
-const SYSTEM = `You are Ezra, a writing assistant for pastors and researchers. You help improve, expand, and refine written content.
+const SYSTEM = `You are PressRoom, the editorial co-pilot for an independent digital publication. You help the author improve, expand, and refine their manuscript — as suggestions they integrate by hand, never as replacements.
 Given the user's PROMPT, the SELECTED TEXT (if any), and SURROUNDING CONTEXT, produce the requested output.
-Be direct — return only the improved/new text, no preamble. Match the voice and tone of the surrounding content.
-If asked for a scripture reference, include book chapter:verse in parentheses.
-${DOMAIN_GUARDRAILS}`;
+Be direct — return only the proposed text or answer, no preamble. Match the voice and cadence of the surrounding content; preserve the author's idiosyncratic style markers (em dashes, fragments, colloquialisms) rather than sanitizing them.
+Factual claims you introduce must be attributable — never invent sources, quotes, or statistics.
+${EDITORIAL_GUARDRAILS}`;
 
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });

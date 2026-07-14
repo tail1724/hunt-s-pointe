@@ -4,10 +4,10 @@ import { corsHeaders, jsonResponse } from "../_shared/auth.ts";
 import { utilityChat } from "../_shared/utility-model.ts";
 import { planResponse, SYSTEM_PROMPT } from "./plan.ts";
 
-// Ezra Guide: a docs-grounded helper for "how do I use Ezra" questions. It
-// retrieves only from the published guide corpus (corpus.json, generated from
-// src/data/guides.ts) — it cannot surface anything that isn't in the guides,
-// which keeps implementation details and prompts out of reach by construction.
+// PressRoom Guide: a docs-grounded helper for "how do I use this app" questions.
+// It retrieves only from the published guide corpus (corpus.json, generated
+// from src/data/guides.ts) — it cannot surface anything that isn't in the
+// guides, which keeps implementation details and prompts out of reach by construction.
 // Public endpoint (prospective users can ask too); no auth required.
 
 const BodySchema = z.object({ question: z.string().min(1).max(500) });
@@ -30,10 +30,10 @@ serve(async (req) => {
   if (plan.mode === "redirect") {
     return jsonResponse({
       answer:
-        "That sounds like a Bible study question rather than a how-to. Ezra itself is built for exactly that — open a chat and ask it there.",
-      actions: [{ label: "Open Ezra", to: "/app/ezra" }],
+        "That sounds like a research question rather than a how-to. PressRoom itself is built for exactly that — open a chat and ask it there.",
+      actions: [{ label: "Open PressRoom", to: "/app/pressroom" }],
       escalated: false,
-      redirect: "ezra",
+      redirect: "pressroom",
     });
   }
 
@@ -57,12 +57,12 @@ serve(async (req) => {
     { maxTokens: 220, temperature: 0.2, timeoutMs: 8000 },
   );
 
-  if (llm === "REDIRECT_EZRA") {
+  if (llm === "REDIRECT_PRESSROOM") {
     return jsonResponse({
-      answer: "That's a Bible study question — ask Ezra directly and it'll dig in with citations.",
-      actions: [{ label: "Open Ezra", to: "/app/ezra" }],
+      answer: "That's a research question — ask PressRoom directly and it'll dig in with citations.",
+      actions: [{ label: "Open PressRoom", to: "/app/pressroom" }],
       escalated: false,
-      redirect: "ezra",
+      redirect: "pressroom",
     });
   }
 

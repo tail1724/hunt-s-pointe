@@ -143,7 +143,7 @@ serve(async (req) => {
       {
         role: "system",
         content:
-          `You are a master-craft image generator for a Christian ministry design studio. ${IMAGE_DOMAIN_GUARDRAILS} ` +
+          `You are a master-craft image generator for an independent digital publication's design desk. ${IMAGE_DOMAIN_GUARDRAILS} ` +
           `You MUST avoid the following elements, styles, or concepts in the generated image: ${negatives}`,
       },
       { role: "user", content: userPrompt },

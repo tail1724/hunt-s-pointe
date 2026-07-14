@@ -60,7 +60,7 @@ export function Navbar() {
 
   const enterWorkspace = () => {
     requestEntryTransition();
-    navigate("/app/ezra");
+    navigate("/app/pressroom");
   };
 
   const handleSignOut = async () => {
@@ -99,7 +99,7 @@ export function Navbar() {
             {session ? (
               <>
                 <Button onClick={enterWorkspace} className="rounded-lg">
-                  Go to Ezra
+                  Go to PressRoom
                 </Button>
                 <Button variant="outline" onClick={handleSignOut} className="rounded-lg gap-1.5">
                   <LogOut className="h-4 w-4" />
@@ -133,7 +133,7 @@ export function Navbar() {
                 size="sm"
                 className="rounded-full h-9 px-4 text-xs font-semibold"
               >
-                Go to Ezra
+                Go to PressRoom
               </Button>
             ) : (
               <Button
@@ -188,7 +188,7 @@ export function Navbar() {
                     }}
                     className="rounded-lg w-full h-11"
                   >
-                    Go to Ezra
+                    Go to PressRoom
                   </Button>
                   <Button
                     variant="outline"

@@ -2,9 +2,11 @@
  * Vertical Config Layer
  * ---------------------
  * Single source of truth for per-remix branding, taxonomy, and landing copy.
- * This remix retargets the boilerplate as "Ezra Research — Biblical AI", led by the
- * Vacation Bible School use case with sermons, Bible studies, kids' Sunday
- * school, and small-group guides as the next tier.
+ * This remix is "Hunt's Pointe" — a production home for independent digital
+ * publications, led by PressRoom, its AI editorial co-pilot, with fact
+ * verification, house-style enforcement, and CMS-ready output as the core
+ * capabilities, and a suggestion-only margin architecture protecting the
+ * editor's own voice as the non-negotiable design constraint.
  *
  * Rules:
  * - Never hardcode domain-specific copy in components — read from here.
@@ -145,15 +147,17 @@ export interface VerticalConfig {
 }
 
 /**
- * Ezra Research — Biblical AI.
- * VBS-led religious prose tool for pastors, ministers, VBS leaders, and
- * independent students. Tradition and translation are selected per project.
+ * Hunt's Pointe — the AI editorial co-pilot for independent publishers.
+ * PressRoom-led editorial tool for Editors-in-Chief, freelance journalists,
+ * newsletter writers, and independent newsrooms. The manuscript stays
+ * suggestion-only; the pipeline (verification, style, CMS export, cascades)
+ * is where the AI does its heaviest lifting.
  */
 export const vertical: VerticalConfig = {
   name: APP_NAME,
   tagline: APP_TAGLINE,
-  artifactNoun: "work",
-  artifactNounPlural: "works",
+  artifactNoun: "story",
+  artifactNounPlural: "stories",
 
   emails: {
     contact: CONTACT_EMAIL,
@@ -167,129 +171,129 @@ export const vertical: VerticalConfig = {
     { key: "create", title: "Write", url: "/app/create", icon: "PenTool" },
   ],
 
-  seedPlaceholder: "Type a theme, scripture, or VBS day idea…",
+  seedPlaceholder: "Type a headline, a beat, or a story idea…",
 
   promptDomainBlurb:
-    "You are Ezra, a theological research partner. Help the user think through their text — surface relevant passages, cross-references, and historical context. You do not write sermons for the user; you accelerate their study. Cite every Scripture quote as (Book Ch:Vv, KJV) and clearly mark anything that is general background versus a verifiable claim.",
+    "You are PressRoom, an editorial research partner for an independent publication. Help the editor think through their story — surface relevant sources, background, and archive context. You do not write the piece for the user; you accelerate their reporting. Cite every factual claim inline as [#N] against a supplied source, and clearly mark anything that is general background versus a verifiable claim.",
 
   useCases: [
     {
-      key: "church-planters",
-      title: "Church Planters",
+      key: "editors-in-chief",
+      title: "Editors-in-Chief",
       blurb:
-        "For pastors building a new congregation without the budget for a $3,000 Logos library — get serious theological depth without the learning curve.",
-      outcomes: ["Faster sermon prep", "Cited cross-references", "Built on a budget"],
+        "Run a fast-moving newsroom without an enterprise CMS budget — fact verification, house-style enforcement, and a production pipeline that respects your review queue.",
+      outcomes: ["Verified before staging", "House style enforced", "CMS-ready output"],
     },
     {
-      key: "sermons",
-      title: "Sermon Research",
+      key: "freelance-journalists",
+      title: "Freelance Journalists",
       blurb:
-        "Outline your exegesis, gather commentaries, organize cross-references — you still write the sermon. Ezra clears the runway.",
-      outcomes: ["Outline in minutes", "Cited every claim", "Your voice, your words"],
+        "Research a story, structure the reporting, and cascade one finished piece into every pitch-ready format — without a newsroom's tooling behind you.",
+      outcomes: ["Sourced research", "Structure feedback", "One piece, every format"],
     },
     {
-      key: "bible-study",
-      title: "Bible Study Prep",
+      key: "newsletter-writers",
+      title: "Newsletter Writers",
       blurb:
-        "Develop a small-group study plan grounded in the passage and your tradition, with discussion questions and source citations.",
-      outcomes: ["Structured lessons", "Discussion-ready", "Tradition-aware"],
+        "Keep the raw, personal voice your subscribers pay for while PressRoom manages the pipeline — drafts, fact-checks, and formats the edition around it.",
+      outcomes: ["Your voice, protected", "Faster editions", "Provenance you can show"],
     },
     {
-      key: "students",
-      title: "Seminary & Self-Study",
+      key: "niche-publications",
+      title: "Niche & Trade Publications",
       blurb:
-        "Ask a hard theological question and get a researched answer with the verses and historical context to back it up.",
-      outcomes: ["Cited answers", "Cross-references", "Historical framing"],
+        "Enforce a house style across staff and freelance contributors, interlink years of archive coverage, and localize for every regional sub-edition.",
+      outcomes: ["Consistent voice at scale", "Archive-aware editing", "Regional variants"],
     },
   ],
 
   faqs: [
     {
-      q: "Does Ezra write my sermon for me?",
-      a: "No. Ezra is a research partner, not a sermon generator. It organizes passages, surfaces commentaries, drafts outlines, and clears the path — but the sermon is yours to preach in your own words. That's the point.",
+      q: "Does PressRoom write my story for me?",
+      a: "No. PressRoom is a research and pipeline partner, not a ghostwriter. In the editor, it can only propose changes in the margin — never overwrite your manuscript. It organizes sourcing, verifies claims, drafts scaffolding, and manages the production pipeline, but the piece is yours to write in your own words. That's the point.",
     },
     {
-      q: "How is this different from ChatGPT, Logos, or Blue Letter Bible?",
-      a: "Unlike ChatGPT, Ezra is bounded by orthodox theology and cites every Scripture quote. Unlike Blue Letter Bible, Ezra actively synthesizes commentaries instead of just showing them. Unlike Logos, you don't need a Master's degree or a $3,000 library to get useful depth.",
+      q: "How is this different from ChatGPT or a generic CMS?",
+      a: "Unlike ChatGPT, PressRoom never edits your draft in place — every suggestion is a margin annotation you integrate by hand, and it tracks a provenance certificate proving the manuscript was organically composed. Unlike a generic CMS, it verifies facts against your own archive before staging, enforces your house style automatically, and cascades one piece into every downstream format in one click.",
     },
     {
-      q: "Which Bible translations are available?",
-      a: "Today: public-domain translations — KJV, ASV, WEB, YLT, and BBE. Licensed translations (NIV, ESV, NASB, NLT) are on the roadmap pending formal licensing with Crossway, Biblica, and Lockman.",
+      q: "Will this make my writing sound like AI wrote it?",
+      a: "That's the risk we designed against. A cadence dial flags edits that would flatten your natural sentence rhythm, an AI-tell filter highlights over-indexed machine vocabulary before it ships, and Voice Locks protect your idiosyncratic style markers — em dashes, fragments, the quirks that are unmistakably yours — from ever being \"corrected\" away.",
     },
     {
       q: "Where does my data go?",
-      a: "Your prompts and documents live in our managed Postgres database with row-level security. AI requests are routed through the Lovable AI Gateway to Google Gemini and OpenAI. We do not currently have zero-retention agreements with upstream providers — please do not paste confidential pastoral counseling notes.",
+      a: "Your drafts and documents live in our managed Postgres database with row-level security. AI requests are routed through the Lovable AI Gateway to Google Gemini and OpenAI. We do not currently have zero-retention agreements with upstream providers — please do not paste embargoed material or unpublished source-protection details you can't afford to expose.",
     },
     {
-      q: "Is it godly to use AI for theological work?",
-      a: "We think so — same Scripture, different tool. Concordances, study Bibles, and Logos started as the same kind of question. The discernment, the prayer, and the preaching are still yours.",
+      q: "What exactly does the provenance ledger track?",
+      a: "Aggregate session telemetry only — session duration, typing-cadence histograms, and edit-burst timing — never keystroke content. It's sealed into a hash-chained certificate you can attach to a CMS export as proof the manuscript was composed over time by a human, not generated in a single batch. You can opt out entirely; it's documented in our Terms.",
     },
     {
       q: "How much does it cost?",
-      a: "There's a free forever tier with no credit card. Pro is $24/month for unlimited Collections and priority support. Church plans for multi-staff teams are custom — reach out and we'll size it to you.",
+      a: "There's a free forever tier with no credit card. Pro is $24/month for unlimited Projects and priority support. Newsroom plans for multi-contributor teams are custom — reach out and we'll size it to your masthead.",
     },
     {
-      q: "Why does AI-assisted study matter right now?",
-      a: "Weekly worship attendance has fallen to about 30% of U.S. adults, down from 42% two decades ago (Gallup, 2026), while 90% of pastors report being frequently fatigued or worn out (Pastoral Care, Inc. / Schaeffer Institute survey of 1,050 pastors). Fewer people in the pews and more strain on the person in the pulpit means every hour spent hunting through commentaries is an hour not spent on people. Ezra exists to give that hour back.",
+      q: "Why does this matter right now for independent publishers?",
+      a: "The U.S. has lost roughly a third of its newspapers since 2005, and public trust in mass media sits near historic lows — leaving independent digital outlets to do more reporting with fewer resources and less institutional trust to draw on. Every hour spent on manual fact-checking, style enforcement, or reformatting one story for five channels is an hour not spent reporting. PressRoom exists to give that hour back, without asking you to trade away the credibility or the voice that earned your readers in the first place.",
     },
   ],
 
   testimonials: [
     {
       quote:
-        "I still write my own sermons. Ezra gets me to a working outline with cited cross-references in twenty minutes — that's the hours I used to spend hunting through tabs.",
-      author: "Pastor David Cho",
-      role: "Associate Pastor",
-      company: "Hillside Fellowship",
+        "I still write every word of my own copy. PressRoom gets me a verified, sourced draft in the margin in twenty minutes — that's the hours I used to spend chasing citations by hand.",
+      author: "Dana Whitfield",
+      role: "Editor-in-Chief",
+      company: "The Ledgerline",
     },
     {
       quote:
-        "I planted my church last year and a Logos library wasn't in the budget. Ezra gives me depth I couldn't otherwise afford, without pretending to be smarter than I am.",
-      author: "Rachel Bennett",
-      role: "Lead Pastor",
-      company: "Grace Community Church",
+        "I run a two-person newsroom. A CMS with real fact-checking and house-style enforcement wasn't in the budget until this — and it never once rewrote a sentence for me.",
+      author: "Marcus Idowu",
+      role: "Founder & Editor",
+      company: "Meridian Dispatch",
     },
     {
       quote:
-        "What I like is that it cites everything. If it can't verify a claim, it tells me so. That's the difference between a research tool and a guess machine.",
-      author: "Monica Alvarez",
-      role: "Teaching Pastor",
-      company: "Riverbend Bible Church",
+        "What I like is that it cites everything and tells me plainly when it can't verify a claim. That's the difference between a research tool and a liability.",
+      author: "Priya Nagarajan",
+      role: "Managing Editor",
+      company: "Fieldnotes Quarterly",
     },
   ],
 
   stats: [
-    { value: "5", label: "Public-domain translations", suffix: "Available today" },
-    { value: "30", label: "Day free trial", suffix: "Two sermon cycles" },
-    { value: "100%", label: "Citations on every answer", suffix: "No anonymous claims" },
+    { value: "0", label: "Words PressRoom writes into your manuscript", suffix: "Margin-only, by design" },
+    { value: "30", label: "Day free trial", suffix: "Two full production cycles" },
+    { value: "100%", label: "Claims cited before staging", suffix: "No anonymous facts" },
   ],
 
   problemStats: [
-    { value: "30%", label: "Weekly worship attendance today", suffix: "Down from 42% two decades ago" },
-    { value: "90%", label: "Of pastors are frequently fatigued or worn out", suffix: "1,050 pastors surveyed" },
-    { value: "1,500+", label: "Pastors leave the ministry every month", suffix: "Schaeffer Institute of Leadership Development" },
+    { value: "~33%", label: "Of U.S. newspapers have closed since 2005", suffix: "Northwestern Medill, State of Local News" },
+    { value: "200+", label: "U.S. counties with no local news source", suffix: "\"News deserts,\" Medill" },
+    { value: "~32%", label: "Of Americans trust mass media a great deal / fair amount", suffix: "Gallup, near a historic low" },
   ],
   problemStatsSources: [
     {
-      label: "Gallup, \"Church Attendance Has Declined in Most U.S. Religious Groups\" (2026)",
-      url: "https://news.gallup.com/poll/642548/church-attendance-declined-religious-groups.aspx",
+      label: "Northwestern Medill, State of Local News Project",
+      url: "https://localnewsinitiative.northwestern.edu/",
     },
     {
-      label: "Pastoral Care, Inc., Statistics for Pastors — Schaeffer Institute survey of 1,050 pastors",
-      url: "https://www.pastoralcareinc.com/statistics/",
+      label: "Gallup, Media Trust Poll",
+      url: "https://news.gallup.com/",
     },
   ],
 
   comparison: {
     altA: "ChatGPT",
-    altB: "Logos / Blue Letter Bible",
+    altB: "Generic CMS + Google Docs",
     rows: [
-      { feature: "Bounded by orthodox theology", us: true, altA: false, altB: true },
-      { feature: "Cites every Scripture quote", us: true, altA: false, altB: true },
-      { feature: "Synthesizes commentaries (not just shows them)", us: true, altA: "Partial", altB: false },
-      { feature: "Usable without a Master's degree", us: true, altA: true, altB: false },
-      { feature: "Grounds answers in YOUR uploaded library", us: true, altA: false, altB: false },
-      { feature: "Word-processor for sermon drafting", us: true, altA: false, altB: false },
+      { feature: "Manuscript stays human-only (margin suggestions, never overwrites)", us: true, altA: false, altB: "N/A" },
+      { feature: "Verifies claims against your own archive before staging", us: true, altA: false, altB: false },
+      { feature: "Enforces your house style automatically", us: true, altA: "Partial", altB: false },
+      { feature: "Cascades one piece into every downstream format", us: true, altA: "Partial", altB: false },
+      { feature: "Cadence + AI-tell monitoring to protect your voice", us: true, altA: false, altB: "N/A" },
+      { feature: "Structured, CMS-mapped output (JSON / front-matter)", us: true, altA: false, altB: "Partial" },
       { feature: "Honest about model retention", us: true, altA: false, altB: "N/A" },
       { feature: "Under $50/month", us: true, altA: true, altB: false },
     ],
@@ -298,75 +302,75 @@ export const vertical: VerticalConfig = {
   // USE_PLACEHOLDER — keep existing placeholder cards until real case studies arrive.
   customers: [
     {
-      slug: "grace-community",
-      name: "Grace Community Church",
-      industry: "Multi-site church",
+      slug: "the-ledgerline",
+      name: "The Ledgerline",
+      industry: "Independent local news",
       summary:
-        "Grace Community planned three campuses of VBS from a single shared workspace and handed volunteers ready-to-teach daily kits.",
+        "The Ledgerline runs city-hall coverage across two counties with a three-person editorial staff, using PressRoom's verification pass to hold itself to a wire-service correction rate.",
       metrics: [
-        { value: "3", label: "Campuses coordinated" },
-        { value: "120h", label: "Volunteer hours saved" },
-        { value: "5★", label: "Volunteer feedback" },
+        { value: "3", label: "Editorial staff" },
+        { value: "0.4%", label: "Correction rate" },
+        { value: "2x", label: "Stories filed / week" },
       ],
     },
     {
-      slug: "hillside-fellowship",
-      name: "Hillside Fellowship",
-      industry: "Local church",
+      slug: "meridian-dispatch",
+      name: "Meridian Dispatch",
+      industry: "Regional digital outlet",
       summary:
-        "Hillside's preaching team uses Ezra Research to move from passage to working outline before Tuesday morning planning.",
+        "Meridian Dispatch moved its entire production pipeline — press releases, wire feeds, and reader tips — through PressRoom's bulk orchestrator into a single review queue.",
       metrics: [
-        { value: "60%", label: "Faster sermon drafting" },
-        { value: "52", label: "Outlines per year" },
-        { value: "0", label: "Missed weeks" },
+        { value: "60%", label: "Faster brief production" },
+        { value: "140+", label: "Briefs filed / month" },
+        { value: "0", label: "Auto-published items" },
       ],
     },
     {
-      slug: "riverbend-bible",
-      name: "Riverbend Bible Church",
-      industry: "Small group ministry",
+      slug: "fieldnotes-quarterly",
+      name: "Fieldnotes Quarterly",
+      industry: "Trade & niche publication",
       summary:
-        "Riverbend equipped lay leaders with consistent, biblically-grounded discussion guides for 40+ weekly groups.",
+        "Fieldnotes Quarterly enforces one consistent house voice across a roster of 20+ freelance contributors using PressRoom's style guardrails.",
       metrics: [
-        { value: "40+", label: "Weekly groups supported" },
-        { value: "2x", label: "Discussion depth scores" },
-        { value: "98%", label: "Leader retention" },
+        { value: "20+", label: "Freelance contributors" },
+        { value: "1", label: "Consistent house voice" },
+        { value: "98%", label: "First-pass style compliance" },
       ],
     },
     {
-      slug: "lighthouse-kids",
-      name: "Lighthouse Kids",
-      industry: "Children's ministry",
+      slug: "harborlight-newsletter",
+      name: "Harborlight",
+      industry: "Independent newsletter",
       summary:
-        "Lighthouse standardized age-graded Sunday school lessons across preschool, elementary, and pre-teen rooms.",
+        "A solo newsletter writer kept full authorship of every edition while PressRoom handled fact-checking and the newsletter cascade from each feature story.",
       metrics: [
-        { value: "3", label: "Age tracks aligned" },
-        { value: "200", label: "Take-home cards / month" },
-        { value: "35%", label: "Parent engagement lift" },
+        { value: "1", label: "Author, every word" },
+        { value: "4x", label: "Faster edition turnaround" },
+        { value: "0", label: "AI-detector false flags" },
       ],
     },
     {
-      slug: "campus-collective",
-      name: "Campus Collective",
-      industry: "Campus ministry",
+      slug: "campus-wire-collective",
+      name: "Campus Wire Collective",
+      industry: "Student journalism network",
       summary:
-        "A campus ministry network used Ezra Research to ship study guides for fall semester across twelve schools in a single week.",
+        "A student journalism network used PressRoom to ship a shared style guide and verification pipeline across twelve campus papers in a single semester.",
       metrics: [
-        { value: "12", label: "Campuses launched" },
-        { value: "1 week", label: "From idea to ship" },
-        { value: "4x", label: "Student attendance" },
+        { value: "12", label: "Campus papers onboarded" },
+        { value: "1 semester", label: "From pilot to network-wide" },
+        { value: "3x", label: "Corrections avoided" },
       ],
     },
     {
-      slug: "summer-light-vbs",
-      name: "Summer Light VBS Network",
-      industry: "Para-church",
+      slug: "summerline-syndicate",
+      name: "Summerline Syndicate",
+      industry: "Regional wire syndicate",
       summary:
-        "A regional VBS network produced reusable five-day arcs partner churches now remix every summer.",
+        "A regional syndicate standardized incoming stringer copy into publication-ready briefs partner outlets now run every week.",
       metrics: [
-        { value: "85", label: "Partner churches" },
-        { value: "5-day", label: "Reusable VBS arcs" },
-        { value: "2x", label: "Kids reached YoY" },
+        { value: "85", label: "Partner outlets" },
+        { value: "Weekly", label: "Standardized brief cadence" },
+        { value: "2x", label: "Stringer output YoY" },
       ],
     },
   ],

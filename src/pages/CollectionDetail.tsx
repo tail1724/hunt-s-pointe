@@ -156,7 +156,7 @@ export default function CollectionDetail() {
               <div className="mt-3 flex flex-wrap items-center gap-2">
                 <Badge variant="outline" className="font-normal">{items.length} items</Badge>
                 <Badge variant="outline" className="font-normal">{artifacts.length} artifacts</Badge>
-                {isActiveEzra && <Badge className="bg-primary/15 text-primary border-primary/30">Active in Ezra</Badge>}
+                {isActiveEzra && <Badge className="bg-primary/15 text-primary border-primary/30">Active in PressRoom</Badge>}
                 {isActiveWrite && <Badge className="bg-accent/15 text-accent border-accent/30">Active in Write</Badge>}
               </div>
             </div>
@@ -169,7 +169,7 @@ export default function CollectionDetail() {
               onClick={() => ezra.setActive(isActiveEzra ? null : collection.id)}
             >
               <Sparkles className="h-3.5 w-3.5 mr-1.5" />
-              {isActiveEzra ? "Active in Ezra" : "Use in Ezra"}
+              {isActiveEzra ? "Active in PressRoom" : "Use in PressRoom"}
             </Button>
             <Button
               variant={isActiveWrite ? "default" : "outline"}
@@ -189,7 +189,7 @@ export default function CollectionDetail() {
                 <AlertDialogHeader>
                   <AlertDialogTitle>Delete this collection?</AlertDialogTitle>
                   <AlertDialogDescription>
-                    All items in this collection will be removed. Tagged artifacts (Ezra threads, documents,
+                    All items in this collection will be removed. Tagged artifacts (PressRoom threads, documents,
                     images) will be untagged but not deleted.
                   </AlertDialogDescription>
                 </AlertDialogHeader>

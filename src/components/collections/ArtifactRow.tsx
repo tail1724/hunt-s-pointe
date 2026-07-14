@@ -10,7 +10,7 @@ const ICONS = {
 } as const;
 
 const LABELS = {
-  mary_session: "Ezra thread",
+  mary_session: "PressRoom thread",
   document: "Document",
   image: "Image",
 } as const;
@@ -23,7 +23,7 @@ export function ArtifactRow({ artifact }: Props) {
   const Icon = ICONS[artifact.artifact_type];
   const href =
     artifact.artifact_type === "mary_session"
-      ? `/app/ezra?session=${artifact.artifact_id}`
+      ? `/app/pressroom?session=${artifact.artifact_id}`
       : artifact.artifact_type === "document"
         ? `/app/write/${artifact.artifact_id}`
         : `/app/file-cabinet`;

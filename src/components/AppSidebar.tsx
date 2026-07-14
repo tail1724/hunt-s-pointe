@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import {
   Wand2, History, Library, Download, BarChart3, Plug, Settings, Sun, Moon, LogOut,
-  Hexagon, Megaphone, ImageIcon, PenTool, FileText, FolderOpen, ChevronsLeft, ChevronsRight, BookOpen,
+  Hexagon, Megaphone, ImageIcon, PenTool, FileText, FolderOpen, ChevronsLeft, ChevronsRight,
   PanelTop, Archive, LifeBuoy, KanbanSquare,
   type LucideIcon,
 } from "lucide-react";
@@ -31,11 +31,13 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip
 type NavItem = { title: string; url: string; icon: LucideIcon };
 
 export const workspaceItems: NavItem[] = [
-  { title: "Ezra", url: "/app/ezra", icon: Hexagon },
-  { title: "Bible", url: "/app/bible", icon: BookOpen },
-  { title: "Organize", url: "/app/organize", icon: KanbanSquare },
   { title: "Write", url: "/app/write", icon: FileText },
+  { title: "PressRoom", url: "/app/pressroom", icon: Hexagon },
+  { title: "Organize", url: "/app/organize", icon: KanbanSquare },
 ];
+// The Bible reader is preserved (code + tables) but dropped from the primary
+// nav — see docs/hunts-pointe-pressroom-addendum.md §2.3. Reachable directly
+// at /app/bible for flagged/legacy accounts.
 
 
 export const libraryFileCabinet: NavItem = { title: "Newsroom", url: "/app/file-cabinet", icon: Archive };
@@ -132,8 +134,8 @@ export function AppSidebar() {
             type="button"
             onClick={() => navigate("/")}
             className="tactile flex items-center gap-2 min-w-0 rounded-lg text-left"
-            aria-label="View the Ezra Research site"
-            title="View the Ezra Research site"
+            aria-label="View the Hunt's Pointe site"
+            title="View the Hunt's Pointe site"
           >
             <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-primary shadow-[0_0_20px_-6px_hsl(var(--primary)/0.6)]">
               <EzraBoltIcon size={16} />

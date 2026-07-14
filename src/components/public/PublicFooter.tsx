@@ -38,7 +38,7 @@ export function PublicFooter() {
           <Link className="brand" to="/">
             <BrandMark size={30} />
           </Link>
-          <p>A theological research partner for pastors who preach their own words.</p>
+          <p>An AI editorial co-pilot for publishers who write their own words.</p>
           <div className="socials">
             <a aria-label="X" href="#"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h3l-7 8 8 12h-6l-5-7-5 7H3l8-9L3 2h6l4 6z"/></svg></a>
             <a aria-label="GitHub" href="#"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 00-3 19.5c.5 0 .7-.2.7-.5v-2c-2.8.6-3.4-1.2-3.4-1.2-.5-1.2-1.1-1.5-1.1-1.5-1-.6 0-.6 0-.6 1 0 1.5 1 1.5 1 .9 1.6 2.4 1.1 3 .9 0-.7.3-1.1.6-1.4-2.2-.2-4.6-1.1-4.6-5 0-1.1.4-2 1-2.6 0-.3-.4-1.3.1-2.6 0 0 .8-.3 2.7 1a9.3 9.3 0 015 0c1.9-1.3 2.7-1 2.7-1 .5 1.3.1 2.3.1 2.6.6.6 1 1.5 1 2.6 0 3.9-2.4 4.8-4.6 5 .3.3.7.9.7 1.9v2.8c0 .3.2.6.7.5A10 10 0 0012 2z"/></svg></a>
@@ -53,7 +53,7 @@ export function PublicFooter() {
         ))}
       </div>
       <div className="foot__bar">
-        <span>© {new Date().getFullYear()} Ezra Research. All rights reserved.</span>
+        <span>© {new Date().getFullYear()} Hunt's Pointe. All rights reserved.</span>
         <span>English (US)</span>
       </div>
     </div></footer>

@@ -31,7 +31,7 @@ export function fuseRRF(arms: RankedArm[], k = 60, limit = 20): { id: string; sc
     .slice(0, limit);
 }
 
-/** Source-authority priors: scripture and curated docs outrank scraped web. */
+/** Source-authority priors: primary texts and curated docs outrank scraped web. */
 export const AUTHORITY_PRIOR: Record<string, number> = {
   bible: 1.0,
   collection: 0.85,
