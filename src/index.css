@@ -7,53 +7,66 @@
 
 @layer base {
   :root {
-    /* Unified brand palette — matches the public ezra-public theme exactly:
-       warm paper surface (#E8E5D8), slate ink (#16222D), brass accent (#A8823A).
-       The authenticated workspace and the marketing site now read as one product. */
-    --background: 49 26% 88%;        /* #E8E5D8 paper */
-    --foreground: 209 34% 13%;       /* #16222D ink */
+    /* Hunt's Pointe — vibrant light-mode palette for the AI editorial co-pilot.
+       Sunny Sky Blue desk, near-white manuscript page, Charcoal Pencil ink,
+       Magic Marker Purple for PressRoom's voice, Tiger Lily Orange for
+       guardrails/warnings, Lucky Charm Green for verified/success states.
+       See docs/hunts-pointe-pressroom-addendum.md §C.1 for the full spec. */
+    --background: 212 96% 78%;       /* #93C5FD Sunny Sky Blue — the desk */
+    --foreground: 0 0% 9%;           /* #171717 Charcoal Pencil ink */
 
-    --card: 51 29% 91%;              /* #EFEDE2 paper-hi */
-    --card-foreground: 209 34% 13%;
+    --card: 0 0% 99%;                /* near-white manuscript page */
+    --card-foreground: 0 0% 9%;
 
-    --popover: 51 29% 91%;
-    --popover-foreground: 209 34% 13%;
+    --popover: 0 0% 99%;
+    --popover-foreground: 0 0% 9%;
 
-    --primary: 209 34% 13%;          /* ink — the public site's CTA color */
-    --primary-foreground: 51 29% 91%;
+    --primary: 271 91% 65%;          /* #A855F7 Magic Marker Purple */
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 205 18% 31%;        /* #41525E ink-2 */
-    --secondary-foreground: 51 29% 91%;
+    --secondary: 252 95% 85%;        /* #C4B5FD Matte Lilac-Slate */
+    --secondary-foreground: 0 0% 9%;
 
-    --accent: 39 49% 44%;            /* #A8823A brass */
-    --accent-foreground: 209 34% 13%;
+    --accent: 271 91% 65%;           /* Magic Marker Purple — PressRoom's voice everywhere */
+    --accent-foreground: 0 0% 100%;
 
-    --muted: 49 22% 84%;
-    --muted-foreground: 205 18% 31%;
+    --muted: 252 60% 93%;            /* pale lilac surface */
+    --muted-foreground: 0 0% 40%;    /* Dust Bunny Grey, deepened slightly for AA on --muted */
 
     --destructive: 0 72% 48%;
-    --destructive-foreground: 51 29% 91%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 49 17% 75%;            /* #CBC7B6 line */
-    --input: 49 17% 75%;
-    --ring: 39 49% 44%;
+    --border: 252 40% 80%;
+    --input: 252 40% 80%;
+    --ring: 271 91% 65%;
 
     --radius: 0.5rem;
 
-    --sidebar-background: 51 29% 91%;
-    --sidebar-foreground: 209 34% 13%;
-    --sidebar-primary: 209 34% 13%;
-    --sidebar-primary-foreground: 51 29% 91%;
-    --sidebar-accent: 49 22% 84%;
-    --sidebar-accent-foreground: 209 34% 13%;
-    --sidebar-border: 49 17% 78%;
-    --sidebar-ring: 39 49% 44%;
+    --sidebar-background: 252 95% 85%;   /* Matte Lilac-Slate panel */
+    --sidebar-foreground: 0 0% 9%;
+    --sidebar-primary: 271 91% 65%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 252 70% 90%;
+    --sidebar-accent-foreground: 0 0% 9%;
+    --sidebar-border: 252 40% 75%;
+    --sidebar-ring: 271 91% 65%;
 
-    --gradient-pulse: linear-gradient(90deg, hsl(209 34% 13%), hsl(40 49% 53%));
-    --shadow-card: 0 2px 8px -2px hsl(209 34% 13% / 0.10);
-    --shadow-card-hover: 0 8px 24px -4px hsl(209 34% 13% / 0.16);
-    --glow-zest: 0 0 12px 2px hsl(40 49% 53% / 0.45);
-    --glow-cool: 0 0 12px 2px hsl(209 34% 25% / 0.45);
+    /* Semantic AI / guardrail / verified tokens — the color language every
+       PressRoom surface speaks: purple = suggestion, orange = warning,
+       green = verified success. */
+    --ai-accent: 271 91% 65%;            /* #A855F7 Magic Marker Purple */
+    --ai-accent-foreground: 0 0% 100%;
+    --ai-wash: 269 97% 85%;              /* #D8B4FE Ghost Lilac Overlay (use with low alpha) */
+    --guardrail: 25 95% 53%;             /* #F97316 Tiger Lily Orange */
+    --guardrail-foreground: 0 0% 100%;
+    --verified: 142 71% 45%;             /* #22C55E Lucky Charm Green */
+    --verified-foreground: 0 0% 100%;
+
+    --gradient-pulse: linear-gradient(90deg, hsl(271 91% 65%), hsl(212 96% 70%));
+    --shadow-card: 0 2px 8px -2px hsl(0 0% 9% / 0.10);
+    --shadow-card-hover: 0 8px 24px -4px hsl(0 0% 9% / 0.16);
+    --glow-zest: 0 0 12px 2px hsl(25 95% 53% / 0.45);
+    --glow-cool: 0 0 12px 2px hsl(212 96% 60% / 0.45);
   }
 
   .dark {
@@ -94,6 +107,15 @@
     --sidebar-accent-foreground: 43 35% 87%;
     --sidebar-border: 202 21% 25%;
     --sidebar-ring: 40 49% 53%;
+
+    /* Same semantic language, retuned for a dark surface. */
+    --ai-accent: 271 91% 72%;
+    --ai-accent-foreground: 0 0% 9%;
+    --ai-wash: 269 60% 40%;
+    --guardrail: 25 95% 58%;
+    --guardrail-foreground: 0 0% 9%;
+    --verified: 142 60% 50%;
+    --verified-foreground: 0 0% 9%;
   }
 }
 
@@ -393,12 +415,16 @@
 
 /* Color theme palettes */
 [data-color-theme="reverent"] {
-  --primary: 209 34% 13%;
-  --accent: 39 49% 44%;
-  --secondary: 205 18% 31%;
-  --ring: 39 49% 44%;
-  --sidebar-primary: 209 34% 13%;
-  --sidebar-ring: 39 49% 44%;
+  /* "Reverent" is the historical key for the default palette — now Hunt's
+     Pointe's vibrant purple/lilac scheme (see :root above). Renaming the
+     stored key would silently reset every returning user's saved preference,
+     so the label changes in the Admin picker while the key stays stable. */
+  --primary: 271 91% 65%;
+  --accent: 271 91% 65%;
+  --secondary: 252 95% 85%;
+  --ring: 271 91% 65%;
+  --sidebar-primary: 271 91% 65%;
+  --sidebar-ring: 271 91% 65%;
 }
 [data-color-theme="reverent"].dark,
 .dark[data-color-theme="reverent"] {
@@ -532,6 +558,15 @@
 .tiptap-doc [data-text-align="right"] { text-align: right; }
 .tiptap-doc [data-text-align="left"] { text-align: left; }
 
+/* Algorithmic tell highlight (addendum feature 14) — a dotted Tiger Lily
+   Orange underline under over-indexed AI vocabulary. Never auto-replaces;
+   hover shows the reason via the decoration's title attribute. */
+.ai-tell-highlight {
+  background: hsl(var(--guardrail) / 0.12);
+  border-bottom: 2px dotted hsl(var(--guardrail) / 0.7);
+  cursor: help;
+}
+
 /* Drop cap — only for long-form drafts (toggled via .with-dropcap wrapper) */
 .with-dropcap .tiptap-doc > p:first-of-type::first-letter {
   font-family: 'Plus Jakarta Sans', Georgia, serif;
@@ -591,25 +626,26 @@
 }
 
 /* ============================================================
-   Ezra surface — scoped near-black aesthetic w/ cobalt radial
+   PressRoom surface (Ezra chat) — vibrant light desk w/ purple radial
    ============================================================ */
 .ezra-surface {
-  /* Light mode (default) — same paper/ink/brass system as the public site */
-  --ezra-bg: hsl(49 26% 88%);
-  --ezra-fg: hsl(209 34% 13%);
-  --ezra-fg-muted: hsl(205 18% 31%);
-  --ezra-border: hsl(49 17% 75%);
-  --ezra-panel: hsl(49 31% 90%);
-  --ezra-panel-soft: hsl(49 25% 86%);
-  --ezra-composer-bg: hsl(51 29% 92%);
-  --ezra-composer-border: hsl(49 17% 70%);
-  --ezra-active-bg: hsl(39 49% 44% / 0.16);
-  --ezra-active-border: hsl(39 49% 44%);
-  --ezra-hover-bg: hsl(49 22% 84%);
-  --ezra-radial-warm: hsl(40 49% 53% / 0.12);
-  --ezra-radial-cool: hsl(207 32% 40% / 0.14);
-  --ezra-accent: hsl(39 49% 40%);
-  --ezra-accent-fg: hsl(51 29% 92%);
+  /* Light mode (default) — Sunny Sky Blue desk, near-white panels, Magic
+     Marker Purple accent. See docs/hunts-pointe-pressroom-addendum.md §C.1. */
+  --ezra-bg: hsl(212 96% 82%);
+  --ezra-fg: hsl(0 0% 9%);
+  --ezra-fg-muted: hsl(0 0% 40%);
+  --ezra-border: hsl(252 40% 80%);
+  --ezra-panel: hsl(0 0% 99%);
+  --ezra-panel-soft: hsl(252 60% 95%);
+  --ezra-composer-bg: hsl(0 0% 100%);
+  --ezra-composer-border: hsl(252 40% 78%);
+  --ezra-active-bg: hsl(271 91% 65% / 0.14);
+  --ezra-active-border: hsl(271 91% 65%);
+  --ezra-hover-bg: hsl(252 60% 93%);
+  --ezra-radial-warm: hsl(271 91% 65% / 0.14);
+  --ezra-radial-cool: hsl(212 96% 60% / 0.16);
+  --ezra-accent: hsl(271 91% 60%);
+  --ezra-accent-fg: hsl(0 0% 100%);
   background: var(--ezra-bg);
   color: var(--ezra-fg);
 }
@@ -623,12 +659,12 @@
   --ezra-panel-soft: hsl(208 32% 10%);
   --ezra-composer-bg: hsl(206 30% 16%);
   --ezra-composer-border: hsl(202 21% 27%);
-  --ezra-active-bg: hsl(40 49% 53% / 0.18);
-  --ezra-active-border: hsl(40 49% 53%);
+  --ezra-active-bg: hsl(271 91% 72% / 0.18);
+  --ezra-active-border: hsl(271 91% 72%);
   --ezra-hover-bg: hsl(205 28% 18%);
-  --ezra-radial-warm: hsl(40 49% 53% / 0.10);
+  --ezra-radial-warm: hsl(271 91% 65% / 0.12);
   --ezra-radial-cool: hsl(207 32% 26% / 0.35);
-  --ezra-accent: hsl(40 49% 53%);
+  --ezra-accent: hsl(271 91% 72%);
   --ezra-accent-fg: hsl(207 32% 12%);
 }
 

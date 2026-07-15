@@ -47,7 +47,7 @@ export function PublicNav() {
   // same ink transition they saw at sign-in.
   const enterEzra = () => {
     requestEntryTransition();
-    navigate("/app/ezra");
+    navigate("/app/pressroom");
   };
 
   const handleSignOut = async () => {
@@ -73,7 +73,7 @@ export function PublicNav() {
   return (
     <>
       <nav className={`nav${scrolled ? " is-scrolled" : ""}`}><div className="wrap"><div className="nav__in">
-        <Link className="brand" to="/" aria-label="Ezra Research home">
+        <Link className="brand" to="/" aria-label="Hunt's Pointe home">
           <BrandMark size={32} />
         </Link>
         <div className={`nav__links${open ? " open" : ""}`}>
@@ -108,7 +108,7 @@ export function PublicNav() {
           {session ? (
             <>
               <button className="btn btn--ink btn--sm" type="button" onClick={enterEzra}>
-                Go to Ezra
+                Go to PressRoom
                 <span className="ar" aria-hidden="true">→</span>
               </button>
               <button className="btn btn--ghost btn--sm" type="button" onClick={handleSignOut}>

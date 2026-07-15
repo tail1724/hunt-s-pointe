@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "sonner";
-import { BookOpen, Cross, Bookmark, CalendarDays, Languages } from "lucide-react";
+import { BookOpen, FileSearch, Link2, CalendarDays, Languages } from "lucide-react";
 import { EzraRail } from "@/components/ezra/EzraRail";
 import { EzraMobileHeader } from "@/components/ezra/EzraMobileHeader";
 import { EzraSessionsDrawer } from "@/components/ezra/EzraSessionsDrawer";
@@ -14,48 +14,48 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { GettingStartedCard } from "@/components/onboarding/GettingStartedCard";
 
 
-// Starter studies — each sends a complete, well-formed prompt on click so the
-// first response demonstrates what Ezra can do instead of making the user type.
+// Starter briefs — each sends a complete, well-formed prompt on click so the
+// first response demonstrates what PressRoom can do instead of making the user type.
 const STARTERS = [
   {
     icon: BookOpen,
-    title: "Study a passage",
-    sub: "Context, structure, key themes",
-    prompt: "Walk me through this week's passage — historical context, literary structure, and the key themes I should draw out.",
+    title: "Research a story",
+    sub: "Background, angle, key facts",
+    prompt: "Walk me through the background on this story — what's known, what's contested, and the angle I should lead with.",
   },
   {
-    icon: Cross,
-    title: "Outline a sermon",
-    sub: "From text to three movements",
-    prompt: "Help me outline a sermon on grace: a guiding big idea, three movements, and one closing image.",
+    icon: FileSearch,
+    title: "Outline a piece",
+    sub: "From reporting to structure",
+    prompt: "Help me outline an explainer on a topic I give you: a nut graf, three sections, and a closing that points to what's next.",
   },
   {
-    icon: Bookmark,
-    title: "Find cross-references",
-    sub: "Trace a verse across Scripture",
-    prompt: "Find the strongest cross-references for a verse I give you, and explain how each one deepens the reading.",
+    icon: Link2,
+    title: "Find sources",
+    sub: "Trace a claim across coverage",
+    prompt: "Find the strongest sources for a claim I give you, and explain how each one supports or complicates it.",
   },
   {
     icon: Languages,
-    title: "Compare translations",
-    sub: "Where the wording diverges",
-    prompt: "Compare major translations of a verse I give you and flag where the wording meaningfully diverges — including the original language behind it.",
+    title: "Compare coverage",
+    sub: "Where the reporting diverges",
+    prompt: "Compare how different outlets have covered a story I give you and flag where the framing or facts meaningfully diverge.",
   },
 ];
 
 function timeGreeting(): string {
   const h = new Date().getHours();
-  if (h < 5) return "Grace for the late hour";
+  if (h < 5) return "Burning the midnight oil";
   if (h < 12) return "Good morning";
   if (h < 18) return "Good afternoon";
   return "Good evening";
 }
 
-function sundayNote(): string {
+function deadlineNote(): string {
   const day = new Date().getDay();
-  if (day === 0) return "It's Sunday — go preach it";
-  const days = 7 - day;
-  return days === 1 ? "1 day to Sunday" : `${days} days to Sunday`;
+  if (day === 5) return "It's deadline day";
+  const days = (5 - day + 7) % 7;
+  return days === 1 ? "1 day to deadline" : `${days} days to deadline`;
 }
 
 const HISTORY_OPEN_KEY = "ezra.history.open";
@@ -203,7 +203,7 @@ export default function Ezra() {
         {isHydrating ? (
           // Switching into an existing session — hold this instead of the
           // empty/starter state so reopening an old chat never flashes
-          // "what are we studying?" before the real messages land.
+          // "what are we working on?" before the real messages land.
           <div className="flex-1 min-h-0 overflow-hidden px-4 py-8">
             <div className="mx-auto w-full max-w-3xl space-y-6">
               <div className="flex justify-end">
@@ -225,13 +225,13 @@ export default function Ezra() {
             <div className="relative w-full max-w-2xl text-center mb-7 ezra-msg-enter">
               <div className="inline-flex items-center gap-1.5 rounded-full border border-[var(--ezra-border)] bg-[var(--ezra-panel)]/80 px-3 py-1 text-[11px] text-[var(--ezra-fg-muted)]">
                 <CalendarDays className="h-3 w-3 text-[var(--ezra-accent)]" />
-                {new Date().toLocaleDateString(undefined, { weekday: "long" })} · {sundayNote()}
+                {new Date().toLocaleDateString(undefined, { weekday: "long" })} · {deadlineNote()}
               </div>
               <h1 className="mt-4 font-display text-[clamp(1.625rem,5vw,2.25rem)] md:text-4xl font-semibold tracking-tight text-foreground text-balance">
-                {timeGreeting()} — what are we studying?
+                {timeGreeting()} — what are we working on?
               </h1>
               <p className="mt-3 text-sm text-muted-foreground">
-                Ezra is your research partner. Ask a question, pick a passage, or paste an outline.
+                PressRoom is your research partner. Ask a question, pick a source, or paste an outline.
               </p>
             </div>
             <div className="relative w-full max-w-2xl">
@@ -302,7 +302,7 @@ export default function Ezra() {
                   placeholder="Ask a follow-up…"
                 />
                 <p className="mt-1.5 text-center text-[10px] text-[var(--ezra-fg-muted)]/60 select-none">
-                  Ezra can make mistakes — check Scripture references before you preach them.
+                  PressRoom can make mistakes — verify every claim before it hits your staging queue.
                 </p>
               </div>
             </div>

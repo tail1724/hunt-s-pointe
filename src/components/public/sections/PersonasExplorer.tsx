@@ -15,86 +15,86 @@ type Persona = {
 
 const PERSONAS: Persona[] = [
   {
-    short: "The Weekly Preacher",
-    kicker: "Persona 01 · Every Sunday, without fail",
-    title: "The one who preaches every week, no matter what.",
+    short: "The Weekly Columnist",
+    kicker: "Persona 01 · Every week, without fail",
+    title: "The one who files on deadline, no matter what.",
     story:
-      "Tuesday starts the same way: an open passage, a blank outline, and a clock that never stops running. By Thursday you need a researched, defensible outline — not a rough idea, and not five browser tabs of commentary you'll never finish reading.",
-    pains: ["Five tabs, three commentaries, one Tuesday", "A chatbot that invents citations with total confidence", "Never quite enough hours before Sunday"],
+      "Tuesday starts the same way: an open topic, a blank outline, and a clock that never stops running. By Thursday you need a researched, defensible piece — not a rough idea, and not five browser tabs of coverage you'll never finish reading.",
+    pains: ["Five tabs, three sources, one Tuesday", "A chatbot that invents a citation with total confidence", "Never quite enough hours before deadline"],
     steps: [
-      "Drop in Sunday's passage — Ezra reads it in its full context, not just the verse.",
-      "Ezra surfaces cross-references and synthesizes your commentaries, every claim cited.",
-      "You move to the editor and write the sermon in your own voice, on schedule.",
+      "Drop in this week's topic — PressRoom reads it in full context, not just the headline.",
+      "PressRoom surfaces sources and synthesizes your archive, every claim cited.",
+      "You move to the editor and write the piece in your own voice, on schedule.",
     ],
-    checks: ["You preach on a fixed weekly cadence", "You want citations you can defend from the pulpit", "You want the research done — not the sermon written for you"],
-    fit: "Fits Silver — 4 sermons a month with questions & guides.",
+    checks: ["You file on a fixed weekly cadence", "You want citations you can defend in a correction request", "You want the research done — not the piece written for you"],
+    fit: "Fits Desk — 4 stories a month with research & verification.",
   },
   {
-    short: "The Series Planner",
+    short: "The Investigation Lead",
     kicker: "Persona 02 · Thinking six weeks ahead",
-    title: "The one mapping a series, not just a Sunday.",
+    title: "The one mapping a series, not just a story.",
     story:
-      "A good series has a throughline — the same translation, the same sources, the same argument carried from week one to the finale. Losing that continuity by week four is the quiet failure mode nobody plans for.",
-    pains: ["Forgetting which translation you used in week two", "A throughline that drifts as the series goes on", "Rebuilding context every single week"],
+      "A good investigation has a throughline — the same sources, the same documents, the same argument carried from part one to the finale. Losing that continuity by part four is the quiet failure mode nobody plans for.",
+    pains: ["Forgetting which document you cited in part two", "A throughline that drifts as the series goes on", "Rebuilding context every single week"],
     steps: [
-      "Start a Collection for the series and upload the commentaries and notes you're drawing from.",
-      "Ezra keeps your translation, sources, and throughline consistent from week one onward.",
-      "Ask Ezra to check continuity against last week's study before you draft the next one.",
+      "Start a Project for the series and upload the documents and notes you're drawing from.",
+      "PressRoom keeps your sources and throughline consistent from part one onward.",
+      "Ask PressRoom to check continuity against last week's reporting before you draft the next part.",
     ],
-    checks: ["You plan sermons in multi-week arcs or book studies", "You want consistency across a whole series, not just one week", "You're tired of rebuilding context from scratch"],
-    fit: "Fits Silver or Gold, depending on how many series you run at once.",
+    checks: ["You plan stories in multi-week arcs or investigations", "You want consistency across a whole series, not just one piece", "You're tired of rebuilding context from scratch"],
+    fit: "Fits Desk or Bureau, depending on how many series you run at once.",
   },
   {
-    short: "Small Groups & Lay Leaders",
-    kicker: "Persona 03 · Handing the text to a volunteer",
-    title: "The one equipping leaders who aren't seminary-trained.",
+    short: "Freelance & Stringer Network",
+    kicker: "Persona 03 · Handing the style guide to a contributor",
+    title: "The one equipping contributors who aren't on staff.",
     story:
-      "A small group leader isn't going to open a Greek lexicon on a Wednesday night. They need a discussion guide that's grounded, on-tradition, and ready to run — one you'd be comfortable putting your name behind.",
-    pains: ["Worrying a volunteer will misteach the text", "No time to build a guide worth handing off", "Wanting depth without a seminary prerequisite"],
+      "A freelancer isn't going to memorize your house style on a Wednesday night. They need a draft that's grounded, on-voice, and ready to run — one you'd be comfortable putting your masthead's name behind.",
+    pains: ["Worrying a freelancer's draft won't match house style", "No time to build a style brief worth handing off", "Wanting consistency without a seminar on your style guide"],
     steps: [
-      "Turn this week's passage into a structured discussion guide in one pass.",
-      "Every claim in the guide is cited, so your lay leaders are teaching from something solid.",
+      "Turn this week's assignment into a structured brief in one pass.",
+      "Every claim in the brief is cited, so your contributors are writing from something solid.",
       "Hand it off — printed, exported, or shared straight from the editor.",
     ],
-    checks: ["You run small groups or Bible studies led by volunteers", "You need study guides, not just sermon outlines", "You want material you can trust in someone else's hands"],
-    fit: "Fits Frankincense or Myrrh — built for regular guide-writing.",
+    checks: ["You run a network of freelancers or stringers", "You need briefs and style enforcement, not just outlines", "You want material you can trust in someone else's hands"],
+    fit: "Fits Bulletin or Dispatch — built for regular brief-writing.",
   },
   {
-    short: "The Bivocational Pastor",
-    kicker: "Persona 04 · Forty hours elsewhere, a sermon still due",
-    title: "The one preaching in the margins of an already full week.",
+    short: "The Bootstrapped Founder-Editor",
+    kicker: "Persona 04 · A day job elsewhere, a deadline still due",
+    title: "The one publishing in the margins of an already full week.",
     story:
-      "You didn't get a seminary degree or a $3,000 Logos library, and you don't have a free weekday to build one. What you have is evenings, a commute, and a congregation counting on you Sunday morning.",
-    pains: ["No spare hours in the week to spend on research", "Can't justify seminary tuition or a commentary library", "Sermon prep squeezed into whatever time is left"],
+      "You didn't get a journalism degree or an enterprise CMS budget, and you don't have a free weekday to build one. What you have is evenings, a commute, and a readership counting on you every week.",
+    pains: ["No spare hours in the week to spend on research", "Can't justify an enterprise CMS or a fact-checking team", "Production squeezed into whatever time is left"],
     steps: [
-      "Bring the passage during whatever pocket of time you actually have.",
-      "Ezra compresses seminary-grade depth into minutes, cited and ready.",
+      "Bring the story during whatever pocket of time you actually have.",
+      "PressRoom compresses newsroom-grade depth into minutes, cited and ready.",
       "Draft on your phone or laptop — the runway's cleared whenever you are.",
     ],
-    checks: ["Preaching isn't your day job", "You need depth without the learning curve or the price tag", "Your prep time is measured in minutes, not afternoons"],
-    fit: "Fits Manna to start, moving to Frankincense as prep becomes a weekly habit.",
+    checks: ["Publishing isn't your day job", "You need depth without the learning curve or the price tag", "Your prep time is measured in minutes, not afternoons"],
+    fit: "Fits Brief to start, moving to Bulletin as production becomes a weekly habit.",
   },
   {
-    short: "Pulpit Supply & Guest Preaching",
-    kicker: "Persona 05 · A new pulpit, an unfamiliar room",
-    title: "The one walking into a congregation they don't know yet.",
+    short: "Guest & Wire Contributors",
+    kicker: "Persona 05 · A new beat, an unfamiliar region",
+    title: "The one parachuting into a story they don't know yet.",
     story:
-      "No history with this text, this tradition, or this room — and often a funeral or a wedding on short notice. You need to research faithfully and quickly, with citations solid enough to back every point you make to strangers.",
-    pains: ["No existing context for an unfamiliar congregation", "Research has to be fast and still be right", "Funerals and weddings rarely come with a planning runway"],
+      "No history with this beat, this region, or this source list — and often a breaking story on short notice. You need to research faithfully and quickly, with citations solid enough to back every point you make to unfamiliar readers.",
+    pains: ["No existing context for an unfamiliar beat", "Research has to be fast and still be right", "Breaking stories rarely come with a planning runway"],
     steps: [
-      "Research the assigned text quickly, grounded in orthodox commentary.",
-      "Every citation is numbered, so you can defend your reading in an unfamiliar room.",
-      "Reuse the same flow for the wedding or funeral message that landed on your desk this week.",
+      "Research the assigned topic quickly, grounded in verifiable sourcing.",
+      "Every citation is numbered, so you can defend your reporting on an unfamiliar beat.",
+      "Reuse the same flow for the next wire assignment that lands on your desk this week.",
     ],
-    checks: ["You preach across multiple congregations or as pulpit supply", "You handle funerals and weddings on a regular basis", "You need to research fast without cutting corners"],
-    fit: "Fits Gold — built for the minister preaching and officiating regularly.",
+    checks: ["You cover multiple beats or regions, or work wire assignments", "You handle breaking stories on a regular basis", "You need to research fast without cutting corners"],
+    fit: "Fits Bureau — built for the contributor filing and localizing regularly.",
   },
 ];
 
 export function PersonasExplorer({
   eyebrow = "Solutions",
   title = <>Is this <span className="mark">right for you</span>?</>,
-  subtitle = "Five ways ministers actually use Ezra, in their own words. Find the one that sounds like your week.",
+  subtitle = "Five ways editors and writers actually use PressRoom, in their own words. Find the one that sounds like your week.",
   id = "personas",
 }: {
   eyebrow?: string;
@@ -114,7 +114,7 @@ export function PersonasExplorer({
           <p className="lead center mxw-60 reveal" style={{ marginTop: 16 }}>{subtitle}</p>
         </header>
 
-        <div className="persona-rail reveal" style={{ marginTop: 44 }} role="tablist" aria-label="Ministry personas">
+        <div className="persona-rail reveal" style={{ marginTop: 44 }} role="tablist" aria-label="Editorial personas">
           {PERSONAS.map((persona, i) => (
             <button
               key={persona.short}
@@ -141,7 +141,7 @@ export function PersonasExplorer({
           </div>
 
           <div className="panel persona-fit">
-            <h4 className="eyebrow" style={{ color: "var(--on-slate-2)" }}>How Ezra fits</h4>
+            <h4 className="eyebrow" style={{ color: "var(--on-slate-2)" }}>How PressRoom fits</h4>
             <div className="persona-steps">
               {p.steps.map((step, i) => (
                 <div className="persona-step" key={step}>

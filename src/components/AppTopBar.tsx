@@ -64,14 +64,14 @@ export function AppTopBar() {
       data-nav-anchor="top"
       className="hidden md:flex relative h-14 items-center gap-2 px-3 rounded-2xl border border-sidebar-border bg-sidebar/60 backdrop-blur-sm shadow-[0_1px_0_hsl(var(--sidebar-border))]"
     >
-      {/* Brand — clicking it shows the public site; the nav there offers an
-          "Ezra" button back into the workspace for signed-in users. */}
+      {/* Brand — clicking it shows the public site; the nav there offers a
+          "PressRoom" button back into the workspace for signed-in users. */}
       <button
         type="button"
         onClick={() => navigate("/")}
         className="tactile relative z-10 flex items-center gap-2 min-w-0 pr-2 rounded-lg text-left"
-        aria-label="View the Ezra Research site"
-        title="View the Ezra Research site"
+        aria-label="View the Hunt's Pointe site"
+        title="View the Hunt's Pointe site"
       >
         <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-primary shadow-[0_0_20px_-6px_hsl(var(--primary)/0.6)]">
           <EzraBoltIcon size={16} />

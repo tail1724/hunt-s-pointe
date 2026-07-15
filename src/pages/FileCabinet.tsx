@@ -123,14 +123,14 @@ export default function FileCabinet() {
     });
   };
 
-  // Hand the document to Ezra as a study seed — the cabinet and the chat are
-  // one workflow, not two silos.
+  // Hand the document to PressRoom as a research seed — the newsroom and the
+  // chat are one workflow, not two silos.
   const askEzra = (d: DocRow) => {
     const excerpt = (d.content_text || "").trim().slice(0, 800);
     const prompt = excerpt
       ? `Let's work on my draft "${d.title || "Untitled Document"}". Here's where it stands:\n\n${excerpt}${d.content_text.length > 800 ? "…" : ""}\n\nWhat's strong, and what should I sharpen?`
       : `I'm starting a draft called "${d.title || "Untitled Document"}". Help me find the guiding idea and a working outline.`;
-    navigate("/app/ezra", { state: { prefill: prompt } });
+    navigate("/app/pressroom", { state: { prefill: prompt } });
   };
 
   const filtered = useMemo(() => {
@@ -191,7 +191,7 @@ export default function FileCabinet() {
             </Button>
           ) : (
             <Button asChild size="sm" className="gap-1.5">
-              <Link to="/app/ezra"><Sparkles className="h-4 w-4" /> Create in Ezra</Link>
+              <Link to="/app/pressroom"><Sparkles className="h-4 w-4" /> Create in PressRoom</Link>
             </Button>
           )}
         </div>
@@ -273,13 +273,13 @@ export default function FileCabinet() {
           <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10">
             <FileText className="h-6 w-6 text-primary" />
           </span>
-          <h2 className="mt-4 font-display text-lg font-bold">Your cabinet is empty</h2>
+          <h2 className="mt-4 font-display text-lg font-bold">Your newsroom is empty</h2>
           <p className="mx-auto mt-1 mb-6 max-w-sm text-sm text-muted-foreground">
-            Drafts you write and studies Ezra turns into documents are filed here automatically — nothing gets lost.
+            Drafts you write and research PressRoom turns into documents are filed here automatically — nothing gets lost.
           </p>
           <div className="flex justify-center gap-2">
             <Button asChild className="gap-2"><Link to="/app/write"><FileText className="h-4 w-4" /> Start writing</Link></Button>
-            <Button asChild variant="outline" className="gap-2"><Link to="/app/ezra"><Sparkles className="h-4 w-4" /> Ask Ezra</Link></Button>
+            <Button asChild variant="outline" className="gap-2"><Link to="/app/pressroom"><Sparkles className="h-4 w-4" /> Ask PressRoom</Link></Button>
           </div>
         </div>
       ) : filtered.length === 0 ? (
@@ -350,12 +350,12 @@ export default function FileCabinet() {
                         type="button"
                         onClick={(e) => { e.preventDefault(); askEzra(d); }}
                         className="flex h-9 w-9 md:h-7 md:w-7 items-center justify-center rounded-md text-muted-foreground tactile hover:bg-primary/10 hover:text-primary"
-                        aria-label="Ask Ezra about this document"
+                        aria-label="Ask PressRoom about this document"
                       >
                         <MessagesSquare className="h-3.5 w-3.5" />
                       </button>
                     </TooltipTrigger>
-                    <TooltipContent side="bottom" className="text-xs">Ask Ezra about this</TooltipContent>
+                    <TooltipContent side="bottom" className="text-xs">Ask PressRoom about this</TooltipContent>
                   </Tooltip>
                   <Tooltip>
                     <TooltipTrigger asChild>

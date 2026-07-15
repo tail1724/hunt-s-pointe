@@ -3,11 +3,12 @@ import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
 import {
   Check, Loader2, AlertCircle, Download, Copy, Printer,
-  Eye, EyeOff, ChevronLeft, Save,
+  Eye, EyeOff, ChevronLeft, Save, History, ShieldCheck, Rss,
 } from "lucide-react";
 import type { SaveStatus } from "@/hooks/useAutosave";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
+import { CadenceDial } from "./CadenceDial";
 
 interface Props {
   title: string;
@@ -20,6 +21,9 @@ interface Props {
   onSave?: () => void | Promise<void>;
   onToggleFocus: () => void;
   onBack: () => void;
+  onOpenHistory?: () => void;
+  onOpenProvenance?: () => void;
+  onOpenDistribute?: () => void;
 }
 
 function relativeTime(d: Date | null) {
@@ -34,7 +38,7 @@ function relativeTime(d: Date | null) {
 
 export function EditorChrome({
   title, status, savedAt, contentText, contentMarkdown,
-  wordCount, focusMode, onSave, onToggleFocus, onBack,
+  wordCount, focusMode, onSave, onToggleFocus, onBack, onOpenHistory, onOpenProvenance, onOpenDistribute,
 }: Props) {
   const exportText = (ext: "md" | "txt") => {
     const body = ext === "md" ? (contentMarkdown ?? contentText) : contentText;
@@ -156,6 +160,21 @@ export function EditorChrome({
           <Button variant="ghost" size="sm" className="h-8 gap-1.5 text-xs" onClick={copy}>
             <Copy className="h-3.5 w-3.5" /> <span className="hidden sm:inline">Copy</span>
           </Button>
+          {onOpenHistory && (
+            <Button variant="ghost" size="sm" className="h-8 gap-1.5 text-xs" onClick={onOpenHistory} title="Document history">
+              <History className="h-3.5 w-3.5" /> <span className="hidden sm:inline">History</span>
+            </Button>
+          )}
+          {onOpenProvenance && (
+            <Button variant="ghost" size="sm" className="h-8 gap-1.5 text-xs" onClick={onOpenProvenance} title="Provenance certificate">
+              <ShieldCheck className="h-3.5 w-3.5" /> <span className="hidden sm:inline">Provenance</span>
+            </Button>
+          )}
+          {onOpenDistribute && (
+            <Button variant="ghost" size="sm" className="h-8 gap-1.5 text-xs" onClick={onOpenDistribute} title="Distribute: CMS export, cascades, headlines, localization, bulk pipeline">
+              <Rss className="h-3.5 w-3.5" /> <span className="hidden sm:inline">Distribute</span>
+            </Button>
+          )}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="sm" className="h-8 gap-1.5 text-xs">
@@ -195,8 +214,11 @@ export function EditorChrome({
           {status === "idle" && savedAt && (<>Saved · {relativeTime(savedAt)}</>)}
           {!savedAt && status === "idle" && (<>Draft</>)}
         </div>
-        <div className="ml-auto tabular-nums">
-          {wordCount.toLocaleString()} {wordCount === 1 ? "word" : "words"} · {minutes} min read
+        <div className="ml-auto flex items-center gap-3">
+          <CadenceDial contentText={contentText} />
+          <span className="tabular-nums">
+            {wordCount.toLocaleString()} {wordCount === 1 ? "word" : "words"} · {minutes} min read
+          </span>
         </div>
       </div>
     </header>

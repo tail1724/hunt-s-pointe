@@ -63,7 +63,7 @@ serve(async (req) => {
 
     const newTurns = messages
       .slice(covered, covered + MAX_NEW_TURNS_PER_UPDATE)
-      .map((m: any) => `${m.role === "user" ? "User" : "Ezra"}: ${String(m.content ?? "").slice(0, CLIP_CHARS)}`)
+      .map((m: any) => `${m.role === "user" ? "User" : "PressRoom"}: ${String(m.content ?? "").slice(0, CLIP_CHARS)}`)
       .join("\n\n");
     const coveredNow = Math.min(messages.length, covered + MAX_NEW_TURNS_PER_UPDATE);
 
@@ -71,10 +71,10 @@ serve(async (req) => {
       {
         role: "system",
         content:
-          `You maintain the running memory of a conversation between a pastor/researcher and Ezra, a theological research assistant.\n` +
+          `You maintain the running memory of a conversation between an editor/writer and PressRoom, an editorial research assistant.\n` +
           `Given the EXISTING memory and the NEW turns, return JSON only: {"summary": "...", "facts": ["..."]}.\n` +
-          `summary: a dense third-person summary of the whole conversation so far, max 1200 characters. Preserve passages under study, the deliverable being built, decisions made, and open questions.\n` +
-          `facts: up to 8 short stable facts worth pinning (e.g. "Preaching Luke 15 on Easter Sunday", "Audience: youth group", "Wants NIV citations"). Carry forward still-true facts; drop superseded ones.`,
+          `summary: a dense third-person summary of the whole conversation so far, max 1200 characters. Preserve the story being worked, sources under discussion, the deliverable being built, decisions made, and open questions.\n` +
+          `facts: up to 8 short stable facts worth pinning (e.g. "Filing the transit story Friday", "Audience: newsletter subscribers", "House style: no oxford comma"). Carry forward still-true facts; drop superseded ones.`,
       },
       {
         role: "user",

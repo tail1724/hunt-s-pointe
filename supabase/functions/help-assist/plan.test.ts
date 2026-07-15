@@ -7,13 +7,13 @@ const assertEquals = (a: unknown, b: unknown) => nodeAssert.deepEqual(a, b);
 
 // Usage questions should retrieve the right guide and expose its deep-links.
 Deno.test("routes a how-to question to the matching guide", () => {
-  const plan = planResponse("How do I make a sermon outline?");
+  const plan = planResponse("How do I make a story outline?");
   assertEquals(plan.mode, "answer");
   if (plan.mode === "answer") {
-    assertEquals(plan.guideSlug, "your-first-sermon-outline");
-    // The outline guide links into Ezra and Write.
+    assertEquals(plan.guideSlug, "your-first-story-outline");
+    // The outline guide links into PressRoom and Write.
     const routes = plan.actions.map((a) => a.to);
-    assertEquals(routes.includes("/app/ezra"), true);
+    assertEquals(routes.includes("/app/pressroom"), true);
   }
 });
 
@@ -23,8 +23,8 @@ Deno.test("routes an export question to the drafting guide", () => {
   if (plan.mode === "answer") assertEquals(plan.guideSlug, "drafting-and-exporting");
 });
 
-Deno.test("redirects a theology question to Ezra", () => {
-  const plan = planResponse("What does the Greek word for love mean in this passage?");
+Deno.test("redirects a sourcing/verification question to PressRoom", () => {
+  const plan = planResponse("Can you verify the source for that statistic in this passage?");
   assertEquals(plan.mode, "redirect");
 });
 

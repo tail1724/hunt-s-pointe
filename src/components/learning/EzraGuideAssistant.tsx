@@ -17,17 +17,17 @@ interface AssistantTurn {
 }
 
 const STARTERS = [
-  "How do I make a sermon outline?",
-  "How do I upload my own commentaries?",
-  "How do I bookmark a verse?",
-  "How do I export to Word?",
+  "How do I make a story outline?",
+  "How do I upload my own archive?",
+  "How do I verify a claim in my draft?",
+  "How do I export to a CMS?",
 ];
 
 /**
- * Ezra Guide — a lightweight, docs-grounded helper that answers "how do I use
- * Ezra" questions (not research questions). It calls the `help-assist` edge
- * function, which retrieves from the published guides only. When it can't
- * answer, it offers a human hand-off instead of guessing.
+ * PressRoom Guide — a lightweight, docs-grounded helper that answers "how do
+ * I use this app" questions (not research questions). It calls the
+ * `help-assist` edge function, which retrieves from the published guides
+ * only. When it can't answer, it offers a human hand-off instead of guessing.
  */
 export function EzraGuideAssistant() {
   const [turns, setTurns] = useState<AssistantTurn[]>([]);
@@ -74,10 +74,10 @@ export function EzraGuideAssistant() {
   return (
     <div className="assistant">
       <div className="assistant__head">
-        <span className="assistant__badge"><Sparkles className="h-3.5 w-3.5" aria-hidden /> Ezra Guide</span>
-        <p className="assistant__title">Ask how to do anything in Ezra.</p>
+        <span className="assistant__badge"><Sparkles className="h-3.5 w-3.5" aria-hidden /> PressRoom Guide</span>
+        <p className="assistant__title">Ask how to do anything in Hunt's Pointe.</p>
         <p className="assistant__sub">
-          Plain-language help with using the app — outlines, uploads, exports, the Bible reader. Not sure where to start? Try one:
+          Plain-language help with using the app — outlines, uploads, exports, verification. Not sure where to start? Try one:
         </p>
       </div>
 
@@ -106,7 +106,7 @@ export function EzraGuideAssistant() {
               {turn.escalated && (
                 <a
                   className="assistant__action assistant__action--human"
-                  href={`mailto:${CONTACT_EMAIL}?subject=Help%20using%20Ezra`}
+                  href={`mailto:${CONTACT_EMAIL}?subject=Help%20using%20Hunt%27s%20Pointe`}
                 >
                   <Mail className="h-3 w-3" aria-hidden /> Email a human
                 </a>
@@ -131,8 +131,8 @@ export function EzraGuideAssistant() {
         <input
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          placeholder="Ask about using Ezra…"
-          aria-label="Ask the Ezra Guide"
+          placeholder="Ask about using Hunt's Pointe…"
+          aria-label="Ask the PressRoom Guide"
           disabled={loading}
         />
         <button type="submit" disabled={loading || !input.trim()} aria-label="Ask">
@@ -142,8 +142,8 @@ export function EzraGuideAssistant() {
 
       <p className="assistant__foot">
         <LifeBuoy className="h-3 w-3" aria-hidden />
-        Ezra Guide helps with using the app. For Bible study itself, head to{" "}
-        <Link to="/app/ezra">Ezra</Link>.
+        The PressRoom Guide helps with using the app. For research itself, head to{" "}
+        <Link to="/app/pressroom">PressRoom</Link>.
       </p>
     </div>
   );

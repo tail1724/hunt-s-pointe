@@ -46,6 +46,21 @@ export default {
           DEFAULT: "hsl(var(--accent))",
           foreground: "hsl(var(--accent-foreground))",
         },
+        // Semantic PressRoom tokens — purple = AI suggestion, orange = warning
+        // / AI-tell, green = verified success. See docs/hunts-pointe-pressroom-addendum.md §C.1.
+        ai: {
+          DEFAULT: "hsl(var(--ai-accent))",
+          foreground: "hsl(var(--ai-accent-foreground))",
+        },
+        "ai-wash": "hsl(var(--ai-wash))",
+        guardrail: {
+          DEFAULT: "hsl(var(--guardrail))",
+          foreground: "hsl(var(--guardrail-foreground))",
+        },
+        verified: {
+          DEFAULT: "hsl(var(--verified))",
+          foreground: "hsl(var(--verified-foreground))",
+        },
         popover: {
           DEFAULT: "hsl(var(--popover))",
           foreground: "hsl(var(--popover-foreground))",

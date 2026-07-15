@@ -359,7 +359,7 @@ export default function Bible() {
   };
 
   const sendToEzra = () => {
-    navigate("/app/ezra", {
+    navigate("/app/pressroom", {
       state: {
         prefill: `Let's study ${refLabel} (${pos.translation}):\n\n"${selectedText}"\n\nWalk me through the context, the original meaning, and how you'd teach it.`,
       },
@@ -668,7 +668,7 @@ export default function Bible() {
               <span className="h-5 w-px bg-border" />
               <ActionChip icon={StickyNote} label="Note" onClick={openNote} />
               <ActionChip icon={Bookmark} label="Bookmark" onClick={bookmarkSelection} />
-              <ActionChip icon={MessagesSquare} label="Ask Ezra" onClick={sendToEzra} emphasis />
+              <ActionChip icon={MessagesSquare} label="Ask PressRoom" onClick={sendToEzra} emphasis />
               <ActionChip icon={PenLine} label="To Write" onClick={sendToWrite} />
               <ActionChip icon={Copy} label="Copy" onClick={copySelection} />
               <button

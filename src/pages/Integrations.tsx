@@ -13,24 +13,24 @@ import { toast } from "sonner";
 // integrations page leads with real capability, not a waitlist.
 const INTERNAL_FLOWS = [
   {
-    title: "Ezra → Write",
-    desc: "Drafts Ezra produces become documents in one click, ready for the editor.",
-    href: "/app/ezra",
-    cta: "Open Ezra",
+    title: "PressRoom → Write",
+    desc: "Research PressRoom produces becomes documents in one click, ready for the editor.",
+    href: "/app/pressroom",
+    cta: "Open PressRoom",
     icons: [MessagesSquare, PenLine],
   },
   {
-    title: "Collections → everywhere",
-    desc: "Activate a collection and its notes, files, and links ride along in Ezra and Write.",
+    title: "Projects → everywhere",
+    desc: "Activate a project and its notes, files, and links ride along in PressRoom and Write.",
     href: "/app/knowledge",
-    cta: "Open Collections",
+    cta: "Open Projects",
     icons: [FolderOpen, ArrowRight],
   },
   {
-    title: "Auto-filing → File Cabinet",
+    title: "Auto-filing → Newsroom",
     desc: "Every draft is filed automatically. Nothing you write gets lost between sessions.",
     href: "/app/file-cabinet",
-    cta: "Open File Cabinet",
+    cta: "Open Newsroom",
     icons: [PenLine, Archive],
   },
 ];

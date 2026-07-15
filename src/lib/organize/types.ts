@@ -64,5 +64,5 @@ export const LINK_KIND_META: Record<LinkKind, { label: string; route: (id: strin
   document: { label: "Document", route: (id) => `/app/write/${id}` },
   collection: { label: "Collection", route: (id) => `/app/knowledge/${id}` },
   generation: { label: "Creation", route: () => "/app/file-cabinet" },
-  session: { label: "Ezra chat", route: () => "/app/ezra" },
+  session: { label: "PressRoom chat", route: () => "/app/pressroom" },
 };

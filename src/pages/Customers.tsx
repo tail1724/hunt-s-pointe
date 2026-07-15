@@ -9,11 +9,11 @@ import { PersonasExplorer } from "@/components/public/sections/PersonasExplorer"
 export default function Customers() {
   return (
     <>
-      <SEO title={`Is Ezra right for you? — ${APP_NAME}`} description="Five ministry personas, the Founding Church program, and why we're building with churches, not marketing to them." path="/customers" />
+      <SEO title={`Is PressRoom right for you? — ${APP_NAME}`} description="Five editorial personas, the Founding Publisher program, and why we're building with publishers, not marketing to them." path="/customers" />
       <PersonasExplorer
         eyebrow="Customers"
         title={<>Is this <span className="mark">right for you</span>?</>}
-        subtitle="Before you take our word for it, see whether your week looks like one of these. Five ministers, five ways Ezra actually gets used."
+        subtitle="Before you take our word for it, see whether your week looks like one of these. Five editors, five ways PressRoom actually gets used."
         id="customer-personas"
       />
       <FoundingChurches />

@@ -13,23 +13,21 @@ interface EventRow {
 }
 
 const CATEGORY_LABELS: Record<string, string> = {
-  coding: "Programming request",
   academic_dishonesty: "Academic-integrity request",
-  bulk_abuse: "Bulk generation",
+  bulk_abuse: "Spam / bulk-abuse request",
   prompt_injection: "Prompt injection",
-  off_domain: "Off-domain request",
 };
 
 const FN_LABELS: Record<string, string> = {
-  "prompt-partner": "Ezra chat",
+  "prompt-partner": "PressRoom chat",
   "write-assist": "Write assistant",
   "generate-image": "Image studio",
 };
 
 /**
  * Safety tab — the user-visible face of the guardrail telemetry. Shows when
- * the platform's domain guardrails declined a request on this account, so
- * scope enforcement is transparent rather than mysterious.
+ * the platform's abuse guardrails declined a request on this account, so
+ * enforcement is transparent rather than mysterious.
  */
 export default function SafetyTab() {
   const { user } = useAuth();
@@ -68,11 +66,11 @@ export default function SafetyTab() {
             <ShieldCheck className="h-5 w-5 text-primary" />
           </span>
           <div>
-            <h2 className="font-display text-base font-bold">Domain guardrails</h2>
+            <h2 className="font-display text-base font-bold">Abuse guardrails</h2>
             <p className="mt-1 text-sm text-muted-foreground">
-              Ezra Research is scoped to ministry work — Scripture study, sermon prep, pastoral care, and
-              congregational communications. Requests outside that scope (coding, graded coursework,
-              bulk content) are declined automatically, per the{" "}
+              PressRoom is broadly helpful with any editorial work — there's no topic restriction. Requests
+              that cross into abuse (ghostwriting graded coursework, spam or bulk-generated content, attempts
+              to override these rules) are declined automatically, per the{" "}
               <Link to="/terms" className="underline underline-offset-2 hover:text-foreground">Terms of Service</Link>.
             </p>
           </div>

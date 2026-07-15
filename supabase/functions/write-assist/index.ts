@@ -2,7 +2,7 @@ import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { z } from "https://esm.sh/zod@3.23.8";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { corsHeaders, jsonResponse, requireUser, logEvent } from "../_shared/auth.ts";
-import { DOMAIN_GUARDRAILS, prefilterPrompt, recordGuardrailEvent } from "../_shared/guardrails.ts";
+import { EDITORIAL_GUARDRAILS, prefilterPrompt, recordGuardrailEvent } from "../_shared/guardrails.ts";
 import { utilityChat } from "../_shared/utility-model.ts";
 
 const BodySchema = z.object({
@@ -10,13 +10,15 @@ const BodySchema = z.object({
   selected_text: z.string().max(5000).optional(),
   surrounding_text: z.string().max(5000).optional(),
   collection_id: z.string().uuid().optional(),
+  voice_locks: z.array(z.string().max(200)).max(24).optional().nullable(),
+  style_rules: z.array(z.string().max(300)).max(40).optional().nullable(),
 });
 
-const SYSTEM = `You are Ezra, a writing assistant for pastors and researchers. You help improve, expand, and refine written content.
+const SYSTEM = `You are PressRoom, the editorial co-pilot for an independent digital publication. You help the author improve, expand, and refine their manuscript — as suggestions they integrate by hand, never as replacements.
 Given the user's PROMPT, the SELECTED TEXT (if any), and SURROUNDING CONTEXT, produce the requested output.
-Be direct — return only the improved/new text, no preamble. Match the voice and tone of the surrounding content.
-If asked for a scripture reference, include book chapter:verse in parentheses.
-${DOMAIN_GUARDRAILS}`;
+Be direct — return only the proposed text or answer, no preamble. Match the voice and cadence of the surrounding content; preserve the author's idiosyncratic style markers (em dashes, fragments, colloquialisms) rather than sanitizing them.
+Factual claims you introduce must be attributable — never invent sources, quotes, or statistics.
+${EDITORIAL_GUARDRAILS}`;
 
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
@@ -30,7 +32,7 @@ serve(async (req) => {
   try { bodyJson = await req.json(); } catch { return jsonResponse({ error: "Invalid JSON" }, 400); }
   const parsed = BodySchema.safeParse(bodyJson);
   if (!parsed.success) return jsonResponse({ error: parsed.error.flatten() }, 400);
-  const { prompt, selected_text, surrounding_text, collection_id } = parsed.data;
+  const { prompt, selected_text, surrounding_text, collection_id, voice_locks, style_rules } = parsed.data;
 
   // Domain guardrail prefilter — see _shared/guardrails.ts.
   const verdict = prefilterPrompt(prompt);
@@ -66,8 +68,16 @@ serve(async (req) => {
       (surrounding_text ? `\n\nSURROUNDING CONTEXT:\n${surrounding_text}` : "") +
       ragContext;
 
+    let systemContent = SYSTEM;
+    if (voice_locks && voice_locks.length > 0) {
+      systemContent += `\n\nVOICE LOCKS — this author's protected stylistic traits. You are strictly prohibited from removing or "correcting" any of these:\n${voice_locks.map((v) => `- ${v}`).join("\n")}`;
+    }
+    if (style_rules && style_rules.length > 0) {
+      systemContent += `\n\nHOUSE STYLE — publication rules every proposal must satisfy:\n${style_rules.map((r) => `- ${r}`).join("\n")}`;
+    }
+
     const result = await utilityChat([
-      { role: "system", content: SYSTEM },
+      { role: "system", content: systemContent },
       { role: "user", content: userContent },
     ], { maxTokens: 1500, timeoutMs: 15_000 });
 

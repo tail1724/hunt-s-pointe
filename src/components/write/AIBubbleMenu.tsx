@@ -3,19 +3,34 @@ import type { Editor } from "@tiptap/react";
 import { Loader2, Wand2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import type { ProposeAnnotationFn } from "@/lib/annotations/types";
 
 type Preset = { id: string; label: string };
 const PRESETS: Preset[] = [
-  { id: "comforting", label: "Make Comforting" },
-  { id: "deepen", label: "Deepen Theology" },
+  { id: "improve", label: "Improve" },
+  { id: "expand", label: "Expand" },
   { id: "shorten", label: "Shorten" },
-  { id: "scripture", label: "Add Scripture" },
+  { id: "vivid", label: "Make Vivid" },
   { id: "simplify", label: "Simplify" },
 ];
 
 interface Pos { top: number; left: number; }
 
-export function AIBubbleMenu({ editor }: { editor: Editor }) {
+export interface AIBubbleMenuProps {
+  editor: Editor;
+  /**
+   * Every preset and freeform request routes through this — the bubble
+   * menu never edits the selection directly (addendum feature 15). The
+   * proposal appears in the margin rail for the editor to apply by hand.
+   */
+  onPropose: ProposeAnnotationFn;
+  /** Protected stylistic traits (addendum feature 13) — never sanitized away. */
+  voiceLocks?: string[];
+  /** House style constraints (addendum feature 2) every proposal must satisfy. */
+  styleRules?: string[];
+}
+
+export function AIBubbleMenu({ editor, onPropose, voiceLocks, styleRules }: AIBubbleMenuProps) {
   const [pos, setPos] = useState<Pos | null>(null);
   const [busy, setBusy] = useState(false);
   const [askingFree, setAskingFree] = useState(false);
@@ -53,9 +68,6 @@ export function AIBubbleMenu({ editor }: { editor: Editor }) {
     if (!selection.trim()) return;
 
     setBusy(true);
-    // Visual loading hint: temporarily highlight the selection range.
-    editor.chain().focus().setMark("bold").run();
-    editor.chain().focus().unsetMark("bold").run();
 
     try {
       const { data: sessData } = await supabase.auth.getSession();
@@ -67,7 +79,7 @@ export function AIBubbleMenu({ editor }: { editor: Editor }) {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token ?? import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
         },
-        body: JSON.stringify({ action: "rewrite", preset: presetId, instruction, selection }),
+        body: JSON.stringify({ action: "rewrite", preset: presetId, instruction, selection, voice_locks: voiceLocks, style_rules: styleRules }),
       });
       if (!resp.ok) {
         const err = await resp.json().catch(() => ({}));
@@ -78,7 +90,16 @@ export function AIBubbleMenu({ editor }: { editor: Editor }) {
       }
       const { text } = await resp.json();
       if (typeof text === "string" && text.trim().length) {
-        editor.chain().focus().insertContentAt({ from, to }, text.trim()).run();
+        const preset = PRESETS.find((p) => p.id === presetId);
+        await onPropose({
+          body: instruction || preset?.label || "Rewrite",
+          proposedText: text.trim(),
+          spanFrom: from,
+          spanTo: to,
+          anchorText: selection,
+          source: "bubble",
+        });
+        toast.success("Sent to the margin — apply it from there.");
       }
     } catch (e) {
       console.error(e);
@@ -101,7 +122,7 @@ export function AIBubbleMenu({ editor }: { editor: Editor }) {
     >
       {busy ? (
         <span className="inline-flex items-center gap-1.5 px-2 py-1 text-xs text-muted-foreground">
-          <Loader2 className="h-3 w-3 animate-spin" /> Rewriting…
+          <Loader2 className="h-3 w-3 animate-spin" /> Drafting a suggestion…
         </span>
       ) : askingFree ? (
         <form
@@ -113,7 +134,7 @@ export function AIBubbleMenu({ editor }: { editor: Editor }) {
             value={freeText}
             onChange={(e) => setFreeText(e.target.value)}
             onKeyDown={(e) => { if (e.key === "Escape") { setAskingFree(false); setFreeText(""); } }}
-            placeholder="Ask Ezra to…"
+            placeholder="Ask PressRoom to…"
             className="h-7 w-56 rounded-full bg-background border border-border px-3 text-xs focus:outline-none focus:ring-2 focus:ring-primary/40"
           />
           <button type="submit" className="h-7 px-2 text-[11px] rounded-full bg-primary text-primary-foreground">Go</button>
@@ -135,7 +156,7 @@ export function AIBubbleMenu({ editor }: { editor: Editor }) {
             onClick={() => setAskingFree(true)}
             className="h-7 px-2 text-[11px] rounded-full bg-primary/10 text-primary hover:bg-primary/20 inline-flex items-center gap-1"
           >
-            <Wand2 className="h-3 w-3" /> Ask Ezra
+            <Wand2 className="h-3 w-3" /> Ask PressRoom
           </button>
         </>
       )}

@@ -9,10 +9,20 @@ import { DocumentEditor } from "@/components/write/DocumentEditor";
 import { EditorChrome } from "@/components/write/EditorChrome";
 import { EditorToolbar } from "@/components/write/EditorToolbar";
 import { EzraAssistBar } from "@/components/write/EzraAssistBar";
+import { MarginRail } from "@/components/write/MarginRail";
+import { HistoryDrawer } from "@/components/write/HistoryDrawer";
+import { ProvenanceCertificate } from "@/components/write/ProvenanceCertificate";
+import { DistributePanel } from "@/components/write/DistributePanel";
+import { useProvenanceTracking } from "@/lib/provenance/useProvenanceTracking";
 import { DocumentSwitcherBar } from "@/components/write/DocumentSwitcherBar";
 import { useAutosave } from "@/hooks/useAutosave";
 import { useActiveCollection } from "@/lib/collections/useActiveCollection";
 import { tagArtifact } from "@/lib/collections/useCollections";
+import { useDocumentAnnotations } from "@/lib/annotations/useDocumentAnnotations";
+import { useDocumentVersions } from "@/lib/annotations/useDocumentVersions";
+import type { DocumentVersion } from "@/lib/annotations/types";
+import { useStyleGuide } from "@/lib/authenticity/useStyleGuide";
+import { useVoiceProfile } from "@/lib/authenticity/useVoiceProfile";
 import { CollectionPicker } from "@/components/collections/CollectionPicker";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
@@ -192,6 +202,19 @@ function DocumentEditorPage({ documentId }: { documentId: string }) {
     [title, content, contentText, meta],
   );
 
+  const annotations = useDocumentAnnotations(documentId);
+  const versions = useDocumentVersions(documentId);
+  const styleGuide = useStyleGuide();
+  const voiceProfile = useVoiceProfile();
+  const [historyOpen, setHistoryOpen] = useState(false);
+  const [provenanceOpen, setProvenanceOpen] = useState(false);
+  const [distributeOpen, setDistributeOpen] = useState(false);
+  // Snapshot a human-attributed version at most once every 2 minutes of
+  // active saving — every autosave tick would otherwise flood the History
+  // drawer with near-duplicate entries.
+  const lastVersionAtRef = useRef(0);
+  const VERSION_INTERVAL_MS = 120_000;
+
   const { status, savedAt, flush } = useAutosave({
     value: saveValue,
     enabled: !!doc && !!user,
@@ -228,36 +251,26 @@ function DocumentEditorPage({ documentId }: { documentId: string }) {
           previewSnippet: snippet,
         }).catch(() => {});
       }
+      const now = Date.now();
+      if (now - lastVersionAtRef.current > VERSION_INTERVAL_MS) {
+        lastVersionAtRef.current = now;
+        void versions.record({ content: v.content, contentText: v.contentText, authorKind: "human" });
+      }
     },
   });
 
   const [editor, setEditor] = useState<Editor | null>(null);
 
-  const getSelectedText = useCallback(() => {
-    if (!editor) return "";
-    const { from, to } = editor.state.selection;
-    return editor.state.doc.textBetween(from, to, " ");
-  }, [editor]);
+  useProvenanceTracking(documentId, editor?.view.dom as HTMLElement | null ?? null);
 
-  const getSurroundingText = useCallback(() => {
-    if (!editor) return "";
-    return editor.state.doc.textBetween(0, Math.min(editor.state.doc.content.size, 3000), "\n");
-  }, [editor]);
-
-  const handleInsert = useCallback((text: string) => {
+  const handleRestore = useCallback((version: DocumentVersion) => {
     if (!editor) return;
-    const { to } = editor.state.selection;
-    editor.chain().focus().insertContentAt(to, "\n" + text).run();
-  }, [editor]);
-
-  const handleReplace = useCallback((text: string) => {
-    if (!editor) return;
-    const { from, to } = editor.state.selection;
-    if (from === to) {
-      editor.chain().focus().insertContentAt(to, text).run();
-    } else {
-      editor.chain().focus().deleteRange({ from, to }).insertContentAt(from, text).run();
-    }
+    editor.commands.setContent((version.content as any) ?? EMPTY_DOC);
+    dirtyRef.current = true;
+    setContent(version.content);
+    setContentText(version.content_text);
+    setHistoryOpen(false);
+    toast.success("Restored — save to keep this version");
   }, [editor]);
 
   const wordCount = useMemo(
@@ -366,6 +379,9 @@ function DocumentEditorPage({ documentId }: { documentId: string }) {
           onSave={flush}
           onToggleFocus={() => setFocusMode((v) => !v)}
           onBack={() => navigate("/app/file-cabinet")}
+          onOpenHistory={() => setHistoryOpen(true)}
+          onOpenProvenance={() => setProvenanceOpen(true)}
+          onOpenDistribute={() => setDistributeOpen(true)}
         />
       </div>
       <EditorToolbar editor={editor} focusMode={focusMode} />
@@ -413,6 +429,9 @@ function DocumentEditorPage({ documentId }: { documentId: string }) {
               <DocumentEditor
                 initialContent={content}
                 onReady={setEditor}
+                onPropose={annotations.propose}
+                voiceLocks={voiceProfile.lockedTraits}
+                styleRules={styleGuide.asRules()}
                 onChange={(json, text) => {
                   markDirty();
                   setContent(json);
@@ -427,15 +446,17 @@ function DocumentEditorPage({ documentId }: { documentId: string }) {
             )}
           </div>
         </div>
-        {/* Ezra rides beside the manuscript on desktop, Gemini-in-Docs style. */}
+        {/* PressRoom rides beside the manuscript on desktop — margin-only,
+            never editing the page directly (addendum feature 15). */}
         {!focusMode && (
           <aside className="hidden lg:block w-[330px] shrink-0 py-3 pr-3">
-            <EzraAssistBar
-              variant="panel"
-              getSelectedText={getSelectedText}
-              getSurroundingText={getSurroundingText}
-              onInsert={handleInsert}
-              onReplace={handleReplace}
+            <MarginRail
+              documentId={documentId}
+              editor={editor}
+              annotations={annotations}
+              versions={versions}
+              voiceLocks={voiceProfile.lockedTraits}
+              styleRules={styleGuide.asRules()}
             />
           </aside>
         )}
@@ -443,13 +464,35 @@ function DocumentEditorPage({ documentId }: { documentId: string }) {
       {/* Compact floating bar remains for smaller screens. */}
       <div className="lg:hidden">
         <EzraAssistBar
-          getSelectedText={getSelectedText}
-          getSurroundingText={getSurroundingText}
-          onInsert={handleInsert}
-          onReplace={handleReplace}
+          editor={editor}
+          annotations={annotations}
+          versions={versions}
+          voiceLocks={voiceProfile.lockedTraits}
+          styleRules={styleGuide.asRules()}
           hidden={focusMode}
         />
       </div>
+      <HistoryDrawer
+        open={historyOpen}
+        onOpenChange={setHistoryOpen}
+        versions={versions}
+        onRestore={handleRestore}
+      />
+      <ProvenanceCertificate
+        open={provenanceOpen}
+        onOpenChange={setProvenanceOpen}
+        documentId={documentId}
+        versions={versions}
+      />
+      <DistributePanel
+        open={distributeOpen}
+        onOpenChange={setDistributeOpen}
+        documentId={documentId}
+        title={title}
+        contentText={contentText}
+        meta={meta}
+        voiceLocks={voiceProfile.lockedTraits}
+      />
     </div>
   );
 }

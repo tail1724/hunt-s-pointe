@@ -20,11 +20,11 @@ import { MobileAppShell } from "@/components/mobile/MobileAppShell";
 import { MobileNavProvider } from "@/components/mobile/mobile-nav-context";
 
 const ROUTE_TITLES: Record<string, string> = {
-  "/app/ezra": "Ezra",
+  "/app/pressroom": "PressRoom",
   "/app/bible": "Bible",
   "/app/organize": "Organize",
-  "/app/knowledge": "Collections",
-  "/app/file-cabinet": "File Cabinet",
+  "/app/knowledge": "Story Packages",
+  "/app/file-cabinet": "Newsroom",
   "/app/analytics": "Analytics",
   "/app/integrations": "Integrations",
   "/app/admin": "Profile & Settings",
@@ -168,7 +168,9 @@ function EntryTransitionRouter() {
 
   useLayoutEffect(() => {
     if (!loading && session && shouldRunEntryTransition() && !location.pathname.startsWith("/app")) {
-      navigate("/app/ezra", { replace: true });
+      // Editor as home (Phase 2): land in the Newsroom, not the research
+      // chat — the manuscript is the product's center of gravity now.
+      navigate("/app/file-cabinet", { replace: true });
     }
   }, [loading, session, location.pathname, navigate]);
 
@@ -185,7 +187,7 @@ function EntryTransitionRouter() {
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <ThemeProvider attribute="class" defaultTheme="dark" storageKey="app-theme">
+    <ThemeProvider attribute="class" defaultTheme="light" storageKey="app-theme">
     <TooltipProvider>
       <Toaster />
       <Sonner />
@@ -225,14 +227,18 @@ const App = () => (
               <Route path="/reset-password" element={<ResetPassword />} />
               <Route path="/auth" element={<Navigate to="/" replace />} />
               {/* Primary routes */}
-              <Route path="/app/ezra" element={<ProtectedLayout><Ezra /></ProtectedLayout>} />
+              <Route path="/app/pressroom" element={<ProtectedLayout><Ezra /></ProtectedLayout>} />
+              {/* Legacy path — see docs/hunts-pointe-pressroom-addendum.md §A. */}
+              <Route path="/app/ezra" element={<Navigate to="/app/pressroom" replace />} />
+              {/* Bible reader: kept behind a direct link for flagged/legacy users, dropped
+                  from the primary nav per the writing-suite pivot (addendum §2.3). */}
               <Route path="/app/bible" element={<ProtectedLayout><Bible /></ProtectedLayout>} />
               <Route path="/app/organize" element={<ProtectedLayout><Organize /></ProtectedLayout>} />
               <Route path="/app/organize/board/:boardId" element={<ProtectedLayout><Organize /></ProtectedLayout>} />
-              <Route path="/app/sentient" element={<Navigate to="/app/ezra" replace />} />
-              <Route path="/app/mary" element={<Navigate to="/app/ezra" replace />} />
-              <Route path="/app/prompt-central" element={<Navigate to="/app/ezra" replace />} />
-              <Route path="/app" element={<Navigate to="/app/ezra" replace />} />
+              <Route path="/app/sentient" element={<Navigate to="/app/pressroom" replace />} />
+              <Route path="/app/mary" element={<Navigate to="/app/pressroom" replace />} />
+              <Route path="/app/prompt-central" element={<Navigate to="/app/pressroom" replace />} />
+              <Route path="/app" element={<Navigate to="/app/file-cabinet" replace />} />
               <Route path="/app/history" element={<Navigate to="/app/analytics?tab=history" replace />} />
               <Route path="/app/knowledge" element={<ProtectedLayout><Collections /></ProtectedLayout>} />
               <Route path="/app/knowledge/:id" element={<ProtectedLayout><CollectionDetail /></ProtectedLayout>} />
