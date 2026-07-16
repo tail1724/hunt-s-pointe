@@ -83,6 +83,22 @@ export function DistributePanel({ open, onOpenChange, documentId, title, content
     finally { setBusy(null); }
   };
 
+  // Stage the current document as a DRAFT in SignalDesk. A human editor reviews
+  // and publishes it there — this never publishes directly.
+  const runStageSignalDesk = async () => {
+    setBusy("signaldesk");
+    try {
+      const j = await authedFetch("push-signaldesk", {
+        title,
+        dek: meta.dek, byline: meta.byline, section: meta.section,
+        story_tags: meta.storyTags, publish_at: meta.publishAt,
+        content_text: contentText,
+      });
+      toast.success(j.signaldesk_id ? "Staged as a draft in SignalDesk" : "Sent to SignalDesk");
+    } catch (e: any) { toast.error(e.message || "Stage to SignalDesk failed"); }
+    finally { setBusy(null); }
+  };
+
   // Cascade
   const [assetTypes, setAssetTypes] = useState<string[]>(["seo", "newsletter"]);
   const [assets, setAssets] = useState<{ asset_type: string; content: string }[]>([]);
@@ -173,9 +189,17 @@ export function DistributePanel({ open, onOpenChange, documentId, title, content
                 <Button size="sm" variant={format === "markdown" ? "default" : "outline"} onClick={() => setFormat("markdown")}>Markdown + front-matter</Button>
               </div>
             </div>
-            <Button size="sm" onClick={runExport} disabled={busy === "export"} className="gap-1.5">
-              {busy === "export" ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Download className="h-3.5 w-3.5" />} Export
-            </Button>
+            <div className="flex items-center gap-2">
+              <Button size="sm" onClick={runExport} disabled={busy === "export"} className="gap-1.5">
+                {busy === "export" ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Download className="h-3.5 w-3.5" />} Export
+              </Button>
+              <Button size="sm" variant="outline" onClick={runStageSignalDesk} disabled={busy === "signaldesk"} className="gap-1.5">
+                {busy === "signaldesk" ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : null} Stage in SignalDesk
+              </Button>
+            </div>
+            <p className="text-xs text-muted-foreground">
+              &ldquo;Stage in SignalDesk&rdquo; creates a draft in SignalDesk for an editor to review and publish. It never publishes directly.
+            </p>
           </TabsContent>
 
           <TabsContent value="cascade" className="space-y-3 pt-3">
