@@ -13,6 +13,7 @@ import { MarginRail } from "@/components/write/MarginRail";
 import { HistoryDrawer } from "@/components/write/HistoryDrawer";
 import { ProvenanceCertificate } from "@/components/write/ProvenanceCertificate";
 import { DistributePanel } from "@/components/write/DistributePanel";
+import { SignalDeskPreflight } from "@/components/write/SignalDeskPreflight";
 import { useProvenanceTracking } from "@/lib/provenance/useProvenanceTracking";
 import { DocumentSwitcherBar } from "@/components/write/DocumentSwitcherBar";
 import { useAutosave } from "@/hooks/useAutosave";
@@ -209,6 +210,7 @@ function DocumentEditorPage({ documentId }: { documentId: string }) {
   const [historyOpen, setHistoryOpen] = useState(false);
   const [provenanceOpen, setProvenanceOpen] = useState(false);
   const [distributeOpen, setDistributeOpen] = useState(false);
+  const [signalDeskOpen, setSignalDeskOpen] = useState(false);
   // Snapshot a human-attributed version at most once every 2 minutes of
   // active saving — every autosave tick would otherwise flood the History
   // drawer with near-duplicate entries.
@@ -382,6 +384,7 @@ function DocumentEditorPage({ documentId }: { documentId: string }) {
           onOpenHistory={() => setHistoryOpen(true)}
           onOpenProvenance={() => setProvenanceOpen(true)}
           onOpenDistribute={() => setDistributeOpen(true)}
+          onOpenSignalDesk={() => setSignalDeskOpen(true)}
         />
       </div>
       <EditorToolbar editor={editor} focusMode={focusMode} />
@@ -492,6 +495,15 @@ function DocumentEditorPage({ documentId }: { documentId: string }) {
         contentText={contentText}
         meta={meta}
         voiceLocks={voiceProfile.lockedTraits}
+        onOpenSignalDesk={() => { setDistributeOpen(false); setSignalDeskOpen(true); }}
+      />
+      <SignalDeskPreflight
+        open={signalDeskOpen}
+        onOpenChange={setSignalDeskOpen}
+        documentId={documentId}
+        title={title}
+        contentText={contentText}
+        meta={meta}
       />
     </div>
   );

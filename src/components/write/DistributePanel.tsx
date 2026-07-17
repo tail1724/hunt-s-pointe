@@ -25,6 +25,8 @@ interface Props {
   contentText: string;
   meta: ArticleMeta;
   voiceLocks?: string[];
+  /** Opens the dedicated SignalDesk transfer preflight (replaces the old bare stage button here). */
+  onOpenSignalDesk: () => void;
 }
 
 const FN_URL = (name: string) => `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/${name}`;
@@ -63,7 +65,7 @@ const ASSET_LABELS: Record<string, string> = {
  * outside the manuscript, is clearly labeled, and nothing publishes without
  * the editor reviewing it here first (addendum §C.0).
  */
-export function DistributePanel({ open, onOpenChange, documentId, title, contentText, meta, voiceLocks }: Props) {
+export function DistributePanel({ open, onOpenChange, documentId, title, contentText, meta, voiceLocks, onOpenSignalDesk }: Props) {
   const [busy, setBusy] = useState<string | null>(null);
 
   // CMS export
@@ -80,22 +82,6 @@ export function DistributePanel({ open, onOpenChange, documentId, title, content
       download(j.filename, j.content);
       toast.success(`Exported ${j.filename}`);
     } catch (e: any) { toast.error(e.message || "Export failed"); }
-    finally { setBusy(null); }
-  };
-
-  // Stage the current document as a DRAFT in SignalDesk. A human editor reviews
-  // and publishes it there — this never publishes directly.
-  const runStageSignalDesk = async () => {
-    setBusy("signaldesk");
-    try {
-      const j = await authedFetch("push-signaldesk", {
-        title,
-        dek: meta.dek, byline: meta.byline, section: meta.section,
-        story_tags: meta.storyTags, publish_at: meta.publishAt,
-        content_text: contentText,
-      });
-      toast.success(j.signaldesk_id ? "Staged as a draft in SignalDesk" : "Sent to SignalDesk");
-    } catch (e: any) { toast.error(e.message || "Stage to SignalDesk failed"); }
     finally { setBusy(null); }
   };
 
@@ -193,12 +179,13 @@ export function DistributePanel({ open, onOpenChange, documentId, title, content
               <Button size="sm" onClick={runExport} disabled={busy === "export"} className="gap-1.5">
                 {busy === "export" ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Download className="h-3.5 w-3.5" />} Export
               </Button>
-              <Button size="sm" variant="outline" onClick={runStageSignalDesk} disabled={busy === "signaldesk"} className="gap-1.5">
-                {busy === "signaldesk" ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : null} Stage in SignalDesk
+              <Button size="sm" variant="outline" onClick={onOpenSignalDesk} className="gap-1.5">
+                Send to SignalDesk…
               </Button>
             </div>
             <p className="text-xs text-muted-foreground">
-              &ldquo;Stage in SignalDesk&rdquo; creates a draft in SignalDesk for an editor to review and publish. It never publishes directly.
+              &ldquo;Send to SignalDesk&rdquo; opens a preflight that stages a draft in SignalDesk for an
+              editor to review and publish. It never publishes directly.
             </p>
           </TabsContent>
 

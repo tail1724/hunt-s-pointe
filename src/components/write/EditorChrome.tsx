@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
 import {
   Check, Loader2, AlertCircle, Download, Copy, Printer,
-  Eye, EyeOff, ChevronLeft, Save, History, ShieldCheck, Rss,
+  Eye, EyeOff, ChevronLeft, Save, History, ShieldCheck, Rss, Send,
 } from "lucide-react";
 import type { SaveStatus } from "@/hooks/useAutosave";
 import { toast } from "sonner";
@@ -24,6 +24,7 @@ interface Props {
   onOpenHistory?: () => void;
   onOpenProvenance?: () => void;
   onOpenDistribute?: () => void;
+  onOpenSignalDesk?: () => void;
 }
 
 function relativeTime(d: Date | null) {
@@ -38,7 +39,7 @@ function relativeTime(d: Date | null) {
 
 export function EditorChrome({
   title, status, savedAt, contentText, contentMarkdown,
-  wordCount, focusMode, onSave, onToggleFocus, onBack, onOpenHistory, onOpenProvenance, onOpenDistribute,
+  wordCount, focusMode, onSave, onToggleFocus, onBack, onOpenHistory, onOpenProvenance, onOpenDistribute, onOpenSignalDesk,
 }: Props) {
   const exportText = (ext: "md" | "txt") => {
     const body = ext === "md" ? (contentMarkdown ?? contentText) : contentText;
@@ -173,6 +174,17 @@ export function EditorChrome({
           {onOpenDistribute && (
             <Button variant="ghost" size="sm" className="h-8 gap-1.5 text-xs" onClick={onOpenDistribute} title="Distribute: CMS export, cascades, headlines, localization, bulk pipeline">
               <Rss className="h-3.5 w-3.5" /> <span className="hidden sm:inline">Distribute</span>
+            </Button>
+          )}
+          {onOpenSignalDesk && (
+            <Button
+              variant="default"
+              size="sm"
+              className="h-8 gap-1.5 text-xs"
+              onClick={onOpenSignalDesk}
+              title="Send to SignalDesk: stage as an unpublished review draft"
+            >
+              <Send className="h-3.5 w-3.5" /> <span className="hidden sm:inline">Send to SignalDesk</span>
             </Button>
           )}
           <DropdownMenu>

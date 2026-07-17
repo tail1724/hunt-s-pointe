@@ -13,7 +13,7 @@
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest",
-    "functions:check": "deno check --config supabase/functions/_check/deno.json supabase/functions/prompt-partner/index.ts supabase/functions/prompt-partner/turn.test.ts supabase/functions/rag-retrieve/index.ts supabase/functions/help-assist/index.ts supabase/functions/help-assist/plan.test.ts",
+    "functions:check": "deno check --config supabase/functions/_check/deno.json supabase/functions/prompt-partner/index.ts supabase/functions/prompt-partner/turn.test.ts supabase/functions/rag-retrieve/index.ts supabase/functions/help-assist/index.ts supabase/functions/help-assist/plan.test.ts supabase/functions/push-signaldesk/index.ts supabase/functions/signaldesk-status/index.ts",
     "functions:test": "deno test --config supabase/functions/_check/deno.json supabase/functions/prompt-partner/turn.test.ts && deno test --config supabase/functions/_check/deno.json --allow-read supabase/functions/help-assist/plan.test.ts"
   },
   "dependencies": {
