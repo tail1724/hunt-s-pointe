@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { Zap } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -26,6 +27,7 @@ interface Props {
 
 export function MobileAppShell({ children }: Props) {
   const location = useLocation();
+  const navigate = useNavigate();
   const { setOpen } = useMobileNav();
   const { signOut } = useAuth();
   const [accountOpen, setAccountOpen] = useState(false);
@@ -45,6 +47,20 @@ export function MobileAppShell({ children }: Props) {
     <div className="mobile-app-shell">
       <MobileHeader />
       <main className="mobile-app-shell__main">{children}</main>
+
+      {/* Immediate-capture entry point (Quantum PRD §8: mobile must always
+          keep capture one tap away). Hidden on the Idea Board itself and
+          while the keyboard is up (via mobile-nav.css). */}
+      {!location.pathname.startsWith("/app/ideas") && (
+        <button
+          type="button"
+          onClick={() => navigate("/app/ideas?capture=1")}
+          aria-label="Capture an idea"
+          className="mobile-capture-fab"
+        >
+          <Zap className="h-5 w-5" aria-hidden />
+        </button>
+      )}
 
       <MobileNavDrawer
         onOpenAccount={() => {

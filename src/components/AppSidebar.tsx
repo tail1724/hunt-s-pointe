@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import {
   Wand2, History, Library, Download, BarChart3, Plug, Settings, Sun, Moon, LogOut,
   Hexagon, Megaphone, ImageIcon, PenTool, FileText, FolderOpen, ChevronsLeft, ChevronsRight,
-  PanelTop, Archive, LifeBuoy, KanbanSquare,
+  PanelTop, Archive, LifeBuoy, KanbanSquare, Lightbulb,
   type LucideIcon,
 } from "lucide-react";
 import { useNavPlacement } from "@/hooks/useNavPlacement";
@@ -33,6 +33,7 @@ type NavItem = { title: string; url: string; icon: LucideIcon };
 export const workspaceItems: NavItem[] = [
   { title: "Write", url: "/app/write", icon: FileText },
   { title: "PressRoom", url: "/app/pressroom", icon: Hexagon },
+  { title: "Ideas", url: "/app/ideas", icon: Lightbulb },
   { title: "Organize", url: "/app/organize", icon: KanbanSquare },
 ];
 // The Bible reader is preserved (code + tables) but dropped from the primary

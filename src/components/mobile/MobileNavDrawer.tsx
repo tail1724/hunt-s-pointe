@@ -2,7 +2,7 @@ import { useTheme } from "next-themes";
 import { useNavigate } from "react-router-dom";
 import {
   Hexagon, FileText, Archive, Library, BarChart3, Plug, LifeBuoy,
-  Settings, Sun, Moon, KanbanSquare, type LucideIcon,
+  Settings, Sun, Moon, KanbanSquare, Lightbulb, type LucideIcon,
 } from "lucide-react";
 import { Sheet, SheetContent, SheetTitle, SheetDescription } from "@/components/ui/sheet";
 import { NavLink } from "@/components/NavLink";
@@ -19,6 +19,7 @@ interface NavItem {
 }
 
 const NAV_ITEMS: NavItem[] = [
+  { title: "Ideas", to: "/app/ideas", icon: Lightbulb },
   { title: "Write", to: "/app/write", icon: FileText },
   { title: "PressRoom", to: "/app/pressroom", icon: Hexagon },
   { title: "Organize", to: "/app/organize", icon: KanbanSquare },

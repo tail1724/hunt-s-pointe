@@ -61,6 +61,29 @@ export default {
           DEFAULT: "hsl(var(--verified))",
           foreground: "hsl(var(--verified-foreground))",
         },
+        // Quantum Newsroom accents (PRD §4): flame = editorial momentum,
+        // lime = instant capture / live signals. Never warnings.
+        energy: {
+          DEFAULT: "hsl(var(--energy))",
+          foreground: "hsl(var(--energy-foreground))",
+        },
+        signal: {
+          DEFAULT: "hsl(var(--signal))",
+          foreground: "hsl(var(--signal-foreground))",
+        },
+        // Quantum Newsroom semantic workflow palette (PRD §5) — one meaning
+        // per token, identical values in Hunt's Pointe and Payload Admin.
+        // Pair every use with a label + non-color cue.
+        status: {
+          draft: "hsl(var(--qn-status-draft))",
+          review: "hsl(var(--qn-status-review))",
+          approved: "hsl(var(--qn-status-approved))",
+          scheduled: "hsl(var(--qn-status-scheduled))",
+          published: "hsl(var(--qn-status-published))",
+          ai: "hsl(var(--qn-status-ai))",
+          human: "hsl(var(--qn-status-human))",
+          warning: "hsl(var(--qn-status-warning))",
+        },
         popover: {
           DEFAULT: "hsl(var(--popover))",
           foreground: "hsl(var(--popover-foreground))",
