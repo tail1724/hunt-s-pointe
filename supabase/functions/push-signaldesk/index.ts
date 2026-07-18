@@ -2,18 +2,23 @@ import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.98.0";
 import { z } from "https://esm.sh/zod@3.23.8";
 import { corsHeaders, jsonResponse, requireUser, logEvent } from "../_shared/auth.ts";
+import { buildEditorialPackage } from "../_shared/editorial-package.ts";
 
 // Stage a document as a DRAFT in SignalDesk (Hampton Roads History).
 //
-// SignalDesk's ingest endpoint (POST /api/integrations/hunts-pointe) always
-// creates a draft — a human editor publishes it in Payload's /admin. This
-// function signs the payload with an HMAC shared secret and forwards it.
+// SignalDesk's ingest endpoint (POST /api/integrations/hunts-pointe) creates
+// or updates exactly one linked review draft — a human editor publishes it in
+// Payload's /admin. This function signs the payload with an HMAC shared
+// secret and forwards it.
 //
-// Epic F (VaporNet Americana gap-remediation plan) upgrade: source_version
-// now increments per *push* (tracked in signaldesk_pushes, not per edit),
-// an Idempotency-Key header is derived from it, byline strings are promoted
-// to authors[], and provenance (including the server-verified human editor
-// id — never trust a client-supplied one) travels with every push.
+// Quantum Newsroom handoff upgrade: the outbound body is now a versioned,
+// schema-validated EditorialPackage v1 envelope (integration PRD §6) —
+// identity, revision lineage + checksum, editorial content, taxonomy, SEO,
+// assets, provenance, a deterministic validation snapshot, and a publishing
+// *proposal* (Payload stays authoritative for publishing). source_version
+// increments per *push* (tracked in signaldesk_pushes) and doubles as the
+// package revision; the Idempotency-Key is derived from it. The verified
+// JWT user id is the package actor — never trust a client-supplied one.
 //
 // Edge Function secrets (never exposed to the browser):
 //   SIGNALDESK_INGEST_URL     e.g. https://<signaldesk-host>/api/integrations/hunts-pointe
@@ -24,6 +29,7 @@ const MediaSchema = z.object({
   url: z.string().url(),
   alt: z.string().max(500),
   credit: z.string().max(300).optional(),
+  caption: z.string().max(500).optional(),
   rights: z.enum(["owned", "licensed", "review"]),
 });
 
@@ -31,9 +37,13 @@ const BodySchema = z.object({
   document_id: z.string().uuid(),
   title: z.string().min(1).max(300),
   dek: z.string().max(500).optional().nullable(),
+  excerpt: z.string().max(1000).optional().nullable(),
+  notes: z.string().max(5000).optional().nullable(),
   byline: z.array(z.string()).optional().nullable(),
   section: z.string().max(100).optional().nullable(),
   story_tags: z.array(z.string()).optional().nullable(),
+  seo_keywords: z.array(z.string().max(80)).max(25).optional().nullable(),
+  source_card_id: z.string().max(200).optional().nullable(),
   publish_at: z.string().optional().nullable(),
   content_text: z.string().min(1).max(50000),
   slug: z.string().max(120).optional().nullable(),
@@ -89,7 +99,7 @@ serve(async (req) => {
   // check turns into a 409 rather than a silent duplicate draft.
   const { data: existingPush } = await supabase
     .from("signaldesk_pushes")
-    .select("id, push_count")
+    .select("id, push_count, last_draft_id")
     .eq("document_id", body.document_id)
     .maybeSingle();
 
@@ -109,33 +119,18 @@ serve(async (req) => {
   }
 
   const idempotencyKey = `hp:${body.document_id}:${sourceVersion}`;
-  const authors = (body.byline || [])
-    .map((name) => name.trim())
-    .filter(Boolean)
-    .map((name) => ({ name }));
 
-  const outboundPayload = {
-    source_document_id: body.document_id,
-    source_version: sourceVersion,
-    title: body.title,
-    dek: body.dek,
-    authors,
-    section: body.section,
-    story_tags: body.story_tags,
-    publish_at: body.publish_at,
-    content_text: body.content_text,
-    slug: body.slug,
-    media: body.media || [],
-    provenance: {
-      // No per-document citation ledger is wired up yet — an honest empty
-      // list beats a fabricated one. See docs/hunts-pointe-omnibus-plan.md
-      // for the citation-verification surface this should eventually read.
-      sources: [],
-      model: "hunt-s-pointe",
-      // Set server-side from the verified JWT, never trusted from the client.
-      human_editor_id: userId,
-    },
-  };
+  // Assemble the canonical EditorialPackage v1 envelope. Revision equals the
+  // push counter; the parent is the previous acked push (null on first push)
+  // so SignalDesk can enforce PRD §7.2 revision preconditions.
+  const outboundPayload = await buildEditorialPackage(body, {
+    actorId: userId,
+    revision: sourceVersion,
+    parentRevision: existingPush ? existingPush.push_count : null,
+    idempotencyKey,
+    publicationId: "hampton-roads",
+    knownArticleId: existingPush?.last_draft_id ?? null,
+  });
 
   // The signed bytes must be byte-for-byte what we POST.
   const bodyStr = JSON.stringify(outboundPayload);
@@ -165,14 +160,31 @@ serve(async (req) => {
   logEvent("push-signaldesk", userId, resp.status, Date.now() - t0, { ok: resp.ok });
 
   if (!resp.ok) {
+    // PRD §7.2: a stale or editorially-locked package is an explicit,
+    // actionable conflict — never a silent overwrite. Surface it distinctly
+    // so the preflight can explain what happened and what to do next.
+    const conflictCode = resp.status === 409 && typeof result?.code === "string" ? result.code : null;
     await supabase
       .from("signaldesk_pushes")
       .update({
-        last_status: "error",
-        last_error: typeof result?.error === "string" ? result.error : `HTTP ${resp.status}`,
+        last_status: conflictCode ? "conflict" : "error",
+        last_error:
+          conflictCode ?? (typeof result?.error === "string" ? result.error : `HTTP ${resp.status}`),
         updated_at: new Date().toISOString(),
       })
       .eq("document_id", body.document_id);
+    if (conflictCode) {
+      return jsonResponse(
+        {
+          error: "SignalDesk reported a conflict",
+          code: conflictCode,
+          current_revision: result?.current_revision ?? null,
+          workflow_stage: result?.workflow_stage ?? null,
+          admin_path: result?.admin_path ?? null,
+        },
+        409
+      );
+    }
     return jsonResponse({ error: "SignalDesk rejected the draft", detail: result }, 502);
   }
 
@@ -195,6 +207,8 @@ serve(async (req) => {
       status: "draft",
       admin_path: result.admin_path ?? null,
       source_version: sourceVersion,
+      revision: result.revision ?? sourceVersion,
+      action: result.action ?? "created",
       replayed: Boolean(result.replayed),
     },
     200
