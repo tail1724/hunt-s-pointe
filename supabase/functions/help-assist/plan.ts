@@ -1,6 +1,6 @@
 import corpusData from "./corpus.json" with { type: "json" };
 
-// Retrieval + routing for the Ezra Guide assistant, kept free of any server or
+// Retrieval + routing for the PressRoom Guide assistant, kept free of any server or
 // network imports so it can be unit-tested directly (see plan.test.ts). The
 // corpus is generated from src/data/guides.ts by scripts/build-help-corpus.ts.
 

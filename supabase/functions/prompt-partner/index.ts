@@ -449,8 +449,8 @@ serve(async (req) => {
 
     // Do not expose the visual-only nexus_signal tool during the final answer
     // stream. Some models satisfy that tool call without emitting text, which
-    // leaves Ezra looking like it is still thinking even though the request
-    // completed. The Ezra UI does not consume legacy nexus signals, so the
+    // leaves PressRoom looking like it is still thinking even though the request
+    // completed. The PressRoom UI does not consume legacy nexus signals, so the
     // final stream should prioritize user-visible answer text.
     const streamTools = useTools && hasBibleCtx
       ? [DOCUMENT_ARTIFACT_TOOL]

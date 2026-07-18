@@ -2,12 +2,12 @@ import { useCallback, useEffect, useState } from "react";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "sonner";
 import { BookOpen, FileSearch, Link2, CalendarDays, Languages } from "lucide-react";
-import { EzraRail } from "@/components/ezra/EzraRail";
-import { EzraMobileHeader } from "@/components/ezra/EzraMobileHeader";
-import { EzraSessionsDrawer } from "@/components/ezra/EzraSessionsDrawer";
-import { EzraComposer } from "@/components/ezra/EzraComposer";
-import { EzraThread } from "@/components/ezra/EzraThread";
-import { useEzraChat } from "@/components/ezra/useEzraChat";
+import { PressRoomRail } from "@/components/pressroom/PressRoomRail";
+import { PressRoomMobileHeader } from "@/components/pressroom/PressRoomMobileHeader";
+import { PressRoomSessionsDrawer } from "@/components/pressroom/PressRoomSessionsDrawer";
+import { PressRoomComposer } from "@/components/pressroom/PressRoomComposer";
+import { PressRoomThread } from "@/components/pressroom/PressRoomThread";
+import { usePressRoomChat } from "@/components/pressroom/usePressRoomChat";
 import { useScripturePreferences } from "@/hooks/useScripturePreferences";
 import { ScripturePreferencesDialog } from "@/components/sentient/ScripturePreferencesDialog";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -58,11 +58,11 @@ function deadlineNote(): string {
   return days === 1 ? "1 day to deadline" : `${days} days to deadline`;
 }
 
-const HISTORY_OPEN_KEY = "ezra.history.open";
-const SCRIPTURE_MODE_KEY = "ezra.scripture.mode";
-// Legacy keys preserved for one-time migration from prior "ezra.*" namespace.
-const LEGACY_HISTORY_OPEN_KEY = "ezra.history.open";
-const LEGACY_SCRIPTURE_MODE_KEY = "ezra.scripture.mode";
+const HISTORY_OPEN_KEY = "pressroom.history.open";
+const SCRIPTURE_MODE_KEY = "pressroom.scripture.mode";
+// Legacy keys preserved for one-time migration from prior "pressroom.*" namespace.
+const LEGACY_HISTORY_OPEN_KEY = "pressroom.history.open";
+const LEGACY_SCRIPTURE_MODE_KEY = "pressroom.scripture.mode";
 
 function readLegacyMigration(key: string, legacyKey: string): string | null {
   if (typeof window === "undefined") return null;
@@ -77,7 +77,7 @@ function readLegacyMigration(key: string, legacyKey: string): string | null {
   return null;
 }
 
-export default function Ezra() {
+export default function PressRoom() {
   const [railOpen, setRailOpen] = useState<boolean>(() => {
     if (typeof window === "undefined") return false;
     const stored = readLegacyMigration(HISTORY_OPEN_KEY, LEGACY_HISTORY_OPEN_KEY);
@@ -119,7 +119,7 @@ export default function Ezra() {
     }
   }, [scriptureMode, prefsLoaded, scripturePrefs]);
 
-  const { messages, isLoading, isHydrating, pipeline, send, stop, regenerate, editAndResend, reset } = useEzraChat({
+  const { messages, isLoading, isHydrating, pipeline, send, stop, regenerate, editAndResend, reset } = usePressRoomChat({
     sessionId: activeSessionId,
     onSessionCreated: (id) => {
       setActiveSessionId(id);
@@ -180,9 +180,9 @@ export default function Ezra() {
 
 
   return (
-    <div className="ezra-surface h-full w-full flex overflow-hidden">
+    <div className="pressroom-surface h-full w-full flex overflow-hidden">
       {!isMobile && (
-        <EzraRail
+        <PressRoomRail
           open={railOpen}
           onToggle={() => setRailOpen((o) => !o)}
           activeSessionId={activeSessionId}
@@ -194,7 +194,7 @@ export default function Ezra() {
 
       <main className="flex-1 min-w-0 flex flex-col relative">
         {isMobile && (
-          <EzraMobileHeader
+          <PressRoomMobileHeader
             sessionId={activeSessionId}
             onOpenHistory={() => setHistoryDrawerOpen(true)}
             onNewSession={handleNewSession}
@@ -207,24 +207,24 @@ export default function Ezra() {
           <div className="flex-1 min-h-0 overflow-hidden px-4 py-8">
             <div className="mx-auto w-full max-w-3xl space-y-6">
               <div className="flex justify-end">
-                <div className="h-9 w-2/5 animate-pulse rounded-2xl bg-[var(--ezra-hover-bg)]" />
+                <div className="h-9 w-2/5 animate-pulse rounded-2xl bg-[var(--pressroom-hover-bg)]" />
               </div>
               <div className="space-y-2.5">
-                <div className="h-4 w-4/5 animate-pulse rounded bg-[var(--ezra-hover-bg)]" />
-                <div className="h-4 w-3/5 animate-pulse rounded bg-[var(--ezra-hover-bg)]" />
-                <div className="h-4 w-2/3 animate-pulse rounded bg-[var(--ezra-hover-bg)]" />
+                <div className="h-4 w-4/5 animate-pulse rounded bg-[var(--pressroom-hover-bg)]" />
+                <div className="h-4 w-3/5 animate-pulse rounded bg-[var(--pressroom-hover-bg)]" />
+                <div className="h-4 w-2/3 animate-pulse rounded bg-[var(--pressroom-hover-bg)]" />
               </div>
               <div className="flex justify-end">
-                <div className="h-9 w-1/3 animate-pulse rounded-2xl bg-[var(--ezra-hover-bg)]" />
+                <div className="h-9 w-1/3 animate-pulse rounded-2xl bg-[var(--pressroom-hover-bg)]" />
               </div>
             </div>
           </div>
         ) : isEmpty ? (
           <div className="flex-1 flex flex-col items-center justify-center px-4 py-8 relative overflow-y-auto">
-            <div className="pointer-events-none absolute inset-0 ezra-radial" aria-hidden />
-            <div className="relative w-full max-w-2xl text-center mb-7 ezra-msg-enter">
-              <div className="inline-flex items-center gap-1.5 rounded-full border border-[var(--ezra-border)] bg-[var(--ezra-panel)]/80 px-3 py-1 text-[11px] text-[var(--ezra-fg-muted)]">
-                <CalendarDays className="h-3 w-3 text-[var(--ezra-accent)]" />
+            <div className="pointer-events-none absolute inset-0 pressroom-radial" aria-hidden />
+            <div className="relative w-full max-w-2xl text-center mb-7 pressroom-msg-enter">
+              <div className="inline-flex items-center gap-1.5 rounded-full border border-[var(--pressroom-border)] bg-[var(--pressroom-panel)]/80 px-3 py-1 text-[11px] text-[var(--pressroom-fg-muted)]">
+                <CalendarDays className="h-3 w-3 text-[var(--pressroom-accent)]" />
                 {new Date().toLocaleDateString(undefined, { weekday: "long" })} · {deadlineNote()}
               </div>
               <h1 className="mt-4 font-display text-[clamp(1.625rem,5vw,2.25rem)] md:text-4xl font-semibold tracking-tight text-foreground text-balance">
@@ -235,7 +235,7 @@ export default function Ezra() {
               </p>
             </div>
             <div className="relative w-full max-w-2xl">
-              <EzraComposer
+              <PressRoomComposer
                 value={input}
                 onChange={setInput}
                 onSubmit={handleSubmit}
@@ -245,10 +245,10 @@ export default function Ezra() {
                 onScriptureToggle={handleScriptureToggle}
                 glow
               />
-              <p className="mt-2 text-center text-[11px] text-[var(--ezra-fg-muted)]/70">
+              <p className="mt-2 text-center text-[11px] text-[var(--pressroom-fg-muted)]/70">
                 Enter to send · Shift+Enter for a new line
               </p>
-              <div className="mt-5 hidden gap-2 overflow-x-auto snap-x snap-mandatory pb-1 -mx-4 px-4 ezra-scroll-hidden sm:mx-0 sm:grid sm:grid-cols-2 sm:overflow-visible sm:px-0">
+              <div className="mt-5 hidden gap-2 overflow-x-auto snap-x snap-mandatory pb-1 -mx-4 px-4 pressroom-scroll-hidden sm:mx-0 sm:grid sm:grid-cols-2 sm:overflow-visible sm:px-0">
                 {STARTERS.map((s, i) => (
                   <button
                     key={s.title}
@@ -256,14 +256,14 @@ export default function Ezra() {
                     onClick={() => send(s.prompt)}
                     disabled={isLoading}
                     style={{ "--stagger-i": i + 2 } as React.CSSProperties}
-                    className="group flex shrink-0 basis-[78%] snap-start items-center gap-3 rounded-2xl border border-[var(--ezra-border)] bg-[var(--ezra-panel)]/70 px-4 py-3 text-left ezra-tactile rise-in hover:border-[var(--ezra-accent)]/50 hover:bg-[var(--ezra-hover-bg)] disabled:opacity-50 sm:basis-auto"
+                    className="group flex shrink-0 basis-[78%] snap-start items-center gap-3 rounded-2xl border border-[var(--pressroom-border)] bg-[var(--pressroom-panel)]/70 px-4 py-3 text-left pressroom-tactile rise-in hover:border-[var(--pressroom-accent)]/50 hover:bg-[var(--pressroom-hover-bg)] disabled:opacity-50 sm:basis-auto"
                   >
-                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[var(--ezra-active-bg)] text-[var(--ezra-accent)] transition-transform duration-200 group-hover:scale-110">
+                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[var(--pressroom-active-bg)] text-[var(--pressroom-accent)] transition-transform duration-200 group-hover:scale-110">
                       <s.icon className="h-4 w-4" />
                     </span>
                     <span className="min-w-0">
-                      <span className="block text-sm font-medium text-[var(--ezra-fg)]">{s.title}</span>
-                      <span className="block truncate text-xs text-[var(--ezra-fg-muted)]">{s.sub}</span>
+                      <span className="block text-sm font-medium text-[var(--pressroom-fg)]">{s.title}</span>
+                      <span className="block truncate text-xs text-[var(--pressroom-fg-muted)]">{s.sub}</span>
                     </span>
                   </button>
                 ))}
@@ -274,7 +274,7 @@ export default function Ezra() {
         ) : (
           <>
             <div className="flex-1 min-h-0">
-              <EzraThread
+              <PressRoomThread
                 messages={messages}
                 isLoading={isLoading}
                 pipeline={pipeline}
@@ -287,11 +287,11 @@ export default function Ezra() {
                 panel, so the conversation and the input read as one surface. */}
             <div className="relative px-4 pb-4 pt-1">
               <div
-                className="pointer-events-none absolute inset-x-0 -top-12 h-12 bg-gradient-to-t from-[var(--ezra-bg)] to-transparent"
+                className="pointer-events-none absolute inset-x-0 -top-12 h-12 bg-gradient-to-t from-[var(--pressroom-bg)] to-transparent"
                 aria-hidden
               />
               <div className="max-w-3xl mx-auto">
-                <EzraComposer
+                <PressRoomComposer
                   value={input}
                   onChange={setInput}
                   onSubmit={handleSubmit}
@@ -301,7 +301,7 @@ export default function Ezra() {
                   onScriptureToggle={handleScriptureToggle}
                   placeholder="Ask a follow-up…"
                 />
-                <p className="mt-1.5 text-center text-[10px] text-[var(--ezra-fg-muted)]/60 select-none">
+                <p className="mt-1.5 text-center text-[10px] text-[var(--pressroom-fg-muted)]/60 select-none">
                   PressRoom can make mistakes — verify every claim before it hits your staging queue.
                 </p>
               </div>
@@ -320,7 +320,7 @@ export default function Ezra() {
       />
 
       {isMobile && (
-        <EzraSessionsDrawer
+        <PressRoomSessionsDrawer
           open={historyDrawerOpen}
           onOpenChange={setHistoryDrawerOpen}
           activeSessionId={activeSessionId}

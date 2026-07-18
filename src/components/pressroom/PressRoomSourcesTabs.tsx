@@ -21,7 +21,7 @@ interface Props {
 
 type Tab = "answer" | "links" | "images";
 
-export function EzraSourcesTabs({ answer, sources, images }: Props) {
+export function PressRoomSourcesTabs({ answer, sources, images }: Props) {
   const [tab, setTab] = useState<Tab>("answer");
   const hasLinks = !!sources?.length;
   const hasImages = !!images?.length;
@@ -30,7 +30,7 @@ export function EzraSourcesTabs({ answer, sources, images }: Props) {
 
   return (
     <div>
-      <div className="flex items-center gap-4 border-b border-[var(--ezra-border)] mb-4">
+      <div className="flex items-center gap-4 border-b border-[var(--pressroom-border)] mb-4">
         <TabButton active={tab === "answer"} onClick={() => setTab("answer")} icon={<Sparkles className="h-3.5 w-3.5" />}>
           Answer
         </TabButton>
@@ -56,7 +56,7 @@ export function EzraSourcesTabs({ answer, sources, images }: Props) {
                 href={s.url}
                 target="_blank"
                 rel="noreferrer"
-                className="block p-3 rounded-lg border border-[var(--ezra-border)] hover:border-accent/40 hover:bg-[var(--ezra-panel-soft)] ezra-tactile"
+                className="block p-3 rounded-lg border border-[var(--pressroom-border)] hover:border-accent/40 hover:bg-[var(--pressroom-panel-soft)] pressroom-tactile"
               >
                 <div className="text-sm text-foreground/90 truncate">{s.title || s.url}</div>
                 {s.snippet && (
@@ -77,7 +77,7 @@ export function EzraSourcesTabs({ answer, sources, images }: Props) {
               href={img.source || img.url}
               target="_blank"
               rel="noreferrer"
-              className="block aspect-square rounded-lg overflow-hidden border border-[var(--ezra-border)] ezra-tactile"
+              className="block aspect-square rounded-lg overflow-hidden border border-[var(--pressroom-border)] pressroom-tactile"
             >
               <img src={img.url} alt={img.alt || ""} loading="lazy" className="w-full h-full object-cover" />
             </a>

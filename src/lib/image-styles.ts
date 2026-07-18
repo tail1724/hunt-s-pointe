@@ -1,4 +1,4 @@
-// Curated art-direction presets for the Ezra image suite.
+// Curated art-direction presets for the PressRoom image suite.
 //
 // Every preset encodes a real design tradition — modern editorial or classic
 // sacred art — with explicit craft constraints so output reads as designed,

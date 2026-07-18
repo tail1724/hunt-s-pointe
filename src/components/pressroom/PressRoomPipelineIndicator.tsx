@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 /**
  * Pipeline stages, driven by the real client-side orchestration in
- * useEzraChat — not a bank of random phrases. What the user reads while
+ * usePressRoomChat — not a bank of random phrases. What the user reads while
  * waiting is what the system is actually doing.
  */
 export type PipelineStage =
@@ -43,7 +43,7 @@ export function label({ stage, detail }: PipelineState): string {
   }
 }
 
-export function EzraPipelineIndicator({ state }: { state: PipelineState }) {
+export function PressRoomPipelineIndicator({ state }: { state: PipelineState }) {
   const [elapsed, setElapsed] = useState(0);
 
   const reduceMotion =
@@ -56,10 +56,10 @@ export function EzraPipelineIndicator({ state }: { state: PipelineState }) {
   }, []);
 
   return (
-    <div className="ezra-msg-enter flex items-center gap-2.5 text-xs text-muted-foreground" role="status" aria-live="polite">
-      <span className="ezra-pulse-dot" />
+    <div className="pressroom-msg-enter flex items-center gap-2.5 text-xs text-muted-foreground" role="status" aria-live="polite">
+      <span className="pressroom-pulse-dot" />
       {/* Keyed by stage so each real transition crossfades in. */}
-      <span key={state.stage} className={reduceMotion ? "" : "ezra-trace-fade think-shimmer"}>
+      <span key={state.stage} className={reduceMotion ? "" : "pressroom-trace-fade think-shimmer"}>
         {label(state)}…
       </span>
       {elapsed >= 2 && <span className="opacity-50">· {elapsed}s</span>}

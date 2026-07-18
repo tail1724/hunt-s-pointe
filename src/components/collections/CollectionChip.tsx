@@ -8,7 +8,7 @@ interface Props {
 }
 
 /**
- * Compact chip shown in Ezra/Write composers when a collection is active.
+ * Compact chip shown in PressRoom/Write composers when a collection is active.
  * Click the name to jump to the collection detail; click × to deactivate.
  */
 export function CollectionChip({ collection, onClear }: Props) {

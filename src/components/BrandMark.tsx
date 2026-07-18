@@ -7,7 +7,7 @@ const ACCENT = "#A855F7";
 const ACCENT_HI = "#C084FC";
 
 /** The bolt glyph alone — reused anywhere the full wordmark doesn't fit (app shell tiles, favicons-in-JSX, etc). Name kept for import stability; renders the Hunt's Pointe / PressRoom mark. */
-export function EzraBoltIcon({ size = 17, className }: { size?: number; className?: string }) {
+export function PressRoomBoltIcon({ size = 17, className }: { size?: number; className?: string }) {
   const gradId = useId();
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className} aria-hidden="true">
@@ -60,7 +60,7 @@ export function BrandMark({
           boxShadow: "0 1px 0 rgba(255,255,255,.18) inset, 0 6px 18px rgba(88,28,135,.28)",
         }}
       >
-        <EzraBoltIcon size={size * 0.53} />
+        <PressRoomBoltIcon size={size * 0.53} />
       </span>
       {showWordmark && (
         <span style={{ display: "inline-flex", alignItems: "baseline", gap: 8, lineHeight: 1 }}>

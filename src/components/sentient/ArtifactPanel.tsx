@@ -27,10 +27,10 @@ export function ArtifactPanel({ open, onOpenChange, title, content, onSave }: Pr
     a.href = url; a.download = `${title.replace(/[^a-z0-9]+/gi, "-").toLowerCase()}.md`; a.click();
     URL.revokeObjectURL(url);
   };
-  const sendToEzra = () => {
+  const sendToPressRoom = () => {
     sessionStorage.setItem("prefill-seed", content);
     navigate("/app/sentient");
-    toast.success("Sent to Ezra");
+    toast.success("Sent to PressRoom");
   };
 
   return (
@@ -44,7 +44,7 @@ export function ArtifactPanel({ open, onOpenChange, title, content, onSave }: Pr
         <div className="flex flex-wrap gap-1.5 mt-2">
           <Button size="sm" variant="outline" className="h-7 text-xs gap-1" onClick={copy} aria-label="Copy artifact"><Copy className="h-3 w-3"/> Copy</Button>
           <Button size="sm" variant="outline" className="h-7 text-xs gap-1" onClick={download} aria-label="Download artifact"><Download className="h-3 w-3"/> .md</Button>
-          <Button size="sm" variant="outline" className="h-7 text-xs gap-1" onClick={sendToEzra} aria-label="Send artifact to Ezra"><ArrowRight className="h-3 w-3"/> Ezra</Button>
+          <Button size="sm" variant="outline" className="h-7 text-xs gap-1" onClick={sendToPressRoom} aria-label="Send artifact to PressRoom"><ArrowRight className="h-3 w-3"/> PressRoom</Button>
           {onSave && !editing && (
             <Button size="sm" variant="ghost" className="h-7 text-xs" onClick={() => { setDraft(content); setEditing(true); }}>Edit</Button>
           )}

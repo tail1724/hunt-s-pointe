@@ -2,10 +2,10 @@ import type { Msg } from "@/components/sentient/ChatMessages";
 
 export function sessionToMarkdown(title: string, messages: Msg[]): string {
   const date = new Date().toISOString().split("T")[0];
-  const head = `# ${title}\n\n_Exported from Ezra · ${date}_\n\n---\n\n`;
+  const head = `# ${title}\n\n_Exported from PressRoom · ${date}_\n\n---\n\n`;
   const body = messages
     .map((m) => {
-      const who = m.role === "user" ? "**You**" : "**Ezra**";
+      const who = m.role === "user" ? "**You**" : "**PressRoom**";
       return `${who}\n\n${m.content}\n`;
     })
     .join("\n---\n\n");

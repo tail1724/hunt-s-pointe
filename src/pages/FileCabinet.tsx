@@ -125,7 +125,7 @@ export default function FileCabinet() {
 
   // Hand the document to PressRoom as a research seed — the newsroom and the
   // chat are one workflow, not two silos.
-  const askEzra = (d: DocRow) => {
+  const askPressRoom = (d: DocRow) => {
     const excerpt = (d.content_text || "").trim().slice(0, 800);
     const prompt = excerpt
       ? `Let's work on my draft "${d.title || "Untitled Document"}". Here's where it stands:\n\n${excerpt}${d.content_text.length > 800 ? "…" : ""}\n\nWhat's strong, and what should I sharpen?`
@@ -348,7 +348,7 @@ export default function FileCabinet() {
                     <TooltipTrigger asChild>
                       <button
                         type="button"
-                        onClick={(e) => { e.preventDefault(); askEzra(d); }}
+                        onClick={(e) => { e.preventDefault(); askPressRoom(d); }}
                         className="flex h-9 w-9 md:h-7 md:w-7 items-center justify-center rounded-md text-muted-foreground tactile hover:bg-primary/10 hover:text-primary"
                         aria-label="Ask PressRoom about this document"
                       >

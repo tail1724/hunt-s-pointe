@@ -3,7 +3,7 @@ import { playNavFlight, type FlightDirection } from "@/lib/nav-flight";
 
 export type NavPlacement = "left" | "top";
 
-const KEY = "ezra.navPlacement";
+const KEY = "pressroom.navPlacement";
 
 function read(): NavPlacement {
   if (typeof window === "undefined") return "top";

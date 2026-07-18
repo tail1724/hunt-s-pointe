@@ -1,4 +1,4 @@
-// Rolling conversation memory for Ezra sessions (pipeline v2).
+// Rolling conversation memory for PressRoom sessions (pipeline v2).
 //
 // Called fire-and-forget after each completed assistant turn. Maintains one
 // row per session: a running summary plus a short list of salient facts

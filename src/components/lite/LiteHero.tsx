@@ -16,7 +16,7 @@ export function LiteHero({ onPickChip }: LiteHeroProps) {
         Ask anything. <span className="text-primary">See it shipped.</span>
       </h1>
       <p className="mt-2 md:mt-3 text-sm md:text-base text-muted-foreground max-w-md mx-auto">
-        Try Ezra free — no signup needed for your first two turns.
+        Try PressRoom free — no signup needed for your first two turns.
       </p>
 
       <div className="mt-3 flex items-center justify-center gap-3 text-[11px] md:text-xs text-muted-foreground">

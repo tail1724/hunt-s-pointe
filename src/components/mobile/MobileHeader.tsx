@@ -26,7 +26,7 @@ export function MobileHeader() {
 
       {/* The masthead: centered, spanning the bar, the quiet anchor of the
           whole authenticated experience. */}
-      <span className="mobile-header__wordmark">Ezra Research</span>
+      <span className="mobile-header__wordmark">PressRoom Research</span>
     </header>
   );
 }

@@ -23,10 +23,10 @@ interface GenRow {
 type FamilyFilter = "all" | StyleFamily;
 
 /**
- * The Images section of the File Cabinet — every generation from the Ezra
+ * The Images section of the File Cabinet — every generation from the PressRoom
  * image studio lands here automatically. Search by prompt, filter by
  * modern/classic family, open in the lightbox, download, or hand the prompt
- * back to Ezra.
+ * back to PressRoom.
  */
 export function ImageGallery() {
   const { user } = useAuth();
@@ -70,7 +70,7 @@ export function ImageGallery() {
     toast.success("Image deleted");
   };
 
-  const askEzra = (row: GenRow) => {
+  const askPressRoom = (row: GenRow) => {
     navigate("/app/pressroom", {
       state: { prefill: `Let's iterate on this image concept:\n\n${row.source_prompt.slice(0, 500)}` },
     });
@@ -98,7 +98,7 @@ export function ImageGallery() {
           const blob = await fetch(row.result_url!).then((r) => (r.ok ? r.blob() : Promise.reject()));
           const a = document.createElement("a");
           a.href = URL.createObjectURL(blob);
-          a.download = `ezra-${decodeStyleCaption(row.caption)?.id ?? "image"}-${row.id.slice(0, 8)}.png`;
+          a.download = `pressroom-${decodeStyleCaption(row.caption)?.id ?? "image"}-${row.id.slice(0, 8)}.png`;
           a.click();
           URL.revokeObjectURL(a.href);
           saved++;
@@ -255,7 +255,7 @@ export function ImageGallery() {
                     <TooltipTrigger asChild>
                       <button
                         type="button"
-                        onClick={() => askEzra(row)}
+                        onClick={() => askPressRoom(row)}
                         className="flex h-9 w-9 md:h-7 md:w-7 items-center justify-center rounded-md text-muted-foreground tactile hover:bg-primary/10 hover:text-primary"
                         aria-label="Iterate with PressRoom"
                       >

@@ -58,8 +58,8 @@ const SECTIONS: Section[] = [
       {
         title: "A tour of your study",
         body: [
-          "Think of the app as a pastor's study with five rooms. Ezra is the research partner at the desk — ask it anything from \"walk me through Luke 15\" to \"draft a funeral homily for someone who wasn't religious.\" Write is the blank page where sermons and letters take shape. Collections is the bookshelf where your notes, PDFs, audio, and links live. File Cabinet holds finished work, and Analytics shows you how you've been using it all.",
-          "Everything connects: Ezra can read from your Collections, drafts from Ezra open in Write, and finished pieces land in the File Cabinet.",
+          "Think of the app as a pastor's study with five rooms. PressRoom is the research partner at the desk — ask it anything from \"walk me through Luke 15\" to \"draft a funeral homily for someone who wasn't religious.\" Write is the blank page where sermons and letters take shape. Collections is the bookshelf where your notes, PDFs, audio, and links live. File Cabinet holds finished work, and Analytics shows you how you've been using it all.",
+          "Everything connects: PressRoom can read from your Collections, drafts from PressRoom open in Write, and finished pieces land in the File Cabinet.",
         ],
       },
       {
@@ -69,61 +69,61 @@ const SECTIONS: Section[] = [
         ],
         steps: [
           "Create a collection for this week's text (Collections → New) and drop in your notes, a commentary PDF, or a voice memo.",
-          "Open Ezra, pick your collection in the composer, and ask your first study question.",
-          "When Ezra produces a draft, click into the document card and continue in Write.",
+          "Open PressRoom, pick your collection in the composer, and ask your first study question.",
+          "When PressRoom produces a draft, click into the document card and continue in Write.",
           "Preach it Sunday. Then check Analytics on Monday to see what the preparation actually cost.",
         ],
       },
       {
         title: "Keyboard habits worth building",
         body: [
-          "Enter sends a message in Ezra; Shift+Enter adds a line break. In Write, the Ezra assist bar accepts a ghost suggestion with Tab and submits with Enter. Small habits, but they add up across a season of sermons.",
+          "Enter sends a message in PressRoom; Shift+Enter adds a line break. In Write, the PressRoom assist bar accepts a ghost suggestion with Tab and submits with Enter. Small habits, but they add up across a season of sermons.",
         ],
       },
     ],
   },
   {
-    id: "ezra",
-    label: "Ezra",
+    id: "pressroom",
+    label: "PressRoom",
     icon: Hexagon,
     blurb: "Your research partner for study, sermon prep, and pastoral writing.",
     guides: [
       {
         title: "Asking better study questions",
         body: [
-          "Ezra does its best work when you give it the same context you'd give a trusted associate pastor: the passage, the audience, and the moment. \"Analyze Proverbs 3:5–6\" is good; \"I'm preaching Proverbs 3:5–6 to a congregation walking through a church transition — what should I draw out?\" is better.",
-          "Ezra keeps the thread of a conversation, so follow-ups like \"now make that work for a youth group\" resolve against everything said before — no need to restate the passage.",
+          "PressRoom does its best work when you give it the same context you'd give a trusted associate pastor: the passage, the audience, and the moment. \"Analyze Proverbs 3:5–6\" is good; \"I'm preaching Proverbs 3:5–6 to a congregation walking through a church transition — what should I draw out?\" is better.",
+          "PressRoom keeps the thread of a conversation, so follow-ups like \"now make that work for a youth group\" resolve against everything said before — no need to restate the passage.",
         ],
       },
       {
         title: "Scripture mode and translations",
         body: [
-          "Toggle Scripture mode in the composer to have Ezra resolve verse references against your preferred translation before answering. The first time you turn it on, you'll set your translation preferences; you can change them any time from the same toggle.",
+          "Toggle Scripture mode in the composer to have PressRoom resolve verse references against your preferred translation before answering. The first time you turn it on, you'll set your translation preferences; you can change them any time from the same toggle.",
         ],
       },
       {
         title: "Grounding answers in your own library",
         body: [
-          "Pick a collection in the composer and Ezra searches it before answering — your sermon archive, your commentaries, your notes. While it works you'll see exactly what it's doing: opening the collection, searching it, weighing the passages it found.",
+          "Pick a collection in the composer and PressRoom searches it before answering — your sermon archive, your commentaries, your notes. While it works you'll see exactly what it's doing: opening the collection, searching it, weighing the passages it found.",
           "Answers grounded in your sources carry a verification badge. \"Citations verified\" means every claim was checked against the material it cited; \"partially verified\" means some claims couldn't be traced back — read those with an editor's eye.",
         ],
       },
       {
-        title: "What \"Ezra remembers\" means",
+        title: "What \"PressRoom remembers\" means",
         body: [
-          "Longer sessions build a running memory — the passage you're working on, the date you're preaching, decisions you've already made. When you see the \"Ezra remembers\" chip, hover it to read the summary. Memory stays within its session; a new session starts clean.",
+          "Longer sessions build a running memory — the passage you're working on, the date you're preaching, decisions you've already made. When you see the \"PressRoom remembers\" chip, hover it to read the summary. Memory stays within its session; a new session starts clean.",
         ],
       },
       {
         title: "From answer to document",
         body: [
-          "When Ezra writes something long-form — an outline, a liturgy, a full manuscript — it arrives as a document card, not a wall of chat. Edit it in place, or open it in Write to keep working. For shorter answers, the pen icon under any response copies it and takes you straight to a fresh page in Write.",
+          "When PressRoom writes something long-form — an outline, a liturgy, a full manuscript — it arrives as a document card, not a wall of chat. Edit it in place, or open it in Write to keep working. For shorter answers, the pen icon under any response copies it and takes you straight to a fresh page in Write.",
         ],
       },
       {
         title: "Rerunning and refining",
         body: [
-          "The regenerate icon under Ezra's latest answer asks for another take on the same question. If a response is heading the wrong direction mid-stream, hit stop and redirect — you won't lose the conversation.",
+          "The regenerate icon under PressRoom's latest answer asks for another take on the same question. If a response is heading the wrong direction mid-stream, hit stop and redirect — you won't lose the conversation.",
         ],
       },
     ],
@@ -135,16 +135,16 @@ const SECTIONS: Section[] = [
     blurb: "The blank page, with a research partner one keystroke away.",
     guides: [
       {
-        title: "The Ezra assist bar",
+        title: "The PressRoom assist bar",
         body: [
-          "At the bottom of every document sits a quiet command bar. Type what you need — \"tighten this paragraph,\" \"add a transition into the second point,\" \"suggest a closing illustration\" — and Ezra answers with the surrounding text in view. Press Tab to accept the rotating ghost suggestion if you're not sure what to ask.",
+          "At the bottom of every document sits a quiet command bar. Type what you need — \"tighten this paragraph,\" \"add a transition into the second point,\" \"suggest a closing illustration\" — and PressRoom answers with the surrounding text in view. Press Tab to accept the rotating ghost suggestion if you're not sure what to ask.",
           "When a result comes back you choose what happens: insert it below your cursor, replace your selection, or dismiss it. Nothing touches your manuscript until you say so.",
         ],
       },
       {
         title: "Working with selections",
         body: [
-          "Select a passage before invoking the assist bar and Ezra treats it as the subject: rewrite it, expand it, translate its register from page to pulpit. The \"replace selection\" action swaps your selected text for the result in one motion.",
+          "Select a passage before invoking the assist bar and PressRoom treats it as the subject: rewrite it, expand it, translate its register from page to pulpit. The \"replace selection\" action swaps your selected text for the result in one motion.",
         ],
       },
       {
@@ -159,7 +159,7 @@ const SECTIONS: Section[] = [
     id: "collections",
     label: "Collections",
     icon: Library,
-    blurb: "Your bookshelf — the sources Ezra studies before it answers.",
+    blurb: "Your bookshelf — the sources PressRoom studies before it answers.",
     guides: [
       {
         title: "What belongs in a collection",
@@ -174,13 +174,13 @@ const SECTIONS: Section[] = [
         steps: [
           "Open a collection and choose Add item.",
           "Paste text, drop a link, or upload a file — documents, images, audio, or video.",
-          "Give it a moment: new items are analyzed and indexed in the background so Ezra can search them by meaning, not just keywords.",
+          "Give it a moment: new items are analyzed and indexed in the background so PressRoom can search them by meaning, not just keywords.",
         ],
       },
       {
         title: "Making a collection active",
         body: [
-          "Each surface remembers its own active collection. Set one in Ezra's composer and every substantive question searches it first; set one in Write and the assist bar drafts with it as background. Your choice follows you across devices.",
+          "Each surface remembers its own active collection. Set one in PressRoom's composer and every substantive question searches it first; set one in Write and the assist bar drafts with it as background. Your choice follows you across devices.",
         ],
       },
     ],
@@ -204,9 +204,9 @@ const SECTIONS: Section[] = [
         ],
       },
       {
-        title: "Sending work back through Ezra",
+        title: "Sending work back through PressRoom",
         body: [
-          "Any item can seed a new Ezra conversation — useful when this year's stewardship letter should learn from last year's. Look for the send-to-Ezra action on the item.",
+          "Any item can seed a new PressRoom conversation — useful when this year's stewardship letter should learn from last year's. Look for the send-to-PressRoom action on the item.",
         ],
       },
     ],
@@ -226,7 +226,7 @@ const SECTIONS: Section[] = [
       {
         title: "Working from history",
         body: [
-          "The History tab is a ledger of past prompts and outputs. Reopen any entry to see exactly what was asked and answered, or send it back into Ezra to continue where you left off.",
+          "The History tab is a ledger of past prompts and outputs. Reopen any entry to see exactly what was asked and answered, or send it back into PressRoom to continue where you left off.",
         ],
       },
     ],
@@ -293,7 +293,7 @@ function HelpHub() {
           Field guides for every room in the study
         </h1>
         <p className="mt-2 max-w-xl text-sm text-muted-foreground">
-          Short, honest guides to Ezra, Write, Collections, and the rest — written for the week
+          Short, honest guides to PressRoom, Write, Collections, and the rest — written for the week
           you're actually having, not the demo.
         </p>
       </header>
@@ -424,7 +424,7 @@ function HelpHub() {
           </p>
         </div>
         <a
-          href="mailto:support@ezraresearch.ai?subject=Help%20request"
+          href="mailto:support@pressroomresearch.ai?subject=Help%20request"
           className="tactile inline-flex items-center gap-2 rounded-lg border border-border bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:border-primary/40"
         >
           <Mail className="h-4 w-4 text-primary" />

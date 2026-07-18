@@ -626,58 +626,58 @@
 }
 
 /* ============================================================
-   PressRoom surface (Ezra chat) — vibrant light desk w/ purple radial
+   PressRoom surface (PressRoom chat) — vibrant light desk w/ purple radial
    ============================================================ */
-.ezra-surface {
+.pressroom-surface {
   /* Light mode (default) — Sunny Sky Blue desk, near-white panels, Magic
      Marker Purple accent. See docs/hunts-pointe-pressroom-addendum.md §C.1. */
-  --ezra-bg: hsl(212 96% 82%);
-  --ezra-fg: hsl(0 0% 9%);
-  --ezra-fg-muted: hsl(0 0% 40%);
-  --ezra-border: hsl(252 40% 80%);
-  --ezra-panel: hsl(0 0% 99%);
-  --ezra-panel-soft: hsl(252 60% 95%);
-  --ezra-composer-bg: hsl(0 0% 100%);
-  --ezra-composer-border: hsl(252 40% 78%);
-  --ezra-active-bg: hsl(271 91% 65% / 0.14);
-  --ezra-active-border: hsl(271 91% 65%);
-  --ezra-hover-bg: hsl(252 60% 93%);
-  --ezra-radial-warm: hsl(271 91% 65% / 0.14);
-  --ezra-radial-cool: hsl(212 96% 60% / 0.16);
-  --ezra-accent: hsl(271 91% 60%);
-  --ezra-accent-fg: hsl(0 0% 100%);
-  background: var(--ezra-bg);
-  color: var(--ezra-fg);
+  --pressroom-bg: hsl(212 96% 82%);
+  --pressroom-fg: hsl(0 0% 9%);
+  --pressroom-fg-muted: hsl(0 0% 40%);
+  --pressroom-border: hsl(252 40% 80%);
+  --pressroom-panel: hsl(0 0% 99%);
+  --pressroom-panel-soft: hsl(252 60% 95%);
+  --pressroom-composer-bg: hsl(0 0% 100%);
+  --pressroom-composer-border: hsl(252 40% 78%);
+  --pressroom-active-bg: hsl(271 91% 65% / 0.14);
+  --pressroom-active-border: hsl(271 91% 65%);
+  --pressroom-hover-bg: hsl(252 60% 93%);
+  --pressroom-radial-warm: hsl(271 91% 65% / 0.14);
+  --pressroom-radial-cool: hsl(212 96% 60% / 0.16);
+  --pressroom-accent: hsl(271 91% 60%);
+  --pressroom-accent-fg: hsl(0 0% 100%);
+  background: var(--pressroom-bg);
+  color: var(--pressroom-fg);
 }
 
-.dark .ezra-surface {
-  --ezra-bg: hsl(207 32% 12%);
-  --ezra-fg: hsl(43 35% 87%);
-  --ezra-fg-muted: hsl(201 16% 67%);
-  --ezra-border: hsl(202 21% 25%);
-  --ezra-panel: hsl(206 30% 15%);
-  --ezra-panel-soft: hsl(208 32% 10%);
-  --ezra-composer-bg: hsl(206 30% 16%);
-  --ezra-composer-border: hsl(202 21% 27%);
-  --ezra-active-bg: hsl(271 91% 72% / 0.18);
-  --ezra-active-border: hsl(271 91% 72%);
-  --ezra-hover-bg: hsl(205 28% 18%);
-  --ezra-radial-warm: hsl(271 91% 65% / 0.12);
-  --ezra-radial-cool: hsl(207 32% 26% / 0.35);
-  --ezra-accent: hsl(271 91% 72%);
-  --ezra-accent-fg: hsl(207 32% 12%);
+.dark .pressroom-surface {
+  --pressroom-bg: hsl(207 32% 12%);
+  --pressroom-fg: hsl(43 35% 87%);
+  --pressroom-fg-muted: hsl(201 16% 67%);
+  --pressroom-border: hsl(202 21% 25%);
+  --pressroom-panel: hsl(206 30% 15%);
+  --pressroom-panel-soft: hsl(208 32% 10%);
+  --pressroom-composer-bg: hsl(206 30% 16%);
+  --pressroom-composer-border: hsl(202 21% 27%);
+  --pressroom-active-bg: hsl(271 91% 72% / 0.18);
+  --pressroom-active-border: hsl(271 91% 72%);
+  --pressroom-hover-bg: hsl(205 28% 18%);
+  --pressroom-radial-warm: hsl(271 91% 65% / 0.12);
+  --pressroom-radial-cool: hsl(207 32% 26% / 0.35);
+  --pressroom-accent: hsl(271 91% 72%);
+  --pressroom-accent-fg: hsl(207 32% 12%);
 }
 
-.ezra-radial {
+.pressroom-radial {
   background:
-    radial-gradient(60% 50% at 50% 55%, var(--ezra-radial-warm), transparent 70%),
-    radial-gradient(80% 60% at 50% 100%, var(--ezra-radial-cool), transparent 75%);
+    radial-gradient(60% 50% at 50% 55%, var(--pressroom-radial-warm), transparent 70%),
+    radial-gradient(80% 60% at 50% 100%, var(--pressroom-radial-cool), transparent 75%);
 }
 
-.ezra-composer-glow {
+.pressroom-composer-glow {
   position: relative;
 }
-.ezra-composer-glow::before {
+.pressroom-composer-glow::before {
   content: "";
   position: absolute;
   inset: -40px;
@@ -687,68 +687,68 @@
   pointer-events: none;
 }
 
-.ezra-composer-focus:focus-within {
-  border-color: var(--ezra-accent);
+.pressroom-composer-focus:focus-within {
+  border-color: var(--pressroom-accent);
   box-shadow:
-    inset 0 1px 0 var(--ezra-border),
+    inset 0 1px 0 var(--pressroom-border),
     0 0 0 3px hsl(40 56% 51% / 0.20);
 }
 
 /* Tactile button feedback */
-.ezra-tactile {
+.pressroom-tactile {
   transition: transform 80ms cubic-bezier(0.32, 0.72, 0, 1),
               background-color 150ms ease,
               color 150ms ease,
               border-color 150ms ease;
 }
-.ezra-tactile:active {
+.pressroom-tactile:active {
   transform: scale(0.96);
 }
 
 /* Rail drawer transition */
-.ezra-rail-transition {
+.pressroom-rail-transition {
   transition: width 220ms cubic-bezier(0.32, 0.72, 0, 1);
   will-change: width;
 }
 
 /* Message enter */
-@keyframes ezra-msg-enter {
+@keyframes pressroom-msg-enter {
   from { opacity: 0; transform: translateY(4px); }
   to   { opacity: 1; transform: translateY(0); }
 }
-.ezra-msg-enter {
-  animation: ezra-msg-enter 180ms cubic-bezier(0.32, 0.72, 0, 1) both;
+.pressroom-msg-enter {
+  animation: pressroom-msg-enter 180ms cubic-bezier(0.32, 0.72, 0, 1) both;
 }
 
 /* Thinking pulse */
-.ezra-pulse-dot {
+.pressroom-pulse-dot {
   display: inline-block;
   width: 8px;
   height: 8px;
   border-radius: 9999px;
   background: hsl(40 56% 55%);
   box-shadow: 0 0 12px hsl(40 56% 55% / 0.6);
-  animation: ezra-pulse 1.2s ease-in-out infinite;
+  animation: pressroom-pulse 1.2s ease-in-out infinite;
 }
-@keyframes ezra-pulse {
+@keyframes pressroom-pulse {
   0%, 100% { opacity: 0.4; transform: scale(0.9); }
   50%      { opacity: 1;   transform: scale(1.1); }
 }
 
-@keyframes ezra-trace-fade {
+@keyframes pressroom-trace-fade {
   from { opacity: 0; transform: translateY(2px); }
   to   { opacity: 1; transform: translateY(0); }
 }
-.ezra-trace-fade {
-  animation: ezra-trace-fade 280ms cubic-bezier(0.32, 0.72, 0, 1) both;
+.pressroom-trace-fade {
+  animation: pressroom-trace-fade 280ms cubic-bezier(0.32, 0.72, 0, 1) both;
 }
 
 /* The conversation scrolls without a visible scrollbar — the thread reads
    as a page, not a widget. Wheel/trackpad/keyboard scrolling still work. */
-.ezra-scroll-hidden {
+.pressroom-scroll-hidden {
   scrollbar-width: none;
 }
-.ezra-scroll-hidden::-webkit-scrollbar {
+.pressroom-scroll-hidden::-webkit-scrollbar {
   display: none;
 }
 
@@ -756,14 +756,14 @@
    content-visibility skips layout/paint for off-screen turns entirely, so a
    200-turn session costs the same per frame as a 10-turn one. contain keeps
    each cell's layout from invalidating its siblings while text streams in. */
-.ezra-msg-cell {
+.pressroom-msg-cell {
   content-visibility: auto;
   contain-intrinsic-size: auto 280px;
   contain: layout style;
 }
 
 /* Streaming caret — blinks at the end of the last block while text arrives. */
-.ezra-stream-caret > :last-child::after {
+.pressroom-stream-caret > :last-child::after {
   content: "";
   display: inline-block;
   width: 3px;
@@ -771,46 +771,46 @@
   margin-left: 2px;
   vertical-align: -0.15em;
   border-radius: 1px;
-  background: var(--ezra-accent);
-  animation: ezra-caret-blink 1s steps(2, start) infinite;
+  background: var(--pressroom-accent);
+  animation: pressroom-caret-blink 1s steps(2, start) infinite;
 }
-@keyframes ezra-caret-blink {
+@keyframes pressroom-caret-blink {
   50% { opacity: 0; }
 }
 
 /* Post-stream artifact reveal — scripture cards, drafts, and follow-ups
    unmask in sequence once the stream closes (compositor-only properties). */
-@keyframes ezra-artifact-reveal {
+@keyframes pressroom-artifact-reveal {
   from { opacity: 0; transform: scale(0.98) translateY(4px); }
   to   { opacity: 1; transform: none; }
 }
-.ezra-artifact-reveal {
-  animation: ezra-artifact-reveal 250ms cubic-bezier(0.32, 0.72, 0, 1) both;
+.pressroom-artifact-reveal {
+  animation: pressroom-artifact-reveal 250ms cubic-bezier(0.32, 0.72, 0, 1) both;
   animation-delay: calc(var(--reveal-i, 0) * 180ms);
 }
 
 /* Verdict / memory badges fade in when their async check resolves. */
-@keyframes ezra-badge-in {
+@keyframes pressroom-badge-in {
   from { opacity: 0; }
   to   { opacity: 1; }
 }
-.ezra-badge-in {
-  animation: ezra-badge-in 150ms ease-out both;
+.pressroom-badge-in {
+  animation: pressroom-badge-in 150ms ease-out both;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .ezra-rail-transition,
-  .ezra-tactile,
-  .ezra-composer-focus,
-  .ezra-msg-enter,
-  .ezra-pulse-dot,
-  .ezra-trace-fade,
-  .ezra-artifact-reveal,
-  .ezra-badge-in {
+  .pressroom-rail-transition,
+  .pressroom-tactile,
+  .pressroom-composer-focus,
+  .pressroom-msg-enter,
+  .pressroom-pulse-dot,
+  .pressroom-trace-fade,
+  .pressroom-artifact-reveal,
+  .pressroom-badge-in {
     transition: none !important;
     animation: none !important;
   }
-  .ezra-stream-caret > :last-child::after {
+  .pressroom-stream-caret > :last-child::after {
     animation: none !important;
     opacity: 0.7;
   }

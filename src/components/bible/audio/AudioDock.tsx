@@ -55,7 +55,7 @@ export function AudioDock({ audio, bookName, chapterNumber, raised }: Props) {
         raised ? "bottom-28" : "bottom-6",
       )}
     >
-      <div className="ezra-artifact-reveal w-full max-w-xl rounded-2xl border border-border bg-card/95 p-3 shadow-xl backdrop-blur">
+      <div className="pressroom-artifact-reveal w-full max-w-xl rounded-2xl border border-border bg-card/95 p-3 shadow-xl backdrop-blur">
         {/* Reference + persona row */}
         <div className="flex items-center gap-2">
           <span className="min-w-0 flex-1 truncate font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">

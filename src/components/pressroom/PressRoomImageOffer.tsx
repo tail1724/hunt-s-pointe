@@ -27,12 +27,12 @@ const ASPECTS = [
 type AspectKey = (typeof ASPECTS)[number]["key"];
 
 /**
- * Per-turn image offer — after every completed Ezra answer, the user is
+ * Per-turn image offer — after every completed PressRoom answer, the user is
  * invited (never forced) to turn the study into a designed image. Expands
  * into the curated style picker; results are saved to the File Cabinet's
  * Images section automatically by the generate-image function.
  */
-export function EzraImageOffer({ userPrompt, assistantText }: Props) {
+export function PressRoomImageOffer({ userPrompt, assistantText }: Props) {
   const [phase, setPhase] = useState<Phase>("offer");
   const [family, setFamily] = useState<StyleFamily>("modern");
   const [styleId, setStyleId] = useState(DEFAULT_STYLE_ID);
@@ -91,15 +91,15 @@ export function EzraImageOffer({ userPrompt, assistantText }: Props) {
   // Slim, dismissible invitation — the "ask with each prompt" moment.
   if (phase === "offer") {
     return (
-      <div className="ezra-artifact-reveal flex items-center gap-2 rounded-xl border border-dashed border-[var(--ezra-border)] bg-[var(--ezra-panel)]/50 px-3 py-2">
-        <Sparkles className="h-3.5 w-3.5 shrink-0 text-[var(--ezra-accent)]" />
-        <span className="min-w-0 flex-1 truncate text-xs text-[var(--ezra-fg-muted)]">
+      <div className="pressroom-artifact-reveal flex items-center gap-2 rounded-xl border border-dashed border-[var(--pressroom-border)] bg-[var(--pressroom-panel)]/50 px-3 py-2">
+        <Sparkles className="h-3.5 w-3.5 shrink-0 text-[var(--pressroom-accent)]" />
+        <span className="min-w-0 flex-1 truncate text-xs text-[var(--pressroom-fg-muted)]">
           Want an image from this? Verse art, sermon graphics — modern or classic.
         </span>
         <button
           type="button"
           onClick={() => setPhase("pick")}
-          className="ezra-tactile shrink-0 rounded-full bg-[var(--ezra-active-bg)] px-3 py-1 text-xs font-medium text-[var(--ezra-accent)] hover:bg-[var(--ezra-active-bg)]/80"
+          className="pressroom-tactile shrink-0 rounded-full bg-[var(--pressroom-active-bg)] px-3 py-1 text-xs font-medium text-[var(--pressroom-accent)] hover:bg-[var(--pressroom-active-bg)]/80"
         >
           Create image
         </button>
@@ -107,7 +107,7 @@ export function EzraImageOffer({ userPrompt, assistantText }: Props) {
           type="button"
           onClick={() => setPhase("dismissed")}
           aria-label="Dismiss image offer"
-          className="ezra-tactile shrink-0 rounded-full p-1 text-[var(--ezra-fg-muted)] hover:bg-[var(--ezra-hover-bg)]"
+          className="pressroom-tactile shrink-0 rounded-full p-1 text-[var(--pressroom-fg-muted)] hover:bg-[var(--pressroom-hover-bg)]"
         >
           <X className="h-3.5 w-3.5" />
         </button>
@@ -116,17 +116,17 @@ export function EzraImageOffer({ userPrompt, assistantText }: Props) {
   }
 
   return (
-    <div className="ezra-artifact-reveal space-y-3 rounded-2xl border border-[var(--ezra-border)] bg-[var(--ezra-panel)]/70 p-3.5">
+    <div className="pressroom-artifact-reveal space-y-3 rounded-2xl border border-[var(--pressroom-border)] bg-[var(--pressroom-panel)]/70 p-3.5">
       <div className="flex items-center justify-between gap-2">
-        <div className="flex items-center gap-2 text-xs font-medium text-[var(--ezra-fg)]">
-          <ImageIcon className="h-3.5 w-3.5 text-[var(--ezra-accent)]" />
+        <div className="flex items-center gap-2 text-xs font-medium text-[var(--pressroom-fg)]">
+          <ImageIcon className="h-3.5 w-3.5 text-[var(--pressroom-accent)]" />
           Image studio
         </div>
         <button
           type="button"
           onClick={() => setPhase("dismissed")}
           aria-label="Close image studio"
-          className="ezra-tactile rounded-full p-1 text-[var(--ezra-fg-muted)] hover:bg-[var(--ezra-hover-bg)]"
+          className="pressroom-tactile rounded-full p-1 text-[var(--pressroom-fg-muted)] hover:bg-[var(--pressroom-hover-bg)]"
         >
           <X className="h-3.5 w-3.5" />
         </button>
@@ -135,7 +135,7 @@ export function EzraImageOffer({ userPrompt, assistantText }: Props) {
       {phase !== "done" && (
         <>
           {/* Modern / Classic family toggle */}
-          <div className="flex items-center gap-1 rounded-full bg-[var(--ezra-hover-bg)]/70 p-1 w-fit">
+          <div className="flex items-center gap-1 rounded-full bg-[var(--pressroom-hover-bg)]/70 p-1 w-fit">
             {(["modern", "classic"] as const).map((f) => (
               <button
                 key={f}
@@ -146,10 +146,10 @@ export function EzraImageOffer({ userPrompt, assistantText }: Props) {
                   if (first) setStyleId(first.id);
                 }}
                 className={cn(
-                  "ezra-tactile rounded-full px-3 py-1 text-xs font-medium capitalize transition-colors",
+                  "pressroom-tactile rounded-full px-3 py-1 text-xs font-medium capitalize transition-colors",
                   family === f
-                    ? "bg-[var(--ezra-composer-bg)] text-[var(--ezra-fg)] shadow-sm"
-                    : "text-[var(--ezra-fg-muted)] hover:text-[var(--ezra-fg)]",
+                    ? "bg-[var(--pressroom-composer-bg)] text-[var(--pressroom-fg)] shadow-sm"
+                    : "text-[var(--pressroom-fg-muted)] hover:text-[var(--pressroom-fg)]",
                 )}
               >
                 {f}
@@ -165,14 +165,14 @@ export function EzraImageOffer({ userPrompt, assistantText }: Props) {
                 onClick={() => setStyleId(s.id)}
                 disabled={phase === "generating"}
                 className={cn(
-                  "ezra-tactile rounded-xl border px-2.5 py-2 text-left transition-colors disabled:opacity-60",
+                  "pressroom-tactile rounded-xl border px-2.5 py-2 text-left transition-colors disabled:opacity-60",
                   styleId === s.id
-                    ? "border-[var(--ezra-active-border)] bg-[var(--ezra-active-bg)]"
-                    : "border-[var(--ezra-border)] bg-[var(--ezra-composer-bg)]/60 hover:border-[var(--ezra-accent)]/50",
+                    ? "border-[var(--pressroom-active-border)] bg-[var(--pressroom-active-bg)]"
+                    : "border-[var(--pressroom-border)] bg-[var(--pressroom-composer-bg)]/60 hover:border-[var(--pressroom-accent)]/50",
                 )}
               >
-                <span className="block text-xs font-semibold text-[var(--ezra-fg)]">{s.name}</span>
-                <span className="mt-0.5 block text-[10px] leading-snug text-[var(--ezra-fg-muted)]">{s.blurb}</span>
+                <span className="block text-xs font-semibold text-[var(--pressroom-fg)]">{s.name}</span>
+                <span className="mt-0.5 block text-[10px] leading-snug text-[var(--pressroom-fg-muted)]">{s.blurb}</span>
               </button>
             ))}
           </div>
@@ -186,10 +186,10 @@ export function EzraImageOffer({ userPrompt, assistantText }: Props) {
                 onClick={() => setAspect(a.key)}
                 disabled={phase === "generating"}
                 className={cn(
-                  "ezra-tactile rounded-full border px-2.5 py-1 text-[11px] font-medium transition-colors disabled:opacity-60",
+                  "pressroom-tactile rounded-full border px-2.5 py-1 text-[11px] font-medium transition-colors disabled:opacity-60",
                   aspect === a.key
-                    ? "border-[var(--ezra-active-border)] bg-[var(--ezra-active-bg)] text-[var(--ezra-fg)]"
-                    : "border-[var(--ezra-border)] text-[var(--ezra-fg-muted)] hover:text-[var(--ezra-fg)]",
+                    ? "border-[var(--pressroom-active-border)] bg-[var(--pressroom-active-bg)] text-[var(--pressroom-fg)]"
+                    : "border-[var(--pressroom-border)] text-[var(--pressroom-fg-muted)] hover:text-[var(--pressroom-fg)]",
                 )}
               >
                 {a.label} <span className="opacity-60">{a.hint}</span>
@@ -203,13 +203,13 @@ export function EzraImageOffer({ userPrompt, assistantText }: Props) {
               onChange={(e) => setOverlay(e.target.value)}
               placeholder="Text on the image (verse, title) — optional"
               disabled={phase === "generating"}
-              className="h-9 min-w-0 flex-1 rounded-lg border border-[var(--ezra-composer-border)] bg-[var(--ezra-composer-bg)] px-3 text-xs text-[var(--ezra-fg)] outline-none placeholder:text-[var(--ezra-fg-muted)]/60 focus:border-[var(--ezra-accent)] disabled:opacity-60"
+              className="h-9 min-w-0 flex-1 rounded-lg border border-[var(--pressroom-composer-border)] bg-[var(--pressroom-composer-bg)] px-3 text-xs text-[var(--pressroom-fg)] outline-none placeholder:text-[var(--pressroom-fg-muted)]/60 focus:border-[var(--pressroom-accent)] disabled:opacity-60"
             />
             <button
               type="button"
               onClick={generate}
               disabled={phase === "generating"}
-              className="ezra-tactile inline-flex h-9 shrink-0 items-center justify-center gap-1.5 rounded-lg bg-[var(--ezra-accent)] px-4 text-xs font-semibold text-[var(--ezra-accent-fg)] disabled:opacity-70"
+              className="pressroom-tactile inline-flex h-9 shrink-0 items-center justify-center gap-1.5 rounded-lg bg-[var(--pressroom-accent)] px-4 text-xs font-semibold text-[var(--pressroom-accent-fg)] disabled:opacity-70"
             >
               <Sparkles className="h-3.5 w-3.5" />
               {phase === "generating" ? "Composing…" : "Generate"}
@@ -219,9 +219,9 @@ export function EzraImageOffer({ userPrompt, assistantText }: Props) {
       )}
 
       {phase === "generating" && (
-        <div className="overflow-hidden rounded-xl border border-[var(--ezra-border)]" aria-label="Generating image">
+        <div className="overflow-hidden rounded-xl border border-[var(--pressroom-border)]" aria-label="Generating image">
           <div className="shimmer aspect-video w-full" />
-          <p className="bg-[var(--ezra-composer-bg)]/60 px-3 py-2 text-[11px] text-[var(--ezra-fg-muted)]">
+          <p className="bg-[var(--pressroom-composer-bg)]/60 px-3 py-2 text-[11px] text-[var(--pressroom-fg-muted)]">
             Setting the composition — this usually takes a few seconds.
           </p>
         </div>
@@ -232,7 +232,7 @@ export function EzraImageOffer({ userPrompt, assistantText }: Props) {
           <img
             src={imageUrl}
             alt={overlay || "Generated study image"}
-            className="w-full rounded-xl border border-[var(--ezra-border)]"
+            className="w-full rounded-xl border border-[var(--pressroom-border)]"
             loading="lazy"
           />
           <div className="flex flex-wrap items-center gap-1.5">
@@ -241,20 +241,20 @@ export function EzraImageOffer({ userPrompt, assistantText }: Props) {
               download
               target="_blank"
               rel="noreferrer"
-              className="ezra-tactile inline-flex items-center gap-1.5 rounded-full border border-[var(--ezra-border)] px-3 py-1.5 text-xs font-medium text-[var(--ezra-fg)] hover:bg-[var(--ezra-hover-bg)]"
+              className="pressroom-tactile inline-flex items-center gap-1.5 rounded-full border border-[var(--pressroom-border)] px-3 py-1.5 text-xs font-medium text-[var(--pressroom-fg)] hover:bg-[var(--pressroom-hover-bg)]"
             >
               <Download className="h-3.5 w-3.5" /> Download
             </a>
             <Link
               to="/app/file-cabinet?tab=images"
-              className="ezra-tactile inline-flex items-center gap-1.5 rounded-full border border-[var(--ezra-border)] px-3 py-1.5 text-xs font-medium text-[var(--ezra-fg)] hover:bg-[var(--ezra-hover-bg)] no-underline"
+              className="pressroom-tactile inline-flex items-center gap-1.5 rounded-full border border-[var(--pressroom-border)] px-3 py-1.5 text-xs font-medium text-[var(--pressroom-fg)] hover:bg-[var(--pressroom-hover-bg)] no-underline"
             >
               <Archive className="h-3.5 w-3.5" /> File Cabinet
             </Link>
             <button
               type="button"
               onClick={() => setPhase("pick")}
-              className="ezra-tactile inline-flex items-center gap-1.5 rounded-full border border-[var(--ezra-border)] px-3 py-1.5 text-xs font-medium text-[var(--ezra-fg)] hover:bg-[var(--ezra-hover-bg)]"
+              className="pressroom-tactile inline-flex items-center gap-1.5 rounded-full border border-[var(--pressroom-border)] px-3 py-1.5 text-xs font-medium text-[var(--pressroom-fg)] hover:bg-[var(--pressroom-hover-bg)]"
             >
               <RefreshCw className="h-3.5 w-3.5" /> Try another style
             </button>

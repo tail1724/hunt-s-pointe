@@ -8,7 +8,7 @@ import { Loader2, FileQuestion } from "lucide-react";
 import { DocumentEditor } from "@/components/write/DocumentEditor";
 import { EditorChrome } from "@/components/write/EditorChrome";
 import { EditorToolbar } from "@/components/write/EditorToolbar";
-import { EzraAssistBar } from "@/components/write/EzraAssistBar";
+import { PressRoomAssistBar } from "@/components/write/PressRoomAssistBar";
 import { MarginRail } from "@/components/write/MarginRail";
 import { HistoryDrawer } from "@/components/write/HistoryDrawer";
 import { ProvenanceCertificate } from "@/components/write/ProvenanceCertificate";
@@ -463,7 +463,7 @@ function DocumentEditorPage({ documentId }: { documentId: string }) {
       </div>
       {/* Compact floating bar remains for smaller screens. */}
       <div className="lg:hidden">
-        <EzraAssistBar
+        <PressRoomAssistBar
           editor={editor}
           annotations={annotations}
           versions={versions}

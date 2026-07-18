@@ -7,8 +7,8 @@ import { formatCredits } from "@/lib/credit-schedule";
 import { usePowerLevel } from "@/hooks/usePowerLevel";
 
 /**
- * The Ezra power dial — replaces raw model selection. Members pick how hard
- * Ezra thinks (Speed ↔ Depth, 8 stops), a power level (1–5), and Turbo, and
+ * The PressRoom power dial — replaces raw model selection. Members pick how hard
+ * PressRoom thinks (Speed ↔ Depth, 8 stops), a power level (1–5), and Turbo, and
  * watch the per-message credit cost respond. It reads as a small instrument
  * panel, not a settings form.
  */
@@ -24,7 +24,7 @@ export function PowerDial() {
           type="button"
           variant="ghost"
           size="sm"
-          className="h-8 gap-1.5 rounded-full px-2.5 text-xs ezra-tactile"
+          className="h-8 gap-1.5 rounded-full px-2.5 text-xs pressroom-tactile"
           aria-label={`Power: ${depthLabel} ${depth}, level ${power}${turbo ? ", turbo" : ""}`}
         >
           <Gauge className="h-3.5 w-3.5" />

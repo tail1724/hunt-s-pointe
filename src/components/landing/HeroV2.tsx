@@ -10,11 +10,11 @@ import heroDove from "@/assets/hero-dove.jpg";
 
 const BEFORE_PROMPT = `Sunday's text is Luke 15. I have my notes, a half-finished outline, three commentaries I haven't opened, and four hours.`;
 
-const AFTER_PROMPT = `Luke 15 — three parables of the lost. Ezra surfaces relevant passages, cross-references, and your saved notes on grace from last Easter.
+const AFTER_PROMPT = `Luke 15 — three parables of the lost. PressRoom surfaces relevant passages, cross-references, and your saved notes on grace from last Easter.
 
 You get an exegesis outline, a list of cited cross-references, and a structured prompt for your own draft — in fifteen minutes, not four hours.
 
-You still write the sermon. Ezra just clears the runway.`;
+You still write the sermon. PressRoom just clears the runway.`;
 
 interface HeroV2Props {
   onOpenAuth: () => void;
@@ -66,7 +66,7 @@ export function HeroV2({ onOpenAuth }: HeroV2Props) {
 
           <Reveal delay={160}>
             <p className="mt-4 text-base md:text-xl text-muted-foreground leading-relaxed">
-              Ezra is a theological research partner — not a sermon generator. Outline your exegesis, synthesize commentaries, and organize your study, with every claim cited. You still write the sermon.
+              PressRoom is a theological research partner — not a sermon generator. Outline your exegesis, synthesize commentaries, and organize your study, with every claim cited. You still write the sermon.
             </p>
           </Reveal>
 

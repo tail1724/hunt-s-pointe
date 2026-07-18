@@ -147,7 +147,7 @@ export function PhotoEditor({ open, onOpenChange, imageUrl, initialText, onSave 
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = "ezra-image.png";
+    a.download = "pressroom-image.png";
     a.click();
     URL.revokeObjectURL(url);
   };
@@ -387,7 +387,7 @@ function FramePanel({ state, setState }: { state: EditorState; setState: React.D
         ))}
         <label className="ml-auto flex items-center gap-1.5 text-xs text-white/80">
           <input type="checkbox" checked={state.frame.cornerMark} onChange={(e) => set({ cornerMark: e.target.checked })} />
-          Ezra Research mark
+          PressRoom Research mark
         </label>
       </div>
     </div>

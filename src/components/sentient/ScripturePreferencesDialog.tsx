@@ -115,7 +115,7 @@ export function ScripturePreferencesDialog({ open, onOpenChange }: Props) {
         <DialogHeader>
           <DialogTitle>Scripture preferences</DialogTitle>
           <DialogDescription>
-            How would you like Ezra to ground answers in Scripture? You can change these any time.
+            How would you like PressRoom to ground answers in Scripture? You can change these any time.
           </DialogDescription>
         </DialogHeader>
 

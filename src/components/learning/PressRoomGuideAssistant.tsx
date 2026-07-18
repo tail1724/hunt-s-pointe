@@ -29,7 +29,7 @@ const STARTERS = [
  * `help-assist` edge function, which retrieves from the published guides
  * only. When it can't answer, it offers a human hand-off instead of guessing.
  */
-export function EzraGuideAssistant() {
+export function PressRoomGuideAssistant() {
   const [turns, setTurns] = useState<AssistantTurn[]>([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);

@@ -35,7 +35,7 @@ export default function CollectionDetail() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { collection, items, artifacts, loading, refresh } = useCollection(id ?? null);
-  const ezra = useActiveCollection("mary");
+  const pressroom = useActiveCollection("mary");
   const write = useActiveCollection("write");
   const [tab, setTab] = useState<"brief" | "research" | "drafts" | "artifacts">("brief");
 
@@ -111,7 +111,7 @@ export default function CollectionDetail() {
   }
 
   const c = colorTokens(collection.color);
-  const isActiveEzra = ezra.activeId === collection.id;
+  const isActivePressRoom = pressroom.activeId === collection.id;
   const isActiveWrite = write.activeId === collection.id;
 
   const deleteItem = async (itemId: string) => {
@@ -156,7 +156,7 @@ export default function CollectionDetail() {
               <div className="mt-3 flex flex-wrap items-center gap-2">
                 <Badge variant="outline" className="font-normal">{items.length} items</Badge>
                 <Badge variant="outline" className="font-normal">{artifacts.length} artifacts</Badge>
-                {isActiveEzra && <Badge className="bg-primary/15 text-primary border-primary/30">Active in PressRoom</Badge>}
+                {isActivePressRoom && <Badge className="bg-primary/15 text-primary border-primary/30">Active in PressRoom</Badge>}
                 {isActiveWrite && <Badge className="bg-accent/15 text-accent border-accent/30">Active in Write</Badge>}
               </div>
             </div>
@@ -164,12 +164,12 @@ export default function CollectionDetail() {
 
           <div className="flex flex-wrap items-center gap-2">
             <Button
-              variant={isActiveEzra ? "default" : "outline"}
+              variant={isActivePressRoom ? "default" : "outline"}
               size="sm"
-              onClick={() => ezra.setActive(isActiveEzra ? null : collection.id)}
+              onClick={() => pressroom.setActive(isActivePressRoom ? null : collection.id)}
             >
               <Sparkles className="h-3.5 w-3.5 mr-1.5" />
-              {isActiveEzra ? "Active in PressRoom" : "Use in PressRoom"}
+              {isActivePressRoom ? "Active in PressRoom" : "Use in PressRoom"}
             </Button>
             <Button
               variant={isActiveWrite ? "default" : "outline"}
@@ -378,7 +378,7 @@ export default function CollectionDetail() {
                     Activate this package in the assistant or Write and every thread, draft, and image you create flows back here automatically.
                   </p>
                   <div className="mt-5 flex justify-center gap-2">
-                    <Button size="sm" variant={isActiveEzra ? "default" : "outline"} onClick={() => ezra.setActive(collection.id)}>
+                    <Button size="sm" variant={isActivePressRoom ? "default" : "outline"} onClick={() => pressroom.setActive(collection.id)}>
                       Use in assistant
                     </Button>
                     <Button size="sm" variant={isActiveWrite ? "default" : "outline"} onClick={() => write.setActive(collection.id)}>

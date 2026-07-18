@@ -37,7 +37,7 @@ const VISUAL_STYLES = [
 export function SentientConfig({ onClose }: SentientConfigProps) {
   const { user } = useAuth();
   const [prefs, setPrefs] = useState<Preferences>({
-    name: "Ezra",
+    name: "PressRoom",
     purpose: "",
     avatar_preset: "nexus",
     color_theme: "",
@@ -82,7 +82,7 @@ export function SentientConfig({ onClose }: SentientConfigProps) {
   return (
     <div className="rounded-2xl border border-border bg-card p-4 space-y-4 max-w-sm">
       <div className="flex items-center justify-between">
-        <h3 className="font-display text-sm font-bold">Ezra Configuration</h3>
+        <h3 className="font-display text-sm font-bold">PressRoom Configuration</h3>
         <Button variant="ghost" size="icon" className="h-6 w-6" onClick={onClose}>
           <X className="h-3 w-3" />
         </Button>
@@ -94,7 +94,7 @@ export function SentientConfig({ onClose }: SentientConfigProps) {
           <Input
             value={prefs.name || ""}
             onChange={(e) => setPrefs((p) => ({ ...p, name: e.target.value }))}
-            placeholder="Ezra"
+            placeholder="PressRoom"
             className="text-sm h-8 mt-1"
           />
         </div>

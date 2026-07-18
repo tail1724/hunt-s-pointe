@@ -10,14 +10,14 @@ import { tagArtifact } from "@/lib/collections/useCollections";
 import { retrievalHistory, isSubstantiveQuery, windowTranscript } from "@/lib/rag/history";
 import type { ScriptureArtifactData } from "@/components/sentient/ScriptureArtifact";
 import type { CitationVerdict } from "@/lib/rag/types";
-import type { PipelineState } from "./EzraPipelineIndicator";
+import type { PipelineState } from "./PressRoomPipelineIndicator";
 import { computeDrainStep } from "./drain";
 import { haptics } from "@/lib/haptics";
 
 const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/prompt-partner`;
 const AUTOTITLE_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/auto-title`;
 
-export type EzraMsgMeta = {
+export type PressRoomMsgMeta = {
   model?: string;
   latency_ms?: number;
   tokens?: number;
@@ -28,11 +28,11 @@ export type EzraMsgMeta = {
   memory_summary?: string;
 };
 
-export type EzraMsg = {
+export type PressRoomMsg = {
   role: "user" | "assistant";
   content: string;
   cancelled?: boolean;
-  meta?: EzraMsgMeta;
+  meta?: PressRoomMsgMeta;
 };
 
 interface Options {
@@ -43,13 +43,13 @@ interface Options {
 }
 
 
-export function useEzraChat({ sessionId, onSessionCreated, scriptureMode = "off", scripturePrefs = null }: Options) {
+export function usePressRoomChat({ sessionId, onSessionCreated, scriptureMode = "off", scripturePrefs = null }: Options) {
   const { user } = useAuth();
   // The power dial drives both the model and the retrieval breadth; members
   // no longer pick a raw model name.
   const { model, topK } = usePowerLevel();
   const { collection: activeCollection } = useActiveCollection("mary");
-  const [messages, setMessages] = useState<EzraMsg[]>([]);
+  const [messages, setMessages] = useState<PressRoomMsg[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   // True only while switching *into* an existing session — the thread keeps
   // showing its previous content (or a skeleton, per the consumer) instead
@@ -127,7 +127,7 @@ export function useEzraChat({ sessionId, onSessionCreated, scriptureMode = "off"
   }, [sessionId, user]);
 
   const saveSession = useCallback(
-    async (msgs: EzraMsg[]): Promise<string | null> => {
+    async (msgs: PressRoomMsg[]): Promise<string | null> => {
       if (!user || msgs.length === 0) return null;
       const fallbackTitle =
         msgs.find((m) => m.role === "user")?.content.slice(0, 60) || "Untitled Session";
@@ -176,8 +176,8 @@ export function useEzraChat({ sessionId, onSessionCreated, scriptureMode = "off"
   const stop = useCallback(() => abortRef.current?.abort(), []);
 
   const send = useCallback(
-    async (textOrOverride: string | EzraMsg[]) => {
-      const allMessages: EzraMsg[] = Array.isArray(textOrOverride)
+    async (textOrOverride: string | PressRoomMsg[]) => {
+      const allMessages: PressRoomMsg[] = Array.isArray(textOrOverride)
         ? textOrOverride
         : [...messages, { role: "user", content: textOrOverride.trim() }];
       if (!Array.isArray(textOrOverride) && !textOrOverride.trim()) return;
@@ -321,7 +321,7 @@ export function useEzraChat({ sessionId, onSessionCreated, scriptureMode = "off"
             bibleContextPayload = ctx;
           }
         } catch (e) {
-          console.warn("[ezra bible_context] build error", e);
+          console.warn("[pressroom bible_context] build error", e);
         }
       })();
 
@@ -335,7 +335,7 @@ export function useEzraChat({ sessionId, onSessionCreated, scriptureMode = "off"
             collectionName = built.collectionName;
           }
         } catch (e) {
-          console.warn("[ezra collection_context] build error", e);
+          console.warn("[pressroom collection_context] build error", e);
         }
       })();
 
@@ -369,7 +369,7 @@ export function useEzraChat({ sessionId, onSessionCreated, scriptureMode = "off"
             }
           }
         } catch (e) {
-          console.warn("[ezra rag-retrieve] failed", e);
+          console.warn("[pressroom rag-retrieve] failed", e);
         }
       })();
 
@@ -435,7 +435,7 @@ export function useEzraChat({ sessionId, onSessionCreated, scriptureMode = "off"
           setMessages((prev) => {
             const last = prev[prev.length - 1];
             if (last?.role !== "assistant") return prev;
-            const meta: EzraMsgMeta = {
+            const meta: PressRoomMsgMeta = {
               ...(last.meta || {}),
               ...usageMeta,
               ...(scriptureArtifact ? { scripture_artifact: scriptureArtifact } : {}),
@@ -521,7 +521,7 @@ export function useEzraChat({ sessionId, onSessionCreated, scriptureMode = "off"
           toast.info("Response stopped");
         } else {
           console.error(e);
-          toast.error("Failed to connect to Ezra");
+          toast.error("Failed to connect to PressRoom");
         }
       } finally {
         flushVisible();
@@ -534,7 +534,7 @@ export function useEzraChat({ sessionId, onSessionCreated, scriptureMode = "off"
             if (sid && isFirstMessageOfSession && assistantSoFar && !aborted) {
               triggerAutoTitle(sid, firstUserText, assistantSoFar);
             }
-            // History entry carries the session id so "Continue in Ezra"
+            // History entry carries the session id so "Continue in PressRoom"
             // reopens this conversation instead of seeding a fresh one.
             if (user && assistantSoFar && !aborted) {
               const lastUserMsg = [...final].reverse().find((m) => m.role === "user");
@@ -585,14 +585,14 @@ export function useEzraChat({ sessionId, onSessionCreated, scriptureMode = "off"
                 }
               }).catch(() => {});
             }
-            // Tag this Ezra session to the active collection (idempotent upsert).
+            // Tag this PressRoom session to the active collection (idempotent upsert).
             if (sid && activeCollection && user && assistantSoFar && !aborted) {
               tagArtifact({
                 collectionId: activeCollection.id,
                 userId: user.id,
                 artifactType: "mary_session",
                 artifactId: sid,
-                previewTitle: firstUserText.slice(0, 80) || "Ezra session",
+                previewTitle: firstUserText.slice(0, 80) || "PressRoom session",
                 previewSnippet: assistantSoFar.slice(0, 200),
               }).catch(() => {});
             }
@@ -619,7 +619,7 @@ export function useEzraChat({ sessionId, onSessionCreated, scriptureMode = "off"
       if (isLoading) return;
       const trimmed = newText.trim();
       if (!trimmed) return;
-      const updated: EzraMsg[] = [...messages.slice(0, index), { role: "user", content: trimmed }];
+      const updated: PressRoomMsg[] = [...messages.slice(0, index), { role: "user", content: trimmed }];
       setMessages(updated);
       send(updated);
     },

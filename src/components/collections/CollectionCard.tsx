@@ -9,11 +9,11 @@ interface Props {
   itemCount: number;
   artifactCount: number;
   /** Which surfaces this collection is currently active in */
-  activeInEzra?: boolean;
+  activeInPressRoom?: boolean;
   activeInWrite?: boolean;
 }
 
-export function CollectionCard({ collection, itemCount, artifactCount, activeInEzra, activeInWrite }: Props) {
+export function CollectionCard({ collection, itemCount, artifactCount, activeInPressRoom, activeInWrite }: Props) {
   const c = colorTokens(collection.color);
   return (
     <motion.div
@@ -54,11 +54,11 @@ export function CollectionCard({ collection, itemCount, artifactCount, activeInE
               {collection.description}
             </p>
           )}
-          {(activeInEzra || activeInWrite) && (
+          {(activeInPressRoom || activeInWrite) && (
             <div className="mt-3 flex flex-wrap gap-1.5">
-              {activeInEzra && (
+              {activeInPressRoom && (
                 <span className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-medium text-primary ring-1 ring-primary/20">
-                  <MessagesSquare className="h-2.5 w-2.5" /> Active in Ezra
+                  <MessagesSquare className="h-2.5 w-2.5" /> Active in PressRoom
                 </span>
               )}
               {activeInWrite && (

@@ -63,7 +63,7 @@ const Blog = lazy(() => import("./pages/Blog"));
 const BlogPost = lazy(() => import("./pages/Blog").then((m) => ({ default: m.BlogPost })));
 const IntegrationsPublic = lazy(() => import("./pages/IntegrationsPublic"));
 const Learning = lazy(() => import("./pages/Learning"));
-const Ezra = lazy(() => import("./pages/Ezra"));
+const PressRoom = lazy(() => import("./pages/PressRoom"));
 const Bible = lazy(() => import("./pages/Bible"));
 const PromptCentralLite = lazy(() => import("./pages/PromptCentralLite"));
 const KnowledgeBase = lazy(() => import("./pages/KnowledgeBase"));
@@ -227,9 +227,9 @@ const App = () => (
               <Route path="/reset-password" element={<ResetPassword />} />
               <Route path="/auth" element={<Navigate to="/" replace />} />
               {/* Primary routes */}
-              <Route path="/app/pressroom" element={<ProtectedLayout><Ezra /></ProtectedLayout>} />
+              <Route path="/app/pressroom" element={<ProtectedLayout><PressRoom /></ProtectedLayout>} />
               {/* Legacy path — see docs/hunts-pointe-pressroom-addendum.md §A. */}
-              <Route path="/app/ezra" element={<Navigate to="/app/pressroom" replace />} />
+              <Route path="/app/pressroom" element={<Navigate to="/app/pressroom" replace />} />
               {/* Bible reader: kept behind a direct link for flagged/legacy users, dropped
                   from the primary nav per the writing-suite pivot (addendum §2.3). */}
               <Route path="/app/bible" element={<ProtectedLayout><Bible /></ProtectedLayout>} />

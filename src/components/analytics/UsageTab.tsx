@@ -145,7 +145,7 @@ export default function UsageTab() {
           className="rise-in"
           style={{ "--stagger-i": 0 } as React.CSSProperties}
         />
-        <StatTile label="Ezra messages" value={stats.partnerSessions} icon={MessagesSquare} className="rise-in" style={{ "--stagger-i": 1 } as React.CSSProperties} />
+        <StatTile label="PressRoom messages" value={stats.partnerSessions} icon={MessagesSquare} className="rise-in" style={{ "--stagger-i": 1 } as React.CSSProperties} />
         <StatTile label="Generations" value={stats.totalGenerations} icon={Image} className="rise-in" style={{ "--stagger-i": 2 } as React.CSSProperties} />
         <StatTile label="Refinements" value={stats.totalRefinements} icon={RefreshCw} upIsGood={false} className="rise-in" style={{ "--stagger-i": 3 } as React.CSSProperties} />
       </div>
@@ -245,7 +245,7 @@ export default function UsageTab() {
             <VizEmpty
               icon={Hexagon}
               title="No studies yet"
-              body="Run a study in Ezra and the breakdown lands here."
+              body="Run a study in PressRoom and the breakdown lands here."
               className="h-64"
             />
           )}
@@ -257,7 +257,7 @@ export default function UsageTab() {
           <VizEmpty
             icon={Wand2}
             title="Nothing logged yet"
-            body="Ask Ezra a question or start a draft in Write — every event shows up here."
+            body="Ask PressRoom a question or start a draft in Write — every event shows up here."
           />
         ) : (
           <div className="max-h-80 overflow-y-auto px-2">

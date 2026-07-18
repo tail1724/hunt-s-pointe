@@ -27,7 +27,7 @@ interface Stat { items: number; artifacts: number }
 export default function Collections() {
   const { user } = useAuth();
   const { collections, loading, create, refresh } = useCollections();
-  const ezraActive = useActiveCollection("mary");
+  const pressroomActive = useActiveCollection("mary");
   const writeActive = useActiveCollection("write");
   const [query, setQuery] = useState("");
   const [open, setOpen] = useState(false);
@@ -192,7 +192,7 @@ export default function Collections() {
                     collection={c}
                     itemCount={stats?.[c.id]?.items ?? 0}
                     artifactCount={stats?.[c.id]?.artifacts ?? 0}
-                    activeInEzra={ezraActive.activeId === c.id}
+                    activeInPressRoom={pressroomActive.activeId === c.id}
                     activeInWrite={writeActive.activeId === c.id}
                   />
                 </div>

@@ -11,7 +11,7 @@ describe("Help page", () => {
   it("renders all module sections with real guide content", () => {
     renderHelp();
     expect(screen.getByText("Field guides for every room in the study")).toBeInTheDocument();
-    for (const label of ["Getting started", "Ezra", "Write", "Collections", "File Cabinet", "Analytics", "Integrations"]) {
+    for (const label of ["Getting started", "PressRoom", "Write", "Collections", "File Cabinet", "Analytics", "Integrations"]) {
       expect(screen.getAllByText(label).length).toBeGreaterThan(0);
     }
     // No placeholder copy anywhere.

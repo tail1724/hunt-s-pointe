@@ -13,8 +13,8 @@ const DRAW_MS = 1100;
 const HOLD_MS = 2000;
 const MAX_VISIBLE_MS = FADE_IN_MS + DRAW_MS + HOLD_MS + 1400;
 const EXIT_MS = 520;
-const SESSION_KEY = "ezra:entry-played";
-const REQUEST_KEY = "ezra:entry-requested";
+const SESSION_KEY = "pressroom:entry-played";
+const REQUEST_KEY = "pressroom:entry-requested";
 
 type State = {
   phase: EntryPhase;

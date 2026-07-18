@@ -40,8 +40,8 @@ export function ContextBudgetMeter({ totalChars }: Props) {
         {over
           ? "Over budget — lowest-priority items will be trimmed when injected."
           : near
-            ? "Getting close — Ezra and Write inject everything under the cap."
-            : "Everything here rides along when this collection is active in Ezra or Write."}
+            ? "Getting close — PressRoom and Write inject everything under the cap."
+            : "Everything here rides along when this collection is active in PressRoom or Write."}
       </p>
     </div>
   );

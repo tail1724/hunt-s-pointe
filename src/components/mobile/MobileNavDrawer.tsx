@@ -8,7 +8,7 @@ import { Sheet, SheetContent, SheetTitle, SheetDescription } from "@/components/
 import { NavLink } from "@/components/NavLink";
 import { useAuth } from "@/contexts/AuthContext";
 import { useMobileNav } from "./mobile-nav-context";
-import { EzraBoltIcon } from "@/components/BrandMark";
+import { PressRoomBoltIcon } from "@/components/BrandMark";
 import { APP_NAME } from "@/lib/constants";
 import { haptics } from "@/lib/haptics";
 
@@ -50,11 +50,11 @@ export function MobileNavDrawer({ onOpenAccount }: Props) {
         className="mobile-nav-drawer w-[85vw] max-w-[340px] gap-0 border-r p-0"
       >
         <SheetTitle className="sr-only">Navigation</SheetTitle>
-        <SheetDescription className="sr-only">Browse Ezra Research and manage your account</SheetDescription>
+        <SheetDescription className="sr-only">Browse PressRoom Research and manage your account</SheetDescription>
 
         <div className="mobile-nav-drawer__header">
           <div className="mobile-nav-drawer__brand-icon">
-            <EzraBoltIcon size={16} />
+            <PressRoomBoltIcon size={16} />
           </div>
           <span className="mobile-nav-drawer__brand-name">{APP_NAME}</span>
         </div>

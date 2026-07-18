@@ -5,7 +5,7 @@ import {
 } from "lucide-react";
 import { guidesByCategory } from "@/data/guides";
 import { FAQList } from "@/components/public/sections/AllSections";
-import { EzraGuideAssistant } from "./EzraGuideAssistant";
+import { PressRoomGuideAssistant } from "./PressRoomGuideAssistant";
 
 const ICONS: Record<string, LucideIcon> = {
   Sparkles, Library, MessagesSquare, BookOpen, Volume2, PenLine, KanbanSquare,
@@ -19,12 +19,12 @@ export function LearningHub() {
         <p className="eyebrow eyebrow--c reveal">Learning</p>
         <h1 className="display reveal">Everything you need <span className="mark">to feel at home</span>.</h1>
         <p className="lead center mxw-60 reveal" style={{ marginTop: 16 }}>
-          Step-by-step guides for every part of Ezra — and a helper that answers &ldquo;how do I…&rdquo; in plain language.
+          Step-by-step guides for every part of PressRoom — and a helper that answers &ldquo;how do I…&rdquo; in plain language.
         </p>
       </header>
 
       <div className="pad-t reveal">
-        <EzraGuideAssistant />
+        <PressRoomGuideAssistant />
       </div>
 
       {guidesByCategory().map(({ category, guides }) => (

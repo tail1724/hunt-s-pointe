@@ -19,17 +19,17 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { toast } from "sonner";
 import { InlineDocumentCard } from "@/components/write/InlineDocumentCard";
-import { EzraImageOffer } from "./EzraImageOffer";
-import { EzraSourcesTabs } from "./EzraSourcesTabs";
-import { EzraMarkdown } from "./EzraMarkdown";
-import { EzraPipelineIndicator, type PipelineState } from "./EzraPipelineIndicator";
+import { PressRoomImageOffer } from "./PressRoomImageOffer";
+import { PressRoomSourcesTabs } from "./PressRoomSourcesTabs";
+import { PressRoomMarkdown } from "./PressRoomMarkdown";
+import { PressRoomPipelineIndicator, type PipelineState } from "./PressRoomPipelineIndicator";
 import { ScriptureArtifact } from "@/components/sentient/ScriptureArtifact";
-import { parseEzraMessage } from "@/lib/parse-ezra-message";
+import { parsePressRoomMessage } from "@/lib/parse-pressroom-message";
 import { cn } from "@/lib/utils";
-import type { EzraMsg } from "./useEzraChat";
+import type { PressRoomMsg } from "./usePressRoomChat";
 
 interface Props {
-  messages: EzraMsg[];
+  messages: PressRoomMsg[];
   isLoading: boolean;
   pipeline: PipelineState;
   sessionId: string | null;
@@ -75,7 +75,7 @@ function splitLongAnswer(md: string): { intro: string; body: string; title: stri
   return { intro, body, title };
 }
 
-export function EzraThread({ messages, isLoading, pipeline, sessionId, onRegenerate, onEditAndResend }: Props) {
+export function PressRoomThread({ messages, isLoading, pipeline, sessionId, onRegenerate, onEditAndResend }: Props) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const followRef = useRef(true);
   const rafRef = useRef<number | null>(null);
@@ -132,12 +132,12 @@ export function EzraThread({ messages, isLoading, pipeline, sessionId, onRegener
       <div
         ref={scrollRef}
         onScroll={handleScroll}
-        className="ezra-scroll-hidden h-full overflow-y-auto overscroll-contain"
+        className="pressroom-scroll-hidden h-full overflow-y-auto overscroll-contain"
       >
         <div className="mx-auto w-full max-w-3xl space-y-7 px-4 pb-6 pt-8">
           {messages.map((msg, i) =>
             msg.role === "user" ? (
-              <div key={i} className="ezra-msg-cell">
+              <div key={i} className="pressroom-msg-cell">
                 <UserMessage
                   content={msg.content}
                   index={i}
@@ -146,7 +146,7 @@ export function EzraThread({ messages, isLoading, pipeline, sessionId, onRegener
                 />
               </div>
             ) : (
-              <div key={i} className="ezra-msg-cell space-y-3">
+              <div key={i} className="pressroom-msg-cell space-y-3">
                 <AssistantMessage
                   msg={msg}
                   index={i}
@@ -158,7 +158,7 @@ export function EzraThread({ messages, isLoading, pipeline, sessionId, onRegener
                 {/* Per-turn image offer — every completed answer invites (never
                     forces) turning the study into a designed image. */}
                 {i === messages.length - 1 && !isLoading && msg.content.length > 0 && (
-                  <EzraImageOffer
+                  <PressRoomImageOffer
                     key={`img-${i}`}
                     userPrompt={messages[i - 1]?.role === "user" ? messages[i - 1].content : ""}
                     assistantText={msg.content}
@@ -168,7 +168,7 @@ export function EzraThread({ messages, isLoading, pipeline, sessionId, onRegener
             ),
           )}
 
-          {showIndicator && <EzraPipelineIndicator state={pipeline} />}
+          {showIndicator && <PressRoomPipelineIndicator state={pipeline} />}
         </div>
       </div>
 
@@ -180,7 +180,7 @@ export function EzraThread({ messages, isLoading, pipeline, sessionId, onRegener
             setShowJump(false);
             scrollToBottom(true);
           }}
-          className="ezra-tactile absolute bottom-4 left-1/2 z-10 inline-flex -translate-x-1/2 items-center gap-1.5 rounded-full border border-[var(--ezra-border)] bg-[var(--ezra-panel)]/95 px-3 py-1.5 text-xs font-medium text-[var(--ezra-fg)] shadow-lg backdrop-blur"
+          className="pressroom-tactile absolute bottom-4 left-1/2 z-10 inline-flex -translate-x-1/2 items-center gap-1.5 rounded-full border border-[var(--pressroom-border)] bg-[var(--pressroom-panel)]/95 px-3 py-1.5 text-xs font-medium text-[var(--pressroom-fg)] shadow-lg backdrop-blur"
           aria-label="Jump to latest message"
         >
           <ArrowDown className="h-3.5 w-3.5" />
@@ -235,7 +235,7 @@ const UserMessage = memo(function UserMessage({
   if (editing) {
     return (
       <div className="flex justify-end">
-        <div className="ezra-msg-enter w-full max-w-[85%] space-y-2 rounded-2xl border border-[var(--ezra-active-border)] bg-[var(--ezra-composer-bg)] p-3">
+        <div className="pressroom-msg-enter w-full max-w-[85%] space-y-2 rounded-2xl border border-[var(--pressroom-active-border)] bg-[var(--pressroom-composer-bg)] p-3">
           <textarea
             ref={textareaRef}
             value={draft}
@@ -249,13 +249,13 @@ const UserMessage = memo(function UserMessage({
             }}
             rows={Math.min(8, Math.max(2, draft.split("\n").length))}
             aria-label="Edit message"
-            className="w-full resize-none bg-transparent text-base md:text-sm leading-relaxed text-[var(--ezra-fg)] outline-none"
+            className="w-full resize-none bg-transparent text-base md:text-sm leading-relaxed text-[var(--pressroom-fg)] outline-none"
           />
           <div className="flex justify-end gap-2">
             <button
               type="button"
               onClick={cancel}
-              className="ezra-tactile rounded-full px-3 py-1.5 text-xs font-medium text-[var(--ezra-fg-muted)] hover:bg-[var(--ezra-hover-bg)]"
+              className="pressroom-tactile rounded-full px-3 py-1.5 text-xs font-medium text-[var(--pressroom-fg-muted)] hover:bg-[var(--pressroom-hover-bg)]"
             >
               Cancel
             </button>
@@ -263,7 +263,7 @@ const UserMessage = memo(function UserMessage({
               type="button"
               onClick={commit}
               disabled={!draft.trim()}
-              className="ezra-tactile rounded-full bg-[var(--ezra-accent)] px-3 py-1.5 text-xs font-medium text-[var(--ezra-accent-fg)] disabled:opacity-50"
+              className="pressroom-tactile rounded-full bg-[var(--pressroom-accent)] px-3 py-1.5 text-xs font-medium text-[var(--pressroom-accent-fg)] disabled:opacity-50"
             >
               Save &amp; resend
             </button>
@@ -283,12 +283,12 @@ const UserMessage = memo(function UserMessage({
             setEditing(true);
           }}
           aria-label="Edit message"
-          className="ezra-tactile mt-1.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-[var(--ezra-fg-muted)] opacity-100 hover:bg-[var(--ezra-hover-bg)] hover:text-[var(--ezra-fg)] md:opacity-0 md:group-hover:opacity-100"
+          className="pressroom-tactile mt-1.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-[var(--pressroom-fg-muted)] opacity-100 hover:bg-[var(--pressroom-hover-bg)] hover:text-[var(--pressroom-fg)] md:opacity-0 md:group-hover:opacity-100"
         >
           <Pencil className="h-3.5 w-3.5" />
         </button>
       )}
-      <div className="ezra-msg-enter max-w-[80%] rounded-2xl bg-[var(--ezra-accent)] px-4 py-2.5 text-sm text-[var(--ezra-accent-fg)] shadow-[0_1px_2px_hsl(222_43%_8%/0.4)]">
+      <div className="pressroom-msg-enter max-w-[80%] rounded-2xl bg-[var(--pressroom-accent)] px-4 py-2.5 text-sm text-[var(--pressroom-accent-fg)] shadow-[0_1px_2px_hsl(222_43%_8%/0.4)]">
         {content}
       </div>
     </div>
@@ -313,7 +313,7 @@ const AssistantMessage = memo(function AssistantMessage({
   sessionId,
   onRegenerate,
 }: {
-  msg: EzraMsg;
+  msg: PressRoomMsg;
   index: number;
   isLast: boolean;
   isLoading: boolean;
@@ -324,7 +324,7 @@ const AssistantMessage = memo(function AssistantMessage({
   const [readInChat, setReadInChat] = useState(false);
   const streaming = isLoading && isLast;
 
-  const parsed = parseEzraMessage(msg.content);
+  const parsed = parsePressRoomMessage(msg.content);
   const showFollowup = !!parsed.followup && !isLoading;
 
   // While streaming, hold back any unfinished <<<…>>> block so the reader
@@ -364,32 +364,32 @@ const AssistantMessage = memo(function AssistantMessage({
   let reveal = 0;
 
   return (
-    <div className="ezra-msg-enter space-y-3">
+    <div className="pressroom-msg-enter space-y-3">
       <div className="flex select-none items-center gap-2" aria-hidden>
-        <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[var(--ezra-active-bg)] ring-1 ring-[var(--ezra-active-border)]/40">
-          <span className="h-1.5 w-1.5 rounded-full bg-[var(--ezra-accent)]" />
+        <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[var(--pressroom-active-bg)] ring-1 ring-[var(--pressroom-active-border)]/40">
+          <span className="h-1.5 w-1.5 rounded-full bg-[var(--pressroom-accent)]" />
         </span>
-        <span className="text-[11px] font-medium uppercase tracking-wider text-[var(--ezra-fg-muted)]">Ezra</span>
+        <span className="text-[11px] font-medium uppercase tracking-wider text-[var(--pressroom-fg-muted)]">PressRoom</span>
       </div>
-      <EzraSourcesTabs
+      <PressRoomSourcesTabs
         answer={
           <div className="space-y-3">
             {preface && (
-              <div className={cn("px-1 py-1", streaming && "ezra-stream-caret")}>
-                <EzraMarkdown>{preface}</EzraMarkdown>
+              <div className={cn("px-1 py-1", streaming && "pressroom-stream-caret")}>
+                <PressRoomMarkdown>{preface}</PressRoomMarkdown>
               </div>
             )}
 
             {showDraftSkeleton && <DraftSkeleton />}
 
             {msg.meta?.scripture_artifact && !isLoading && (
-              <div className="ezra-artifact-reveal" style={{ "--reveal-i": reveal++ } as React.CSSProperties}>
+              <div className="pressroom-artifact-reveal" style={{ "--reveal-i": reveal++ } as React.CSSProperties}>
                 <ScriptureArtifact data={msg.meta.scripture_artifact} />
               </div>
             )}
 
             {showChip && (
-              <div className="ezra-artifact-reveal space-y-2" style={{ "--reveal-i": reveal++ } as React.CSSProperties}>
+              <div className="pressroom-artifact-reveal space-y-2" style={{ "--reveal-i": reveal++ } as React.CSSProperties}>
                 <InlineDocumentCard
                   initialMarkdown={artifactMarkdown!}
                   initialTitle={artifactTitle}
@@ -400,15 +400,15 @@ const AssistantMessage = memo(function AssistantMessage({
                 <button
                   type="button"
                   onClick={() => setReadInChat((v) => !v)}
-                  className="ezra-tactile inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-medium text-[var(--ezra-accent)] hover:bg-[var(--ezra-active-bg)]"
+                  className="pressroom-tactile inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-medium text-[var(--pressroom-accent)] hover:bg-[var(--pressroom-active-bg)]"
                   aria-expanded={readInChat}
                 >
                   <ChevronDown className={cn("h-3.5 w-3.5 transition-transform duration-200", readInChat && "rotate-180")} />
                   {readInChat ? "Collapse" : "Read it here in chat"}
                 </button>
                 {readInChat && (
-                  <div className="ezra-msg-enter border-l-2 border-[var(--ezra-active-border)]/40 pl-4 pr-1 py-1">
-                    <EzraMarkdown>{artifactMarkdown!}</EzraMarkdown>
+                  <div className="pressroom-msg-enter border-l-2 border-[var(--pressroom-active-border)]/40 pl-4 pr-1 py-1">
+                    <PressRoomMarkdown>{artifactMarkdown!}</PressRoomMarkdown>
                   </div>
                 )}
               </div>
@@ -416,10 +416,10 @@ const AssistantMessage = memo(function AssistantMessage({
 
             {showFollowup && (
               <div
-                className="ezra-artifact-reveal px-1 py-1"
+                className="pressroom-artifact-reveal px-1 py-1"
                 style={{ "--reveal-i": reveal++ } as React.CSSProperties}
               >
-                <EzraMarkdown>{parsed.followup!}</EzraMarkdown>
+                <PressRoomMarkdown>{parsed.followup!}</PressRoomMarkdown>
               </div>
             )}
           </div>
@@ -465,7 +465,7 @@ const AssistantMessage = memo(function AssistantMessage({
                 <button
                   type="button"
                   className={cn(
-                    "ezra-badge-in ezra-tactile ml-2 inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-medium",
+                    "pressroom-badge-in pressroom-tactile ml-2 inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-medium",
                     msg.meta.citation_verdict === "verified" && "bg-emerald-500/15 text-emerald-600 dark:text-emerald-400",
                     msg.meta.citation_verdict === "partial" && "bg-amber-500/15 text-amber-600 dark:text-amber-400",
                     msg.meta.citation_verdict === "unverified" && "bg-red-500/15 text-red-600 dark:text-red-400",
@@ -491,10 +491,10 @@ const AssistantMessage = memo(function AssistantMessage({
               <PopoverTrigger asChild>
                 <button
                   type="button"
-                  className="ezra-badge-in ezra-tactile ml-1 inline-flex items-center gap-1 rounded-full bg-[hsl(40_56%_51%/0.12)] px-2 py-0.5 text-[10px] font-medium text-[hsl(40_56%_55%)]"
+                  className="pressroom-badge-in pressroom-tactile ml-1 inline-flex items-center gap-1 rounded-full bg-[hsl(40_56%_51%/0.12)] px-2 py-0.5 text-[10px] font-medium text-[hsl(40_56%_55%)]"
                 >
                   <Brain className="h-3 w-3" />
-                  Ezra remembers
+                  PressRoom remembers
                 </button>
               </PopoverTrigger>
               <PopoverContent side="bottom" align="start" className="w-auto max-w-xs p-2.5 text-xs">
@@ -524,11 +524,11 @@ const AssistantMessage = memo(function AssistantMessage({
 function DraftSkeleton() {
   return (
     <div
-      className="space-y-2.5 rounded-xl border border-[var(--ezra-border)] bg-[var(--ezra-panel)]/60 p-4"
+      className="space-y-2.5 rounded-xl border border-[var(--pressroom-border)] bg-[var(--pressroom-panel)]/60 p-4"
       aria-label="Drafting document"
     >
-      <div className="flex items-center gap-2 text-xs text-[var(--ezra-fg-muted)]">
-        <FileText className="h-3.5 w-3.5 text-[var(--ezra-accent)]" />
+      <div className="flex items-center gap-2 text-xs text-[var(--pressroom-fg-muted)]">
+        <FileText className="h-3.5 w-3.5 text-[var(--pressroom-accent)]" />
         Drafting document…
       </div>
       <div className="shimmer h-3 w-3/4 rounded" />
@@ -556,7 +556,7 @@ function ActionBtn({
           size="icon"
           onClick={onClick}
           aria-label={label}
-          className={cn("ezra-tactile h-7 w-7 text-muted-foreground hover:text-foreground")}
+          className={cn("pressroom-tactile h-7 w-7 text-muted-foreground hover:text-foreground")}
         >
           {children}
         </Button>

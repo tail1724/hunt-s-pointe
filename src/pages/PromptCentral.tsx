@@ -43,7 +43,7 @@ export default function PromptCentral() {
         <div className="flex items-center gap-3 mb-3">
           <NexusPulse state="idle" size={32} inline />
           <h1 className="font-display text-xl md:text-2xl font-extrabold tracking-tight">
-            Ezra
+            PressRoom
           </h1>
           <div className="flex-1" />
 

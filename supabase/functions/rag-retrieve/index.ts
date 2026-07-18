@@ -1,4 +1,4 @@
-// RAG retrieval for Ezra — pipeline v2 (multi-turn conversational).
+// RAG retrieval for PressRoom — pipeline v2 (multi-turn conversational).
 //
 // Pipeline: conversation-aware condensation (standalone-question rewrite) ->
 // embed (with cache) -> three retrieval arms in parallel (dense, sparse,

@@ -263,7 +263,7 @@ export function MarginRail({
 
       <div className="min-h-0 flex-1 overflow-y-auto px-3 py-3 space-y-2.5">
         {structureReport && (
-          <div className="ezra-artifact-reveal rounded-lg border border-border/60 bg-card/80 p-3">
+          <div className="pressroom-artifact-reveal rounded-lg border border-border/60 bg-card/80 p-3">
             <div className="mb-2 flex items-center justify-between">
               <p className="text-[10px] uppercase tracking-wider text-muted-foreground">Structure report — read only</p>
               <button type="button" onClick={() => setStructureReport(null)} className="text-muted-foreground hover:text-foreground">
@@ -304,7 +304,7 @@ export function MarginRail({
               <div
                 key={a.id}
                 className={cn(
-                  "ezra-artifact-reveal rounded-lg border p-3",
+                  "pressroom-artifact-reveal rounded-lg border p-3",
                   warn ? "border-guardrail/30 bg-guardrail/10" : "border-ai/25 bg-ai-wash/10",
                 )}
               >

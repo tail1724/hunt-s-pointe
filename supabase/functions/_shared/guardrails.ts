@@ -67,7 +67,7 @@ const RULES: Rule[] = [
     patterns: [
       /\bignore (?:all |your |the )?(?:previous|prior|above|earlier) (?:instructions?|prompts?|rules?)\b/i,
       /\b(?:reveal|print|show|repeat)\b[^.?!\n]{0,30}\b(?:system prompt|hidden instructions?|initial instructions?)\b/i,
-      /\byou are no longer (?:pressroom|ezra|an? (?:assistant|ai))\b/i,
+      /\byou are no longer (?:pressroom|pressroom|an? (?:assistant|ai))\b/i,
       /\b(?:jailbreak|dan mode|developer mode enabled)\b/i,
     ],
   },

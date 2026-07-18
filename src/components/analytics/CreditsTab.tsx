@@ -174,14 +174,14 @@ export default function CreditsTab() {
     if (summary.projectedPct > 0 && summary.projectedPct <= 100) {
       out.push(`At your current pace you'll use about ${summary.projectedPct}% of this month's credits — comfortably within your membership.`);
     } else if (summary.projectedPct > 100) {
-      out.push(`At your current pace you're on track to run out before ${summary.renews}. Lowering the Ezra power level on simpler questions stretches your credits further.`);
+      out.push(`At your current pace you're on track to run out before ${summary.renews}. Lowering the PressRoom power level on simpler questions stretches your credits further.`);
     }
     const refCount = events.filter((e) => e.bucket === "refinement").length;
     const orchCount = events.filter((e) => e.bucket === "orchestration").length;
     if (orchCount > 0 && refCount / orchCount > 2) {
       out.push(`You're averaging ${(refCount / orchCount).toFixed(1)} refinements per study. Tightening the first prompt usually gets you there for fewer credits.`);
     }
-    if (out.length === 0) out.push("Your usage looks healthy. Ezra's power dial lets you spend fewer credits on quick questions and save the deep runs for real exegesis.");
+    if (out.length === 0) out.push("Your usage looks healthy. PressRoom's power dial lets you spend fewer credits on quick questions and save the deep runs for real exegesis.");
     return out;
   }, [events, summary]);
 
@@ -202,7 +202,7 @@ export default function CreditsTab() {
     <div className="space-y-6">
       <div className="flex items-center gap-2">
         <span className="inline-flex items-center gap-1 rounded-full border border-border px-2 py-0.5 text-xs text-muted-foreground shrink-0"><Sparkles className="h-3 w-3" /> Membership</span>
-        <span className="text-xs text-muted-foreground">Your plan includes a monthly pool of credits. Everything you do with Ezra draws from it — nothing here is a separate charge.</span>
+        <span className="text-xs text-muted-foreground">Your plan includes a monthly pool of credits. Everything you do with PressRoom draws from it — nothing here is a separate charge.</span>
       </div>
 
       <CreditsRing used={summary.monthUsed} allowance={allowance} renews={summary.renews} />
@@ -254,7 +254,7 @@ export default function CreditsTab() {
       <div className="grid gap-6 grid-cols-1 lg:grid-cols-2">
         <ChartCard title="Credits by feature" subtitle="Where your credits go">
           {featureSpend.length === 0 ? (
-            <VizEmpty icon={Coins} title="No credits used yet" body="Credits appear as soon as you run a study or chat with Ezra." className="h-64" />
+            <VizEmpty icon={Coins} title="No credits used yet" body="Credits appear as soon as you run a study or chat with PressRoom." className="h-64" />
           ) : (
             <div className="h-64">
               <ResponsiveContainer width="100%" height="100%">

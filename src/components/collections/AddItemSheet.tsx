@@ -151,7 +151,7 @@ export function AddItemSheet({ collectionId, onAdded, trigger }: Props) {
             </div>
             <div>
               <Label htmlFor="note-body">Note</Label>
-              <Textarea id="note-body" value={noteBody} onChange={(e) => setNoteBody(e.target.value)} rows={10} placeholder="Type free-form context Ezra and Write should treat as background…" />
+              <Textarea id="note-body" value={noteBody} onChange={(e) => setNoteBody(e.target.value)} rows={10} placeholder="Type free-form context PressRoom and Write should treat as background…" />
             </div>
             <Button onClick={addNote} disabled={busy || !noteBody.trim()} className="w-full">
               {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : "Save note"}

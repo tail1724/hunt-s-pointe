@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { CREDITS_PER_EVENT, POWER_MATRIX } from "@/lib/credit-schedule";
 
 /**
- * The Ezra power dial: instead of picking a raw model, the member picks how
- * hard Ezra thinks along two axes, and sees the credit cost move as they do.
+ * The PressRoom power dial: instead of picking a raw model, the member picks how
+ * hard PressRoom thinks along two axes, and sees the credit cost move as they do.
  *
  *   depth  1–8   Speed ↔ Depth   (model + retrieval breadth)
  *   power  1–5   reasoning effort
@@ -32,7 +32,7 @@ const DEPTH_STOPS: { model: string; topK: number }[] = [
   { model: "google/gemini-2.5-pro", topK: 10 },       // 8
 ];
 
-const KEY = "ezra.powerLevel";
+const KEY = "pressroom.powerLevel";
 const DEFAULT: PowerState = { depth: 3, power: 2, turbo: false };
 
 function clamp(n: number, lo: number, hi: number) {

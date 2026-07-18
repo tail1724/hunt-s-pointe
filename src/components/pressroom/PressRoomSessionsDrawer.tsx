@@ -21,7 +21,7 @@ import {
 import { InputDialog } from "@/components/ui/input-dialog";
 import { ConfirmDialog } from "@/components/ui/confirm-dialog";
 import { cn } from "@/lib/utils";
-import { useEzraSessions } from "./useEzraSessions";
+import { usePressRoomSessions } from "./usePressRoomSessions";
 
 interface Props {
   open: boolean;
@@ -33,12 +33,12 @@ interface Props {
 }
 
 /**
- * Mobile's answer to the desktop EzraRail — a bottom sheet instead of a
- * side panel, opened from EzraMobileHeader. Shares all data/mutation logic
- * with the rail through useEzraSessions so history, rename, and delete
+ * Mobile's answer to the desktop PressRoomRail — a bottom sheet instead of a
+ * side panel, opened from PressRoomMobileHeader. Shares all data/mutation logic
+ * with the rail through usePressRoomSessions so history, rename, and delete
  * behave identically on both surfaces.
  */
-export function EzraSessionsDrawer({
+export function PressRoomSessionsDrawer({
   open,
   onOpenChange,
   activeSessionId,
@@ -62,7 +62,7 @@ export function EzraSessionsDrawer({
     handleDelete,
     togglePin,
     setCategory,
-  } = useEzraSessions({
+  } = usePressRoomSessions({
     activeSessionId,
     refreshKey,
     onActiveDeleted: () => onSelectSession(null),

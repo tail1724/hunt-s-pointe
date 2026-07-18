@@ -192,7 +192,7 @@ serve(async (req) => {
       try {
         const resp = await fetch(url, {
           signal: controller.signal,
-          headers: { "User-Agent": "EzraCollectionsBot/1.0 (+https://lovable.dev)" },
+          headers: { "User-Agent": "PressRoomCollectionsBot/1.0 (+https://lovable.dev)" },
         });
         if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
         const ct = resp.headers.get("content-type") ?? "";

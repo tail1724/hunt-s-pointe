@@ -7,13 +7,13 @@
  * internal_cost_ledger table, never shipped to the client).
  *
  * These are tunable defaults. Retune freely — nothing downstream hard-codes a
- * specific number. Baseline actions cost the value below; the Ezra power-dial
+ * specific number. Baseline actions cost the value below; the PressRoom power-dial
  * multiplies chat/study costs (see POWER_MATRIX in usePowerLevel).
  */
 export const CREDITS_PER_EVENT = {
   orchestration: 4,      // a full multi-output study (prompt_history row)
   refinement: 1,         // a corrective refinement pass
-  partner_message: 1,    // one Ezra chat turn (× power multiplier)
+  partner_message: 1,    // one PressRoom chat turn (× power multiplier)
   image_generation: 10,  // one rendered image
   other: 1,
 } as const;
@@ -23,13 +23,13 @@ export type CreditBucket = keyof typeof CREDITS_PER_EVENT;
 export const BUCKET_LABELS: Record<CreditBucket, string> = {
   orchestration: "Studies",
   refinement: "Refinements",
-  partner_message: "Ezra chat",
+  partner_message: "PressRoom chat",
   image_generation: "Images",
   other: "Other",
 };
 
 export const FEATURE_LABELS = {
-  mary: "Ezra",
+  mary: "PressRoom",
   write: "Write",
   create: "Create",
   sentient: "Studies",

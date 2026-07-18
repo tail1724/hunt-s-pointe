@@ -6,7 +6,7 @@ interface VoiceCanvasProps {
   width?: number;
   height?: number;
   active: boolean;
-  /** Base color in HSL h,s%. Defaults to ezra accent gold. */
+  /** Base color in HSL h,s%. Defaults to pressroom accent gold. */
   hue?: number;
   saturation?: number;
 }

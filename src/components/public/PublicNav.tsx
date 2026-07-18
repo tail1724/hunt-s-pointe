@@ -45,7 +45,7 @@ export function PublicNav() {
 
   // Signed-in visitors get a direct door back into the workspace — with the
   // same ink transition they saw at sign-in.
-  const enterEzra = () => {
+  const enterPressRoom = () => {
     requestEntryTransition();
     navigate("/app/pressroom");
   };
@@ -107,7 +107,7 @@ export function PublicNav() {
         <div className="nav__right">
           {session ? (
             <>
-              <button className="btn btn--ink btn--sm" type="button" onClick={enterEzra}>
+              <button className="btn btn--ink btn--sm" type="button" onClick={enterPressRoom}>
                 Go to PressRoom
                 <span className="ar" aria-hidden="true">→</span>
               </button>

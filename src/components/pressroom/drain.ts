@@ -1,5 +1,5 @@
 /**
- * Backlog-proportional typewriter step size, shared between useEzraChat's
+ * Backlog-proportional typewriter step size, shared between usePressRoomChat's
  * drain loop and its tests.
  *
  * While the stream is still arriving, the step keeps the visible buffer

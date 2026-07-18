@@ -9,7 +9,7 @@ export interface VoicePrefs {
   sounds: boolean;
 }
 
-const KEY = "ezra:voice-prefs";
+const KEY = "pressroom:voice-prefs";
 const DEFAULTS: VoicePrefs = {
   autoSend: false,
   silenceThresholdMs: SILENCE_THRESHOLD_MS,

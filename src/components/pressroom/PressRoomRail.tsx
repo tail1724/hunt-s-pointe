@@ -9,7 +9,7 @@ import {
   DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator,
   DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useEzraSessions } from "./useEzraSessions";
+import { usePressRoomSessions } from "./usePressRoomSessions";
 
 interface Props {
   open: boolean;
@@ -20,7 +20,7 @@ interface Props {
   refreshKey: number;
 }
 
-export function EzraRail({
+export function PressRoomRail({
   open,
   onToggle,
   activeSessionId,
@@ -44,7 +44,7 @@ export function EzraRail({
     categories,
     togglePin,
     setCategory,
-  } = useEzraSessions({
+  } = usePressRoomSessions({
     activeSessionId,
     refreshKey,
     onActiveDeleted: () => onSelectSession(null),
@@ -65,10 +65,10 @@ export function EzraRail({
   return (
     <aside
       className={cn(
-        "shrink-0 h-full flex flex-col border-r border-[var(--ezra-border)] bg-[var(--ezra-panel)] ezra-rail-transition rounded-r-xl",
+        "shrink-0 h-full flex flex-col border-r border-[var(--pressroom-border)] bg-[var(--pressroom-panel)] pressroom-rail-transition rounded-r-xl",
         open ? "w-[260px]" : "w-[56px]",
       )}
-      aria-label="Ezra chat history"
+      aria-label="PressRoom chat history"
     >
       <div className={cn("flex items-center h-12 px-2", open ? "justify-between" : "justify-center")}>
         {open && (
@@ -81,7 +81,7 @@ export function EzraRail({
           size="icon"
           onClick={onToggle}
           aria-label={open ? "Collapse history" : "Expand history"}
-          className="h-8 w-8 ezra-tactile"
+          className="h-8 w-8 pressroom-tactile"
         >
           {open ? <PanelLeftClose className="h-4 w-4" /> : <PanelLeftOpen className="h-4 w-4" />}
         </Button>
@@ -102,7 +102,7 @@ export function EzraRail({
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search chats"
-              className="h-8 pl-8 text-xs bg-[var(--ezra-composer-bg)] border-[var(--ezra-border)] text-[var(--ezra-fg)] placeholder:text-[var(--ezra-fg-muted)]/60"
+              className="h-8 pl-8 text-xs bg-[var(--pressroom-composer-bg)] border-[var(--pressroom-border)] text-[var(--pressroom-fg)] placeholder:text-[var(--pressroom-fg-muted)]/60"
             />
           </div>
         ) : (
@@ -122,7 +122,7 @@ export function EzraRail({
               {[0, 1, 2, 3, 4].map((i) => (
                 <div
                   key={i}
-                  className="h-7 animate-pulse rounded-md bg-[var(--ezra-hover-bg)]"
+                  className="h-7 animate-pulse rounded-md bg-[var(--pressroom-hover-bg)]"
                   style={{ opacity: 1 - i * 0.15 }}
                 />
               ))}
@@ -144,17 +144,17 @@ export function EzraRail({
                     <div
                       key={s.id}
                       className={cn(
-                        "group relative flex items-center rounded-md ezra-tactile",
+                        "group relative flex items-center rounded-md pressroom-tactile",
                         activeSessionId === s.id
-                          ? "bg-[var(--ezra-active-bg)]"
-                          : "hover:bg-[var(--ezra-hover-bg)]",
+                          ? "bg-[var(--pressroom-active-bg)]"
+                          : "hover:bg-[var(--pressroom-hover-bg)]",
                       )}
                     >
                       <span
                         aria-hidden
                         className={cn(
                           "absolute left-0 top-1.5 bottom-1.5 w-[2.5px] rounded-full transition-colors",
-                          activeSessionId === s.id ? "bg-[var(--ezra-active-border)]" : "bg-transparent",
+                          activeSessionId === s.id ? "bg-[var(--pressroom-active-border)]" : "bg-transparent",
                         )}
                       />
                       {renamingId === s.id ? (
@@ -168,7 +168,7 @@ export function EzraRail({
                             if (e.key === "Escape") cancelRename();
                           }}
                           aria-label="Rename chat"
-                          className="mx-1.5 my-1 w-full rounded border border-[var(--ezra-active-border)] bg-[var(--ezra-composer-bg)] px-1.5 py-0.5 text-xs text-[var(--ezra-fg)] outline-none"
+                          className="mx-1.5 my-1 w-full rounded border border-[var(--pressroom-active-border)] bg-[var(--pressroom-composer-bg)] px-1.5 py-0.5 text-xs text-[var(--pressroom-fg)] outline-none"
                         />
                       ) : (
                         <>
@@ -179,8 +179,8 @@ export function EzraRail({
                             className={cn(
                               "flex-1 min-w-0 text-left pl-2.5 pr-1 py-1.5 text-xs truncate",
                               activeSessionId === s.id
-                                ? "text-[var(--ezra-fg)]"
-                                : "text-[var(--ezra-fg-muted)] hover:text-[var(--ezra-fg)]",
+                                ? "text-[var(--pressroom-fg)]"
+                                : "text-[var(--pressroom-fg-muted)] hover:text-[var(--pressroom-fg)]",
                             )}
                           >
                             {s.pinned_at ? (
@@ -198,7 +198,7 @@ export function EzraRail({
                                 aria-label="Chat options"
                                 // Always visible on touch (no real hover state
                                 // there); hover-revealed on desktop pointers.
-                                className="h-6 w-6 mr-1 opacity-100 md:opacity-0 md:group-hover:opacity-100 focus:opacity-100 data-[state=open]:opacity-100 text-[var(--ezra-fg-muted)] hover:text-[var(--ezra-fg)]"
+                                className="h-6 w-6 mr-1 opacity-100 md:opacity-0 md:group-hover:opacity-100 focus:opacity-100 data-[state=open]:opacity-100 text-[var(--pressroom-fg-muted)] hover:text-[var(--pressroom-fg)]"
                                 onClick={(e) => e.stopPropagation()}
                               >
                                 <MoreHorizontal className="h-3.5 w-3.5" />
@@ -304,10 +304,10 @@ function RailButton({
       aria-label={label}
       title={!open ? label : undefined}
       className={cn(
-        "w-full flex items-center gap-2 px-2 h-9 rounded-md text-xs ezra-tactile",
+        "w-full flex items-center gap-2 px-2 h-9 rounded-md text-xs pressroom-tactile",
         active
-          ? "bg-[var(--ezra-active-bg)] text-[var(--ezra-fg)]"
-          : "text-[var(--ezra-fg-muted)] hover:bg-[var(--ezra-hover-bg)] hover:text-[var(--ezra-fg)]",
+          ? "bg-[var(--pressroom-active-bg)] text-[var(--pressroom-fg)]"
+          : "text-[var(--pressroom-fg-muted)] hover:bg-[var(--pressroom-hover-bg)] hover:text-[var(--pressroom-fg)]",
         !open && "justify-center",
       )}
     >

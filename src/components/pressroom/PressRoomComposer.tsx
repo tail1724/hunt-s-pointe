@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ArrowUp, Square, Plus, BookOpen, Mic } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { PowerDial } from "@/components/ezra/PowerDial";
+import { PowerDial } from "@/components/pressroom/PowerDial";
 import { useNexusVoice } from "@/hooks/useNexusVoice";
 import { useVoicePreferences } from "@/hooks/useVoicePreferences";
 import { useAuth } from "@/contexts/AuthContext";
@@ -27,13 +27,13 @@ interface Props {
 }
 
 
-export function EzraComposer({
+export function PressRoomComposer({
   value,
   onChange,
   onSubmit,
   onStop,
   isLoading,
-  placeholder = "Ask Ezra anything…",
+  placeholder = "Ask PressRoom anything…",
   glow = false,
   scriptureMode = "off",
   onScriptureToggle,
@@ -137,7 +137,7 @@ export function EzraComposer({
 
   return (
     <div
-      className={cn("relative w-full", glow && "ezra-composer-glow")}
+      className={cn("relative w-full", glow && "pressroom-composer-glow")}
       onMouseDownCapture={cancelCountdown}
       onKeyDownCapture={cancelCountdown}
     >
@@ -164,10 +164,10 @@ export function EzraComposer({
           if (value.trim() && !isLoading) onSubmit();
         }}
         className={cn(
-          "relative flex flex-col gap-2 rounded-[28px] border border-[var(--ezra-composer-border)]",
+          "relative flex flex-col gap-2 rounded-[28px] border border-[var(--pressroom-composer-border)]",
           "lg:flex-row lg:items-end lg:gap-2",
-          "bg-[var(--ezra-composer-bg)] px-3 py-2.5 shadow-[inset_0_1px_0_var(--ezra-border)]",
-          "ezra-composer-focus transition-all duration-150",
+          "bg-[var(--pressroom-composer-bg)] px-3 py-2.5 shadow-[inset_0_1px_0_var(--pressroom-border)]",
+          "pressroom-composer-focus transition-all duration-150",
         )}
       >
         <CountdownRing
@@ -185,11 +185,11 @@ export function EzraComposer({
           placeholder={placeholder}
           rows={1}
           disabled={isLoading}
-          aria-label="Message Ezra"
+          aria-label="Message PressRoom"
           className={cn(
             // text-base (16px) below md stops iOS Safari's auto-zoom-on-focus.
             "w-full lg:flex-1 bg-transparent resize-none outline-none border-0 px-1 py-1.5 text-base md:text-sm",
-            "text-[var(--ezra-fg)] placeholder:text-[var(--ezra-fg-muted)]/60 max-h-[180px]",
+            "text-[var(--pressroom-fg)] placeholder:text-[var(--pressroom-fg-muted)]/60 max-h-[180px]",
             "min-h-[44px] lg:min-h-[28px]",
             "scrollbar-thin",
           )}
@@ -200,7 +200,7 @@ export function EzraComposer({
             type="button"
             size="icon"
             variant="ghost"
-            className="h-10 w-10 lg:h-8 lg:w-8 rounded-full shrink-0 ezra-tactile text-foreground/70 lg:self-end"
+            className="h-10 w-10 lg:h-8 lg:w-8 rounded-full shrink-0 pressroom-tactile text-foreground/70 lg:self-end"
             aria-label="Attach"
             tabIndex={-1}
           >
@@ -219,7 +219,7 @@ export function EzraComposer({
                   aria-pressed={scriptureMode === "on"}
                   aria-label="Toggle scripture grounding"
                   className={cn(
-                    "h-10 w-10 lg:h-8 lg:w-8 rounded-full ezra-tactile",
+                    "h-10 w-10 lg:h-8 lg:w-8 rounded-full pressroom-tactile",
                     scriptureMode === "on" && "bg-[hsl(40_56%_51%/0.22)] text-[hsl(40_56%_60%)]",
                   )}
                 >
@@ -269,7 +269,7 @@ export function EzraComposer({
               size="icon"
               onClick={onStop}
               aria-label="Stop"
-              className="h-10 w-10 lg:h-8 lg:w-8 rounded-full bg-[var(--ezra-accent)] text-[var(--ezra-accent-fg)] hover:opacity-90 ezra-tactile"
+              className="h-10 w-10 lg:h-8 lg:w-8 rounded-full bg-[var(--pressroom-accent)] text-[var(--pressroom-accent-fg)] hover:opacity-90 pressroom-tactile"
             >
               <Square className="h-3.5 w-3.5 fill-current" />
             </Button>
@@ -280,8 +280,8 @@ export function EzraComposer({
               disabled={!value.trim()}
               aria-label="Send"
               className={cn(
-                "h-10 w-10 lg:h-8 lg:w-8 rounded-full bg-[var(--ezra-accent)] text-[var(--ezra-accent-fg)] hover:opacity-90 ezra-tactile",
-                "disabled:bg-[var(--ezra-border)] disabled:text-foreground/40",
+                "h-10 w-10 lg:h-8 lg:w-8 rounded-full bg-[var(--pressroom-accent)] text-[var(--pressroom-accent-fg)] hover:opacity-90 pressroom-tactile",
+                "disabled:bg-[var(--pressroom-border)] disabled:text-foreground/40",
                 value.trim() && "shadow-[0_0_14px_hsl(40_56%_51%/0.4)] scale-100 transition-shadow",
               )}
             >

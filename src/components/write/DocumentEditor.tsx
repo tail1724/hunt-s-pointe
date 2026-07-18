@@ -18,7 +18,7 @@ export interface DocumentEditorProps {
   initialContent?: any;
   /** Called with the editor's JSON whenever it changes. */
   onChange?: (json: any, text: string) => void;
-  /** Compact mode = smaller padding, used inline inside Ezra. */
+  /** Compact mode = smaller padding, used inline inside PressRoom. */
   compact?: boolean;
   /** Read-only viewer. */
   readOnly?: boolean;

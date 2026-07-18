@@ -2,7 +2,7 @@
 // typings; narrow it here instead of reaching for `any`.
 type Ctx2D = CanvasRenderingContext2D & { letterSpacing: string };
 
-// Pure canvas compositor for the Ezra photo editor.
+// Pure canvas compositor for the PressRoom photo editor.
 //
 // The editor is non-destructive: the base image plus an ordered list of layers
 // (text, adjustments, frame) are data, and rendering is a pure function of that

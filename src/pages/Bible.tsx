@@ -358,7 +358,7 @@ export default function Bible() {
     clearSelection();
   };
 
-  const sendToEzra = () => {
+  const sendToPressRoom = () => {
     navigate("/app/pressroom", {
       state: {
         prefill: `Let's study ${refLabel} (${pos.translation}):\n\n"${selectedText}"\n\nWalk me through the context, the original meaning, and how you'd teach it.`,
@@ -615,7 +615,7 @@ export default function Bible() {
       {/* Floating verse-action bar */}
       {selectedSorted.length > 0 && (
         <div className="fixed inset-x-0 bottom-6 z-30 flex justify-center px-4">
-          <div className="bible-actionbar ezra-artifact-reveal flex max-w-full flex-col gap-2 rounded-2xl border border-border bg-card/95 p-2.5 shadow-xl backdrop-blur">
+          <div className="bible-actionbar pressroom-artifact-reveal flex max-w-full flex-col gap-2 rounded-2xl border border-border bg-card/95 p-2.5 shadow-xl backdrop-blur">
             {noteOpen && (
               <div className="flex items-end gap-2 px-1 pt-1">
                 <textarea
@@ -668,7 +668,7 @@ export default function Bible() {
               <span className="h-5 w-px bg-border" />
               <ActionChip icon={StickyNote} label="Note" onClick={openNote} />
               <ActionChip icon={Bookmark} label="Bookmark" onClick={bookmarkSelection} />
-              <ActionChip icon={MessagesSquare} label="Ask PressRoom" onClick={sendToEzra} emphasis />
+              <ActionChip icon={MessagesSquare} label="Ask PressRoom" onClick={sendToPressRoom} emphasis />
               <ActionChip icon={PenLine} label="To Write" onClick={sendToWrite} />
               <ActionChip icon={Copy} label="Copy" onClick={copySelection} />
               <button

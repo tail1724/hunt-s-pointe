@@ -3,7 +3,7 @@ import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 
 // Guardrail for the class of bug where a CSS custom property gets renamed
-// (e.g. --primary-foreground → --priezra-foreground) but the Tailwind utility
+// (e.g. --primary-foreground → --pripressroom-foreground) but the Tailwind utility
 // that references it does not. Tailwind then emits `color: hsl(var(--missing))`,
 // which is invalid and silently dropped — producing "invisible" button labels.
 //
@@ -43,6 +43,6 @@ describe("theme token integrity", () => {
   });
 
   it("has no stray renamed foreground tokens", () => {
-    expect(css.includes("priezra")).toBe(false);
+    expect(css.includes("pripressroom")).toBe(false);
   });
 });

@@ -34,13 +34,13 @@ export default function PromptCentralLite() {
   return (
     <div className="bg-background min-h-dvh">
       <SEO
-        title={`${APP_NAME} — Try Ezra free`}
+        title={`${APP_NAME} — Try PressRoom free`}
         description="Try our AI workspace free — no signup required for your first turns. See the power before you commit."
         path="/prompt-central-lite"
         jsonLd={{
           "@context": "https://schema.org",
           "@type": "Product",
-          name: `${APP_NAME} — Ezra`,
+          name: `${APP_NAME} — PressRoom`,
           description: "AI workspace with personas, exports, and shareable sessions.",
           aggregateRating: { "@type": "AggregateRating", ratingValue: "4.9", reviewCount: "1284" },
         }}
@@ -60,7 +60,7 @@ export default function PromptCentralLite() {
               <TooltipTrigger asChild>
                 <span className="hidden sm:inline-flex items-center gap-1.5 rounded-full border border-border bg-muted/40 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
                   <Sparkles className="h-3 w-3 text-primary" />
-                  Ezra Research Lite
+                  PressRoom Research Lite
                 </span>
               </TooltipTrigger>
               <TooltipContent>Optimized preview engine. Sign up for full inference.</TooltipContent>

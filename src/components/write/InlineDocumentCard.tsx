@@ -10,17 +10,17 @@ import { markdownToTiptapJSON, markdownToPlainText } from "@/lib/markdown-to-tip
 interface Props {
   /** Print-ready markdown (draft body only, no preface or follow-up). */
   initialMarkdown: string;
-  /** Default title (parsed from the draft H1 or supplied by Ezra). */
+  /** Default title (parsed from the draft H1 or supplied by PressRoom). */
   initialTitle: string;
-  /** Ezra session this draft came from. */
+  /** PressRoom session this draft came from. */
   sessionId?: string | null;
   messageIndex: number;
-  /** Stable key — one document row per Ezra message. */
+  /** Stable key — one document row per PressRoom message. */
   messageKey: string;
 }
 
 /**
- * Compact "file chip" representation of a draft inside a Ezra chat bubble.
+ * Compact "file chip" representation of a draft inside a PressRoom chat bubble.
  * The actual draft body is never rendered inline — it lives in the document row
  * and opens in the Write surface, parsed as proper TipTap JSON (no raw markdown).
  */

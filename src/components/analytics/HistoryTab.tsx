@@ -39,7 +39,7 @@ export default function HistoryTab() {
   // Reopen the conversation this entry came from (newer rows carry a
   // session_id) with the seed prefilled, ready to run again. Legacy rows
   // without a session fall back to prefilling a fresh chat.
-  const continueInEzra = (item: Tables<"prompt_history">) => {
+  const continueInPressRoom = (item: Tables<"prompt_history">) => {
     const sid = (item as any).session_id as string | null | undefined;
     if (sid) {
       navigate(`/app/pressroom?session=${sid}`, { state: { prefill: item.seed } });
@@ -117,7 +117,7 @@ export default function HistoryTab() {
                     )}
 
                     <div className="mt-3 flex flex-wrap items-center gap-2">
-                      <Button size="sm" onClick={() => continueInEzra(item)} className="gap-1.5 text-xs">
+                      <Button size="sm" onClick={() => continueInPressRoom(item)} className="gap-1.5 text-xs">
                         <MessagesSquare className="h-3.5 w-3.5" /> Continue in PressRoom
                       </Button>
                       <CampaignSelector

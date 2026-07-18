@@ -304,7 +304,7 @@ export function SentientChat({
                 toolEvents = [...toolEvents, { name: (sig as any).name, args: (sig as any).args, result: (sig as any).result }];
                 attachMetaToLastAssistant();
                 if ((sig as any).name === "remember" && (sig as any).args?.fact) {
-                  toast.success(`Ezra remembered: ${(sig as any).args.fact}`);
+                  toast.success(`PressRoom remembered: ${(sig as any).args.fact}`);
                 }
                 continue;
               }
@@ -360,7 +360,7 @@ export function SentientChat({
         toast.info("Response stopped");
       } else {
         console.error(e);
-        toast.error("Failed to connect to Ezra");
+        toast.error("Failed to connect to PressRoom");
       }
     } finally {
       setIsLoading(false);
@@ -542,7 +542,7 @@ export function SentientChat({
               Where should we begin?
             </h2>
             <p className="mt-2 text-sm text-muted-foreground">
-              Share your vision. Ezra will breathe with your workflow and co-create the perfect prompt.
+              Share your vision. PressRoom will breathe with your workflow and co-create the perfect prompt.
             </p>
           </div>
           <div id="empty-composer-anchor" className="relative w-full max-w-2xl composer-glow rounded-2xl" />
@@ -626,7 +626,7 @@ export function SentientChat({
               className="flex-1 min-h-[42px] max-h-[150px] resize-none text-base md:text-sm"
               disabled={isLoading}
               rows={1}
-              aria-label="Message Ezra"
+              aria-label="Message PressRoom"
             />
 
             {isSupported && voiceEnabled ? (
@@ -682,7 +682,7 @@ export function SentientChat({
         open={shareOpen}
         onOpenChange={setShareOpen}
         sessionId={sessionId || null}
-        title={messages.find((m) => m.role === "user")?.content.slice(0, 60) || "Ezra Session"}
+        title={messages.find((m) => m.role === "user")?.content.slice(0, 60) || "PressRoom Session"}
         messages={messages}
       />
 

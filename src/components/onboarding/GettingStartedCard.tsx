@@ -14,7 +14,7 @@ interface Steps {
 }
 
 /**
- * First-run checklist shown on Ezra's empty state until the three aha moments
+ * First-run checklist shown on PressRoom's empty state until the three aha moments
  * have happened (or the user dismisses it). Completion is detected from real
  * data, not flags — so returning users never see it.
  */
@@ -65,7 +65,7 @@ export function GettingStartedCard() {
     {
       done: steps.asked,
       icon: Sparkles,
-      label: "Ask Ezra your first question",
+      label: "Ask PressRoom your first question",
       hint: "Try a starter above — or the passage you're preaching next",
     },
     {
@@ -84,10 +84,10 @@ export function GettingStartedCard() {
   ];
 
   return (
-    <div className="ezra-artifact-reveal mt-5 rounded-2xl border border-[var(--ezra-border)] bg-[var(--ezra-panel)]/60 p-4 text-left">
+    <div className="pressroom-artifact-reveal mt-5 rounded-2xl border border-[var(--pressroom-border)] bg-[var(--pressroom-panel)]/60 p-4 text-left">
       <div className="flex items-center justify-between gap-2">
-        <p className="text-xs font-semibold text-[var(--ezra-fg)]">
-          Getting started <span className="ml-1 font-normal text-[var(--ezra-fg-muted)]">{done} of 3</span>
+        <p className="text-xs font-semibold text-[var(--pressroom-fg)]">
+          Getting started <span className="ml-1 font-normal text-[var(--pressroom-fg-muted)]">{done} of 3</span>
         </p>
         <button
           type="button"
@@ -96,14 +96,14 @@ export function GettingStartedCard() {
             setDismissed(true);
           }}
           aria-label="Dismiss getting started"
-          className="ezra-tactile rounded-full p-1 text-[var(--ezra-fg-muted)] hover:bg-[var(--ezra-hover-bg)]"
+          className="pressroom-tactile rounded-full p-1 text-[var(--pressroom-fg-muted)] hover:bg-[var(--pressroom-hover-bg)]"
         >
           <X className="h-3.5 w-3.5" />
         </button>
       </div>
-      <div className="mt-2 h-1 overflow-hidden rounded-full bg-[var(--ezra-hover-bg)]">
+      <div className="mt-2 h-1 overflow-hidden rounded-full bg-[var(--pressroom-hover-bg)]">
         <div
-          className="h-full rounded-full bg-[var(--ezra-accent)] transition-all duration-500"
+          className="h-full rounded-full bg-[var(--pressroom-accent)] transition-all duration-500"
           style={{ width: `${(done / 3) * 100}%` }}
         />
       </div>
@@ -115,24 +115,24 @@ export function GettingStartedCard() {
                 className={cn(
                   "mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full border",
                   it.done
-                    ? "border-[var(--ezra-accent)] bg-[var(--ezra-accent)] text-[var(--ezra-accent-fg)]"
-                    : "border-[var(--ezra-border)] text-[var(--ezra-fg-muted)]",
+                    ? "border-[var(--pressroom-accent)] bg-[var(--pressroom-accent)] text-[var(--pressroom-accent-fg)]"
+                    : "border-[var(--pressroom-border)] text-[var(--pressroom-fg-muted)]",
                 )}
               >
                 {it.done ? <Check className="h-3 w-3" /> : <it.icon className="h-3 w-3" />}
               </span>
               <span className="min-w-0">
-                <span className={cn("block text-xs font-medium", it.done ? "text-[var(--ezra-fg-muted)] line-through" : "text-[var(--ezra-fg)]")}>
+                <span className={cn("block text-xs font-medium", it.done ? "text-[var(--pressroom-fg-muted)] line-through" : "text-[var(--pressroom-fg)]")}>
                   {it.label}
                 </span>
-                {!it.done && <span className="block text-[11px] text-[var(--ezra-fg-muted)]">{it.hint}</span>}
+                {!it.done && <span className="block text-[11px] text-[var(--pressroom-fg-muted)]">{it.hint}</span>}
               </span>
             </span>
           );
           return (
             <li key={it.label}>
               {it.to && !it.done ? (
-                <Link to={it.to} className="ezra-tactile block rounded-lg px-1 py-1 no-underline hover:bg-[var(--ezra-hover-bg)]">
+                <Link to={it.to} className="pressroom-tactile block rounded-lg px-1 py-1 no-underline hover:bg-[var(--pressroom-hover-bg)]">
                   {row}
                 </Link>
               ) : (

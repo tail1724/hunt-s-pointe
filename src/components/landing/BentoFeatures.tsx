@@ -4,7 +4,7 @@ import { Reveal } from "./Reveal";
 const TILES = [
   {
     icon: Sparkles,
-    title: "Ezra research partner",
+    title: "PressRoom research partner",
     blurb: "A conversational theological research partner that surfaces passages, commentaries, and cross-references — so you can preach your own words.",
     span: "md:col-span-2 md:row-span-2",
     feature: true,
@@ -18,7 +18,7 @@ const TILES = [
   {
     icon: Layers,
     title: "Collections",
-    blurb: "Upload commentaries, style guides, and your own past sermons. Ezra grounds every answer in the context you've built.",
+    blurb: "Upload commentaries, style guides, and your own past sermons. PressRoom grounds every answer in the context you've built.",
     span: "md:col-span-2",
   },
   {

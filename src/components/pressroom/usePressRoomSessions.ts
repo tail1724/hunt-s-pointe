@@ -3,7 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "sonner";
 
-export interface EzraSessionRow {
+export interface PressRoomSessionRow {
   id: string;
   title: string | null;
   updated_at: string;
@@ -19,7 +19,7 @@ export type SessionGroupKind = "pinned" | "category" | "time";
 export interface SessionGroup {
   label: string;
   kind: SessionGroupKind;
-  rows: EzraSessionRow[];
+  rows: PressRoomSessionRow[];
 }
 
 function timeGroupFor(updatedAt: string): TimeGroupKey {
@@ -35,10 +35,10 @@ function timeGroupFor(updatedAt: string): TimeGroupKey {
 
 /**
  * Session list, search, rename, and delete — shared between the desktop
- * EzraRail and the mobile EzraSessionsDrawer so both surfaces stay in sync
+ * PressRoomRail and the mobile PressRoomSessionsDrawer so both surfaces stay in sync
  * and neither re-implements the same Supabase calls.
  */
-export function useEzraSessions({
+export function usePressRoomSessions({
   activeSessionId,
   refreshKey,
   onActiveDeleted,
@@ -49,7 +49,7 @@ export function useEzraSessions({
   onActiveDeleted?: () => void;
 }) {
   const { user } = useAuth();
-  const [sessions, setSessions] = useState<EzraSessionRow[]>([]);
+  const [sessions, setSessions] = useState<PressRoomSessionRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [query, setQuery] = useState("");
   const [renamingId, setRenamingId] = useState<string | null>(null);
@@ -64,7 +64,7 @@ export function useEzraSessions({
         .eq("user_id", user.id)
         .order("updated_at", { ascending: false })
         .limit(40);
-      if (data) setSessions(data as EzraSessionRow[]);
+      if (data) setSessions(data as PressRoomSessionRow[]);
       setLoading(false);
     })();
   }, [user, refreshKey, activeSessionId]);
@@ -91,8 +91,8 @@ export function useEzraSessions({
       .sort((a, b) => (b.pinned_at || "").localeCompare(a.pinned_at || ""));
 
     const rest = filtered.filter((s) => !s.pinned_at);
-    const categoryMap = new Map<string, EzraSessionRow[]>();
-    const uncategorized: EzraSessionRow[] = [];
+    const categoryMap = new Map<string, PressRoomSessionRow[]>();
+    const uncategorized: PressRoomSessionRow[] = [];
     for (const s of rest) {
       const cat = s.category?.trim();
       if (cat) {
@@ -103,7 +103,7 @@ export function useEzraSessions({
       }
     }
 
-    const timeMap = new Map<TimeGroupKey, EzraSessionRow[]>();
+    const timeMap = new Map<TimeGroupKey, PressRoomSessionRow[]>();
     for (const s of uncategorized) {
       const g = timeGroupFor(s.updated_at);
       if (!timeMap.has(g)) timeMap.set(g, []);
@@ -130,7 +130,7 @@ export function useEzraSessions({
     [sessions],
   );
 
-  const startRename = useCallback((s: EzraSessionRow) => {
+  const startRename = useCallback((s: PressRoomSessionRow) => {
     setRenamingId(s.id);
     setRenameValue(s.title || "");
   }, []);

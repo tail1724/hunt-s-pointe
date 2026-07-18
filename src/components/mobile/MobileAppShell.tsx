@@ -32,7 +32,7 @@ export function MobileAppShell({ children }: Props) {
   const [logoutConfirmOpen, setLogoutConfirmOpen] = useState(false);
 
   // Mounts the visualViewport listener that other mobile surfaces (e.g. the
-  // Ezra/Write composers) read via the --kb-inset CSS var and
+  // PressRoom/Write composers) read via the --kb-inset CSS var and
   // [data-keyboard="open"] attribute it sets on <html>.
   useKeyboardInset();
 

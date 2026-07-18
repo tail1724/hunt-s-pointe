@@ -4,7 +4,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useTheme } from "next-themes";
 import { useNavigate } from "react-router-dom";
 import { APP_NAME } from "@/lib/constants";
-import { EzraBoltIcon } from "@/components/BrandMark";
+import { PressRoomBoltIcon } from "@/components/BrandMark";
 import { useNavPlacement } from "@/hooks/useNavPlacement";
 import {
   workspaceItems,
@@ -74,7 +74,7 @@ export function AppTopBar() {
         title="View the Hunt's Pointe site"
       >
         <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-primary shadow-[0_0_20px_-6px_hsl(var(--primary)/0.6)]">
-          <EzraBoltIcon size={16} />
+          <PressRoomBoltIcon size={16} />
         </div>
         <span className="font-display text-base font-extrabold tracking-tight truncate hidden lg:inline">
           {APP_NAME}

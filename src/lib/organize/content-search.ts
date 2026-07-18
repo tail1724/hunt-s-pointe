@@ -1,5 +1,5 @@
 // Deep-integration search: find the user's existing app content (documents,
-// collections, creations, Ezra chats) to attach to Organize cards.
+// collections, creations, PressRoom chats) to attach to Organize cards.
 
 import { supabase } from "@/integrations/supabase/client";
 import type { LinkKind } from "./types";

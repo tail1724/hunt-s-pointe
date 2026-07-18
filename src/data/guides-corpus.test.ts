@@ -3,7 +3,7 @@ import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 import { GUIDES } from "./guides";
 
-// The Ezra Guide assistant reads a generated snapshot of the guides
+// The PressRoom Guide assistant reads a generated snapshot of the guides
 // (supabase/functions/help-assist/corpus.json). If someone edits guides.ts and
 // forgets to run `bunx tsx scripts/build-help-corpus.ts`, the assistant would
 // answer from stale content — so fail the build until it's regenerated.

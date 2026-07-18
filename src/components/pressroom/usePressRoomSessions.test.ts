@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { renderHook, waitFor, act } from "@testing-library/react";
-import { useEzraSessions } from "./useEzraSessions";
+import { usePressRoomSessions } from "./usePressRoomSessions";
 
 // Stable user object: the real AuthContext returns a stable reference, and the
 // loader effect is keyed on `user`. A fresh object each render would re-run the
@@ -40,7 +40,7 @@ vi.mock("@/integrations/supabase/client", () => ({
   },
 }));
 
-describe("useEzraSessions", () => {
+describe("usePressRoomSessions", () => {
   beforeEach(() => {
     orderMock.mockReset();
     eqMock.mockReset();
@@ -58,7 +58,7 @@ describe("useEzraSessions", () => {
   });
 
   it("groups sessions into Today/Yesterday/Previous 7 days/Older", async () => {
-    const { result } = renderHook(() => useEzraSessions({ activeSessionId: null, refreshKey: 0 }));
+    const { result } = renderHook(() => usePressRoomSessions({ activeSessionId: null, refreshKey: 0 }));
     await waitFor(() => expect(result.current.loading).toBe(false));
 
     const labels = result.current.grouped.map((g) => g.label);
@@ -68,7 +68,7 @@ describe("useEzraSessions", () => {
   });
 
   it("filters sessions by search query (case-insensitive)", async () => {
-    const { result } = renderHook(() => useEzraSessions({ activeSessionId: null, refreshKey: 0 }));
+    const { result } = renderHook(() => usePressRoomSessions({ activeSessionId: null, refreshKey: 0 }));
     await waitFor(() => expect(result.current.loading).toBe(false));
 
     act(() => result.current.setQuery("SERMON"));
@@ -77,7 +77,7 @@ describe("useEzraSessions", () => {
   });
 
   it("returns an empty group list when search matches nothing", async () => {
-    const { result } = renderHook(() => useEzraSessions({ activeSessionId: null, refreshKey: 0 }));
+    const { result } = renderHook(() => usePressRoomSessions({ activeSessionId: null, refreshKey: 0 }));
     await waitFor(() => expect(result.current.loading).toBe(false));
 
     act(() => result.current.setQuery("zzz-no-match"));
@@ -92,7 +92,7 @@ describe("useEzraSessions", () => {
       row({ id: "a", title: "Advent notes", updated_at: iso(0), category: "Advent" }),
       row({ id: "t", title: "Loose thought", updated_at: iso(0) }),
     ];
-    const { result } = renderHook(() => useEzraSessions({ activeSessionId: null, refreshKey: 0 }));
+    const { result } = renderHook(() => usePressRoomSessions({ activeSessionId: null, refreshKey: 0 }));
     await waitFor(() => expect(result.current.loading).toBe(false));
 
     expect(result.current.grouped.map((g) => g.label)).toEqual(["Pinned", "Advent", "Sermons", "Today"]);
@@ -101,7 +101,7 @@ describe("useEzraSessions", () => {
   });
 
   it("pins optimistically, moving the row into the Pinned group", async () => {
-    const { result } = renderHook(() => useEzraSessions({ activeSessionId: null, refreshKey: 0 }));
+    const { result } = renderHook(() => usePressRoomSessions({ activeSessionId: null, refreshKey: 0 }));
     await waitFor(() => expect(result.current.loading).toBe(false));
 
     await act(async () => { await result.current.togglePin("d"); });

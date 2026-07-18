@@ -18,7 +18,7 @@ export function EntryTransitionOverlay() {
     return (
       <div
         aria-hidden
-        data-ezra-entry-overlay
+        data-pressroom-entry-overlay
         style={{
           position: "fixed",
           inset: 0,
@@ -40,7 +40,7 @@ export function EntryTransitionOverlay() {
             color: "#1E2A4A",
           }}
         >
-          Ezra
+          PressRoom
         </div>
       </div>
     );
@@ -49,7 +49,7 @@ export function EntryTransitionOverlay() {
   return (
     <div
       aria-hidden
-      data-ezra-entry-overlay
+      data-pressroom-entry-overlay
       style={{
         position: "fixed",
         inset: 0,
@@ -62,7 +62,7 @@ export function EntryTransitionOverlay() {
         transition:
           "opacity 520ms cubic-bezier(0.32,0.72,0,1), transform 520ms cubic-bezier(0.32,0.72,0,1)",
         // Intentional 1s slow fade-in before the ink stroke begins.
-        animation: exiting ? "none" : "ezra-overlay-fade 1000ms ease-out both",
+        animation: exiting ? "none" : "pressroom-overlay-fade 1000ms ease-out both",
         pointerEvents: "auto",
         overflow: "hidden",
         display: "flex",
@@ -71,7 +71,7 @@ export function EntryTransitionOverlay() {
       }}
     >
       <style>{`
-        @keyframes ezra-overlay-fade {
+        @keyframes pressroom-overlay-fade {
           from { opacity: 0; }
           to   { opacity: 1; }
         }
@@ -83,10 +83,10 @@ export function EntryTransitionOverlay() {
         style={{ position: "absolute", inset: 0, opacity: 0.04, mixBlendMode: "multiply" }}
         aria-hidden
       >
-        <filter id="ezra-paper-noise">
+        <filter id="pressroom-paper-noise">
           <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch" />
         </filter>
-        <rect width="100%" height="100%" filter="url(#ezra-paper-noise)" />
+        <rect width="100%" height="100%" filter="url(#pressroom-paper-noise)" />
       </svg>
 
       <div style={{ position: "relative", textAlign: "center" }}>
@@ -97,28 +97,28 @@ export function EntryTransitionOverlay() {
           style={{ display: "block", overflow: "visible" }}
         >
           <style>{`
-            @keyframes ezra-ink-stroke {
+            @keyframes pressroom-ink-stroke {
               from { stroke-dashoffset: 600; }
               to { stroke-dashoffset: 0; }
             }
-            @keyframes ezra-ink-fill {
+            @keyframes pressroom-ink-fill {
               from { fill-opacity: 0; }
               to { fill-opacity: 1; }
             }
-            @keyframes ezra-underline {
+            @keyframes pressroom-underline {
               from { stroke-dashoffset: 220; }
               to { stroke-dashoffset: 0; }
             }
-            @keyframes ezra-breathe {
+            @keyframes pressroom-breathe {
               0%, 100% { transform: scale(1); }
               50% { transform: scale(1.012); }
             }
-            .ezra-breath {
+            .pressroom-breath {
               transform-origin: 50% 50%;
               transform-box: fill-box;
-              animation: ezra-breathe 6s ease-in-out 1200ms infinite;
+              animation: pressroom-breathe 6s ease-in-out 1200ms infinite;
             }
-            .ezra-word {
+            .pressroom-word {
               font-family: 'Spectral', 'Cormorant Garamond', Georgia, serif;
               font-weight: 300;
               font-size: 96px;
@@ -130,36 +130,36 @@ export function EntryTransitionOverlay() {
               fill-opacity: 0;
               /* Ink begins after the overlay's 1s fade-in settles. */
               animation:
-                ezra-ink-stroke 1100ms cubic-bezier(0.32,0.72,0,1) 1000ms forwards,
-                ezra-ink-fill 360ms ease-out 1900ms forwards;
+                pressroom-ink-stroke 1100ms cubic-bezier(0.32,0.72,0,1) 1000ms forwards,
+                pressroom-ink-fill 360ms ease-out 1900ms forwards;
             }
-            .ezra-underline {
+            .pressroom-underline {
               stroke: #C99B3C;
               stroke-width: 1.25;
               stroke-linecap: round;
               fill: none;
               stroke-dasharray: 220;
               stroke-dashoffset: 220;
-              animation: ezra-underline 1100ms cubic-bezier(0.32,0.72,0,1) 1120ms forwards;
+              animation: pressroom-underline 1100ms cubic-bezier(0.32,0.72,0,1) 1120ms forwards;
             }
-            @keyframes ezra-caption-in {
+            @keyframes pressroom-caption-in {
               from { opacity: 0; transform: translateY(4px); }
               to { opacity: 1; transform: translateY(0); }
             }
-            .ezra-caption {
+            .pressroom-caption {
               opacity: 0;
-              animation: ezra-caption-in 600ms ease-out 2200ms forwards;
+              animation: pressroom-caption-in 600ms ease-out 2200ms forwards;
             }
           `}</style>
-          <g className="ezra-breath">
-            <text x="50%" y="78" textAnchor="middle" className="ezra-word">
-              Ezra
+          <g className="pressroom-breath">
+            <text x="50%" y="78" textAnchor="middle" className="pressroom-word">
+              PressRoom
             </text>
-            <line x1="110" y1="104" x2="210" y2="104" className="ezra-underline" />
+            <line x1="110" y1="104" x2="210" y2="104" className="pressroom-underline" />
           </g>
         </svg>
         <div
-          className="ezra-caption"
+          className="pressroom-caption"
           style={{
             marginTop: 14,
             fontFamily: "'Hanken Grotesk', 'Inter', system-ui, sans-serif",

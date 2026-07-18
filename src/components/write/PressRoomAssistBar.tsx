@@ -43,7 +43,7 @@ interface Props {
  * `applyAnnotationToEditor` helper MarginRail uses, so History stays
  * consistent regardless of which surface the editor used.
  */
-export function EzraAssistBar({
+export function PressRoomAssistBar({
   editor,
   annotations,
   versions,
@@ -183,7 +183,7 @@ export function EzraAssistBar({
   const latestFlattens = !!(latest?.anchor_text && latest?.proposed_text && cadenceWouldFlatten(latest.anchor_text, latest.proposed_text));
 
   const suggestionCard = latest && (
-    <div className="ezra-artifact-reveal space-y-3 border-t border-ai/25 bg-ai-wash/10 px-4 py-3">
+    <div className="pressroom-artifact-reveal space-y-3 border-t border-ai/25 bg-ai-wash/10 px-4 py-3">
       <p className="text-[10px] uppercase tracking-wider text-ai/80">{latest.body}</p>
       <div className="prose prose-sm max-h-48 max-w-none overflow-y-auto text-sm text-foreground">
         <ReactMarkdown>{latest.proposed_text ?? ""}</ReactMarkdown>
@@ -230,7 +230,7 @@ export function EzraAssistBar({
           {busy ? (
             busySkeleton
           ) : latest ? (
-            <div className="ezra-artifact-reveal space-y-3">
+            <div className="pressroom-artifact-reveal space-y-3">
               <div className="prose prose-sm max-w-none text-sm text-foreground">
                 <ReactMarkdown>{latest.proposed_text ?? ""}</ReactMarkdown>
               </div>

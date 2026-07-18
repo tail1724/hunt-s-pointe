@@ -47,7 +47,7 @@ export default function SharedSession() {
     <div className="min-h-dvh bg-background">
       <div className="max-w-3xl mx-auto px-4 py-10">
         <header className="mb-8 pb-4 border-b border-border">
-          <p className="text-[10px] uppercase tracking-wider text-muted-foreground">Shared from Ezra</p>
+          <p className="text-[10px] uppercase tracking-wider text-muted-foreground">Shared from PressRoom</p>
           <h1 className="font-display text-2xl font-semibold">{title}</h1>
           <p className="text-xs text-muted-foreground mt-1">Read-only · Powered by Lovable</p>
         </header>
@@ -56,7 +56,7 @@ export default function SharedSession() {
           {visible.map((m, i) => (
             <div key={i} className="space-y-1.5">
               <div className="text-[10px] uppercase tracking-wider text-muted-foreground">
-                {m.role === "user" ? "User" : "Ezra"}
+                {m.role === "user" ? "User" : "PressRoom"}
               </div>
               <div className={m.role === "user" ? "rounded-lg bg-muted/60 p-3 text-sm" : "prose prose-sm dark:prose-invert max-w-none"}>
                 {m.role === "user" ? m.content : <ReactMarkdown>{m.content}</ReactMarkdown>}
@@ -66,7 +66,7 @@ export default function SharedSession() {
         </div>
 
         <footer className="mt-12 pt-4 border-t border-border text-center">
-          <Link to="/" className="text-xs text-primary underline">Build your own with Ezra →</Link>
+          <Link to="/" className="text-xs text-primary underline">Build your own with PressRoom →</Link>
         </footer>
       </div>
     </div>

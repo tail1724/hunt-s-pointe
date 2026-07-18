@@ -1,7 +1,7 @@
 /**
- * Parses an Ezra assistant message into preface / draft / followup sections.
+ * Parses an PressRoom assistant message into preface / draft / followup sections.
  *
- * Ezra emits long-form drafts wrapped in lightweight delimiters:
+ * PressRoom emits long-form drafts wrapped in lightweight delimiters:
  *
  *   <<<DRAFT title="Forgiveness: The Father's Foundation">>>
  *   …markdown…
@@ -13,7 +13,7 @@
  *
  * Short replies have no delimiters and come back as { preface }.
  */
-export interface ParsedEzraMessage {
+export interface ParsedPressRoomMessage {
   preface: string;
   draft: string | null;
   draftTitle: string | null;
@@ -23,7 +23,7 @@ export interface ParsedEzraMessage {
 const DRAFT_RE = /<<<DRAFT(?:\s+title="([^"]*)")?>>>([\s\S]*?)<<<END_DRAFT>>>/;
 const FOLLOWUP_RE = /<<<FOLLOWUP>>>([\s\S]*?)<<<END_FOLLOWUP>>>/;
 
-export function parseEzraMessage(content: string): ParsedEzraMessage {
+export function parsePressRoomMessage(content: string): ParsedPressRoomMessage {
   if (!content) return { preface: "", draft: null, draftTitle: null, followup: null };
 
   const draftMatch = content.match(DRAFT_RE);

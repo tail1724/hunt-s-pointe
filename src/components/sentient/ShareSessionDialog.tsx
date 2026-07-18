@@ -53,7 +53,7 @@ export function ShareSessionDialog({ open, onOpenChange, sessionId, title, messa
   };
 
   const exportMd = () => {
-    downloadMarkdown(title || "ezra-session", sessionToMarkdown(title || "Ezra Session", messages));
+    downloadMarkdown(title || "pressroom-session", sessionToMarkdown(title || "PressRoom Session", messages));
   };
 
   return (
