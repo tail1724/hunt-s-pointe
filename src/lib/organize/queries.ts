@@ -40,11 +40,36 @@ export function useBoards() {
 
 const STARTER_COLUMNS = ["Ideas", "In progress", "Ready", "Done"];
 
+/** Quantum Newsroom editorial pipeline stages (integration PRD §5.2). */
+export const EDITORIAL_PIPELINE_COLUMNS = [
+  "Inbox",
+  "Research",
+  "Prompt Ready",
+  "Drafting",
+  "Human Edit",
+  "Assets",
+  "Ready for Review",
+  "Sent to Payload",
+  "Published",
+];
+
+export const BOARD_TEMPLATES = {
+  starter: { label: "Starter", columns: STARTER_COLUMNS },
+  editorial: { label: "Editorial pipeline", columns: EDITORIAL_PIPELINE_COLUMNS },
+} as const;
+
+export type BoardTemplate = keyof typeof BOARD_TEMPLATES;
+
 export function useCreateBoard() {
   const { user } = useAuth();
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: async (input: { title: string; emoji?: string; seedColumns?: boolean }) => {
+    mutationFn: async (input: {
+      title: string;
+      emoji?: string;
+      seedColumns?: boolean;
+      template?: BoardTemplate;
+    }) => {
       if (!user) throw new Error("Not signed in");
       const { data: board, error } = await supabase
         .from("boards")
@@ -53,8 +78,9 @@ export function useCreateBoard() {
         .single();
       if (error) throw error;
       if (input.seedColumns !== false) {
+        const columns = BOARD_TEMPLATES[input.template ?? "starter"].columns;
         const { error: colError } = await supabase.from("board_columns").insert(
-          STARTER_COLUMNS.map((title, i) => ({
+          columns.map((title, i) => ({
             board_id: board.id,
             user_id: user.id,
             title,

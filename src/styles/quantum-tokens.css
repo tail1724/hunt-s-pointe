@@ -1,0 +1,119 @@
+/* ============================================================
+   Quantum Newsroom — shared design-token package (v1.0)
+   ------------------------------------------------------------
+   Single source of truth for the color system shared by
+   Hunt's Pointe and the SignalDesk/Payload Admin. The same
+   foundation values ship in SignalDesk's admin theme
+   (hampton-roads-history/app/(payload)/admin-theme.css); the
+   two files must stay value-identical. See the Quantum
+   Newsroom PRD §4–§6.
+
+   Token hierarchy (PRD §6.1):
+     foundation (--qn-*)  →  semantic alias (--qn-color-*)
+                          →  component tokens (shadcn vars in index.css)
+
+   Rules:
+   - Components never reference raw HEX; they consume the
+     semantic shadcn/Tailwind variables mapped in index.css.
+   - One meaning per token, identical across light/dark and
+     across both products.
+   - Flame (energy) is NOT the warning color; warning has its
+     own dedicated tokens.
+   - Electric green (signal) is reserved for instant capture,
+     live indicators, and exceptional confirmation.
+   ============================================================ */
+
+:root {
+  /* ---- Foundations · light ---- */
+  --qn-canvas-light: #eff6f5;
+  --qn-surface-light: #fbfffe;
+  --qn-surface-strong-light: #ddece9;
+  --qn-text-primary-light: #102423;
+  --qn-action-primary-light: #006e73;
+
+  /* ---- Foundations · dark ---- */
+  --qn-canvas-dark: #071b1c;
+  --qn-surface-dark: #0e292a;
+  --qn-surface-strong-dark: #183b3c;
+  --qn-text-primary-dark: #f2fbf9;
+  --qn-action-primary-dark: #40d6c9;
+
+  /* ---- Accents · both modes ---- */
+  --qn-accent-energy: #f05a3b;       /* editorial momentum, time-sensitive emphasis */
+  --qn-accent-signal: #b7e84b;       /* instant capture, live/ready, rare confirmation */
+  --qn-accent-intelligence: #5b3fd1; /* AI assistance, provenance, model activity */
+
+  /* ---- Semantic workflow palette (PRD §5) · light / dark pairs ---- */
+  --qn-status-draft-light: #5d6679;
+  --qn-status-draft-dark: #aeb8c8;
+  --qn-status-review-light: #8a5a00;
+  --qn-status-review-dark: #ffc857;
+  --qn-status-approved-light: #00766c;
+  --qn-status-approved-dark: #58d9cc;
+  --qn-status-scheduled-light: #1d5fc9;
+  --qn-status-scheduled-dark: #82b2ff;
+  --qn-status-published-light: #17763a;
+  --qn-status-published-dark: #5ddd86;
+  --qn-status-ai-light: #5b3fd1;
+  --qn-status-ai-dark: #afa1ff;
+  --qn-status-human-light: #007f9b;
+  --qn-status-human-dark: #68d9ea;
+  --qn-status-warning-light: #bc2830;
+  --qn-status-warning-dark: #ff7a80;
+}
+
+/* ------------------------------------------------------------
+   Mode-resolved semantic aliases. Light is the default; the
+   app's `.dark` class re-points every alias to its dark pair
+   so downstream consumers never branch on theme themselves.
+   HSL triplets (channel form) feed the shadcn/Tailwind layer.
+   ------------------------------------------------------------ */
+:root {
+  --qn-color-canvas: var(--qn-canvas-light);
+  --qn-color-surface: var(--qn-surface-light);
+  --qn-color-surface-strong: var(--qn-surface-strong-light);
+  --qn-color-text: var(--qn-text-primary-light);
+  --qn-color-action: var(--qn-action-primary-light);
+
+  /* Channel (HSL triplet) form of the same values, for hsl(var(--…) / a) */
+  --qn-canvas-hsl: 171 28% 95.1%;
+  --qn-surface-hsl: 165 100% 99.2%;
+  --qn-surface-strong-hsl: 168 28.3% 89.6%;
+  --qn-text-hsl: 177 38.5% 10.2%;
+  --qn-action-hsl: 183 100% 22.5%;
+  --qn-energy-hsl: 10 85.8% 58.6%;
+  --qn-signal-hsl: 79 77.3% 60.2%;
+  --qn-intelligence-hsl: 252 61.3% 53.3%;
+
+  --qn-status-draft: 221 13.1% 42%;
+  --qn-status-review: 39 100% 27.1%;
+  --qn-status-approved: 175 100% 23.1%;
+  --qn-status-scheduled: 217 74.8% 45.1%;
+  --qn-status-published: 142 67.4% 27.6%;
+  --qn-status-ai: 252 61.3% 53.3%;
+  --qn-status-human: 191 100% 30.4%;
+  --qn-status-warning: 357 64.9% 44.7%;
+}
+
+.dark {
+  --qn-color-canvas: var(--qn-canvas-dark);
+  --qn-color-surface: var(--qn-surface-dark);
+  --qn-color-surface-strong: var(--qn-surface-strong-dark);
+  --qn-color-text: var(--qn-text-primary-dark);
+  --qn-color-action: var(--qn-action-primary-dark);
+
+  --qn-canvas-hsl: 183 60% 6.9%;
+  --qn-surface-hsl: 182 50% 11%;
+  --qn-surface-strong-hsl: 182 42.9% 16.5%;
+  --qn-text-hsl: 167 52.9% 96.7%;
+  --qn-action-hsl: 175 64.7% 54.5%;
+
+  --qn-status-draft: 217 19.1% 73.3%;
+  --qn-status-review: 40 100% 67.1%;
+  --qn-status-approved: 174 62.9% 59.8%;
+  --qn-status-scheduled: 217 100% 75.5%;
+  --qn-status-published: 139 65.3% 61.6%;
+  --qn-status-ai: 249 100% 81.6%;
+  --qn-status-human: 188 75.6% 66.3%;
+  --qn-status-warning: 357 100% 73.9%;
+}

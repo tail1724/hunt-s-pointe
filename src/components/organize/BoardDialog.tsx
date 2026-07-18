@@ -5,9 +5,14 @@ import {
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { haptics } from "@/lib/haptics";
-import { useCreateBoard } from "@/lib/organize/queries";
+import { BOARD_TEMPLATES, useCreateBoard, type BoardTemplate } from "@/lib/organize/queries";
 
 const EMOJI_CHOICES = ["🗂️", "📖", "✝️", "🕊️", "📅", "✍️", "🎨", "🌱"];
+
+const TEMPLATE_HINTS: Record<BoardTemplate, string> = {
+  starter: "Ideas · In progress · Ready · Done",
+  editorial: "Inbox → Research → Prompt Ready → Drafting → Human Edit → Assets → Ready for Review → Sent to Payload → Published",
+};
 
 interface Props {
   open: boolean;
@@ -21,11 +26,13 @@ export function BoardDialog({ open, onOpenChange, onCreated }: Props) {
   const createBoard = useCreateBoard();
   const [title, setTitle] = useState("");
   const [emoji, setEmoji] = useState(EMOJI_CHOICES[0]);
+  const [template, setTemplate] = useState<BoardTemplate>("starter");
 
   useEffect(() => {
     if (open) {
       setTitle("");
       setEmoji(EMOJI_CHOICES[0]);
+      setTemplate("starter");
     }
   }, [open]);
 
@@ -33,7 +40,7 @@ export function BoardDialog({ open, onOpenChange, onCreated }: Props) {
     const t = title.trim();
     if (!t || createBoard.isPending) return;
     try {
-      const board = await createBoard.mutateAsync({ title: t, emoji });
+      const board = await createBoard.mutateAsync({ title: t, emoji, template });
       haptics.tap();
       onOpenChange(false);
       onCreated(board.id);
@@ -49,7 +56,7 @@ export function BoardDialog({ open, onOpenChange, onCreated }: Props) {
         <DialogHeader>
           <DialogTitle className="font-display">New board</DialogTitle>
           <DialogDescription>
-            It starts with Ideas, In progress, Ready, and Done — rename or add columns anytime.
+            Pick a starting layout — rename or add columns anytime.
           </DialogDescription>
         </DialogHeader>
 
@@ -62,6 +69,29 @@ export function BoardDialog({ open, onOpenChange, onCreated }: Props) {
           aria-label="Board name"
           className="w-full rounded-lg border border-input bg-background px-3 py-2.5 text-base outline-none transition-colors focus:border-accent"
         />
+
+        <div className="grid gap-1.5" role="radiogroup" aria-label="Board template">
+          {(Object.keys(BOARD_TEMPLATES) as BoardTemplate[]).map((key) => (
+            <button
+              key={key}
+              type="button"
+              role="radio"
+              aria-checked={template === key}
+              onClick={() => setTemplate(key)}
+              className={cn(
+                "tactile rounded-lg border px-3 py-2 text-left transition-colors",
+                template === key
+                  ? "border-accent/70 bg-accent/10"
+                  : "border-border hover:border-accent/50",
+              )}
+            >
+              <span className="block text-xs font-semibold">{BOARD_TEMPLATES[key].label}</span>
+              <span className="mt-0.5 block text-[11px] leading-snug text-muted-foreground">
+                {TEMPLATE_HINTS[key]}
+              </span>
+            </button>
+          ))}
+        </div>
 
         <div className="flex flex-wrap items-center gap-1.5" role="group" aria-label="Board emoji">
           {EMOJI_CHOICES.map((e) => (

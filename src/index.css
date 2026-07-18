@@ -1,5 +1,8 @@
 /* Fonts are self-hosted via @fontsource imports in main.tsx — no network CSS. */
 @import url('./styles/public-theme.css');
+/* Quantum Newsroom shared token package — foundations + workflow semantics
+   shared verbatim with SignalDesk's Payload admin theme. */
+@import url('./styles/quantum-tokens.css');
 
 @tailwind base;
 @tailwind components;
@@ -7,115 +10,129 @@
 
 @layer base {
   :root {
-    /* Hunt's Pointe — vibrant light-mode palette for the AI editorial co-pilot.
-       Sunny Sky Blue desk, near-white manuscript page, Charcoal Pencil ink,
-       Magic Marker Purple for PressRoom's voice, Tiger Lily Orange for
-       guardrails/warnings, Lucky Charm Green for verified/success states.
-       See docs/hunts-pointe-pressroom-addendum.md §C.1 for the full spec. */
-    --background: 212 96% 78%;       /* #93C5FD Sunny Sky Blue — the desk */
-    --foreground: 0 0% 9%;           /* #171717 Charcoal Pencil ink */
+    /* Hunt's Pointe — Quantum Newsroom light theme. Petrol-tinted canvas,
+       near-white manuscript surface, deep petrol ink, teal as the single
+       interaction anchor, technical violet for AI/provenance, review amber
+       for guardrails, published green for verified states. Values come from
+       src/styles/quantum-tokens.css (shared with SignalDesk/Payload Admin);
+       see the Quantum Newsroom PRD §4–§5. */
+    --background: 171 28% 95.1%;     /* #EFF6F5 canvas.light — never pure white */
+    --foreground: 177 38.5% 10.2%;   /* #102423 text.primary.light */
 
-    --card: 0 0% 99%;                /* near-white manuscript page */
-    --card-foreground: 0 0% 9%;
+    --card: 165 100% 99.2%;          /* #FBFFFE surface.light — manuscript page */
+    --card-foreground: 177 38.5% 10.2%;
 
-    --popover: 0 0% 99%;
-    --popover-foreground: 0 0% 9%;
+    --popover: 165 100% 99.2%;
+    --popover-foreground: 177 38.5% 10.2%;
 
-    --primary: 271 91% 65%;          /* #A855F7 Magic Marker Purple */
+    --primary: 183 100% 22.5%;       /* #006E73 action.primary.light — petrol teal */
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 252 95% 85%;        /* #C4B5FD Matte Lilac-Slate */
-    --secondary-foreground: 0 0% 9%;
+    --secondary: 168 28.3% 89.6%;    /* #DDECE9 surface.strong.light */
+    --secondary-foreground: 177 38.5% 10.2%;
 
-    --accent: 271 91% 65%;           /* Magic Marker Purple — PressRoom's voice everywhere */
+    --accent: 252 61.3% 53.3%;       /* #5B3FD1 accent.intelligence — PressRoom's voice */
     --accent-foreground: 0 0% 100%;
 
-    --muted: 252 60% 93%;            /* pale lilac surface */
-    --muted-foreground: 0 0% 40%;    /* Dust Bunny Grey, deepened slightly for AA on --muted */
+    --muted: 164 25.6% 91.6%;        /* #E4EFEC tinted resting surface */
+    --muted-foreground: 174 18.5% 31.8%; /* #42605D — AA on canvas and muted */
 
-    --destructive: 0 72% 48%;
+    --destructive: 357 64.9% 44.7%;  /* #BC2830 status.warning.light */
     --destructive-foreground: 0 0% 100%;
 
-    --border: 252 40% 80%;
-    --input: 252 40% 80%;
-    --ring: 271 91% 65%;
+    --border: 168 21.7% 82%;         /* #C7DBD7 subtle but visible */
+    --input: 168 21.7% 82%;
+    --ring: 183 100% 22.5%;
 
     --radius: 0.5rem;
 
-    --sidebar-background: 252 95% 85%;   /* Matte Lilac-Slate panel */
-    --sidebar-foreground: 0 0% 9%;
-    --sidebar-primary: 271 91% 65%;
+    --sidebar-background: 168 28.3% 89.6%;  /* strong surface — secondary rail */
+    --sidebar-foreground: 177 38.5% 10.2%;
+    --sidebar-primary: 183 100% 22.5%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 252 70% 90%;
-    --sidebar-accent-foreground: 0 0% 9%;
-    --sidebar-border: 252 40% 75%;
-    --sidebar-ring: 271 91% 65%;
+    --sidebar-accent: 168 28% 93%;
+    --sidebar-accent-foreground: 177 38.5% 10.2%;
+    --sidebar-border: 168 21.7% 78%;
+    --sidebar-ring: 183 100% 22.5%;
 
     /* Semantic AI / guardrail / verified tokens — the color language every
-       PressRoom surface speaks: purple = suggestion, orange = warning,
-       green = verified success. */
-    --ai-accent: 271 91% 65%;            /* #A855F7 Magic Marker Purple */
+       PressRoom surface speaks. Quantum roles: violet = AI provenance,
+       review amber = editorial attention/guardrail (flame is reserved for
+       energy, never warnings), published green = verified success. */
+    --ai-accent: 252 61.3% 53.3%;        /* #5B3FD1 accent.intelligence */
     --ai-accent-foreground: 0 0% 100%;
-    --ai-wash: 269 97% 85%;              /* #D8B4FE Ghost Lilac Overlay (use with low alpha) */
-    --guardrail: 25 95% 53%;             /* #F97316 Tiger Lily Orange */
+    --ai-wash: 250 60% 85%;              /* violet overlay (use with low alpha) */
+    --guardrail: 39 100% 27.1%;          /* #8A5A00 status.review.light */
     --guardrail-foreground: 0 0% 100%;
-    --verified: 142 71% 45%;             /* #22C55E Lucky Charm Green */
+    --verified: 142 67.4% 27.6%;         /* #17763A status.published.light */
     --verified-foreground: 0 0% 100%;
 
-    --gradient-pulse: linear-gradient(90deg, hsl(271 91% 65%), hsl(212 96% 70%));
-    --shadow-card: 0 2px 8px -2px hsl(0 0% 9% / 0.10);
-    --shadow-card-hover: 0 8px 24px -4px hsl(0 0% 9% / 0.16);
-    --glow-zest: 0 0 12px 2px hsl(25 95% 53% / 0.45);
-    --glow-cool: 0 0 12px 2px hsl(212 96% 60% / 0.45);
+    /* Energy + signal accents (PRD §4): flame = momentum, lime = capture/live */
+    --energy: 10 85.8% 58.6%;            /* #F05A3B accent.energy */
+    --energy-foreground: 0 0% 100%;
+    --signal: 79 77.3% 60.2%;            /* #B7E84B accent.signal — dark ink text */
+    --signal-foreground: 177 38.5% 10.2%;
+
+    --gradient-pulse: linear-gradient(90deg, hsl(183 100% 22.5%), hsl(252 61.3% 53.3%));
+    --shadow-card: 0 2px 8px -2px hsl(177 38.5% 10.2% / 0.10);
+    --shadow-card-hover: 0 8px 24px -4px hsl(177 38.5% 10.2% / 0.16);
+    --glow-zest: 0 0 12px 2px hsl(10 85.8% 58.6% / 0.45);
+    --glow-cool: 0 0 12px 2px hsl(183 100% 30% / 0.45);
   }
 
   .dark {
-    /* Slate anchor — matches the public site's dark panels (#152029/#1B2832) */
-    --background: 207 32% 12%;       /* #152029 slate */
-    --foreground: 43 35% 87%;        /* #E9E2D1 on-slate */
+    /* Quantum Newsroom dark theme — deep petrol, designed rather than
+       inverted (PRD §3). Brighter foreground variants, same semantics. */
+    --background: 183 60% 6.9%;      /* #071B1C canvas.dark — petrol, not black */
+    --foreground: 167 52.9% 96.7%;   /* #F2FBF9 text.primary.dark */
 
-    --card: 206 30% 15%;             /* #1B2832 slate-2 */
-    --card-foreground: 43 35% 87%;
+    --card: 182 50% 11%;             /* #0E292A surface.dark */
+    --card-foreground: 167 52.9% 96.7%;
 
-    --popover: 206 30% 15%;
-    --popover-foreground: 43 35% 87%;
+    --popover: 182 50% 11%;
+    --popover-foreground: 167 52.9% 96.7%;
 
-    --primary: 40 49% 53%;           /* #C29B4B brass-hi */
-    --primary-foreground: 207 32% 12%;
+    --primary: 175 64.7% 54.5%;      /* #40D6C9 action.primary.dark */
+    --primary-foreground: 183 60% 6.9%;
 
-    --secondary: 202 21% 25%;        /* #33444E slate-line */
-    --secondary-foreground: 43 35% 87%;
+    --secondary: 182 42.9% 16.5%;    /* #183B3C surface.strong.dark */
+    --secondary-foreground: 167 52.9% 96.7%;
 
-    --accent: 40 49% 53%;
-    --accent-foreground: 207 32% 12%;
+    --accent: 249 100% 81.6%;        /* #AFA1FF AI provenance, dark variant */
+    --accent-foreground: 183 60% 6.9%;
 
-    --muted: 205 26% 19%;
-    --muted-foreground: 201 16% 67%; /* #9CAEB8 on-slate-2 */
+    --muted: 182 45% 14%;
+    --muted-foreground: 173 20.2% 68%; /* #9DBEBA */
 
-    --destructive: 0 62% 50%;
-    --destructive-foreground: 43 35% 87%;
+    --destructive: 357 100% 73.9%;   /* #FF7A80 status.warning.dark */
+    --destructive-foreground: 183 60% 6.9%;
 
-    --border: 202 21% 25%;
-    --input: 202 21% 25%;
-    --ring: 40 49% 53%;
+    --border: 182 33.3% 21.8%;       /* #25494A */
+    --input: 182 33.3% 21.8%;
+    --ring: 175 64.7% 54.5%;
 
-    --sidebar-background: 208 34% 9%;
-    --sidebar-foreground: 43 35% 87%;
-    --sidebar-primary: 40 49% 53%;
-    --sidebar-primary-foreground: 207 32% 12%;
-    --sidebar-accent: 205 28% 17%;
-    --sidebar-accent-foreground: 43 35% 87%;
-    --sidebar-border: 202 21% 25%;
-    --sidebar-ring: 40 49% 53%;
+    --sidebar-background: 184 58% 5.5%;
+    --sidebar-foreground: 167 52.9% 96.7%;
+    --sidebar-primary: 175 64.7% 54.5%;
+    --sidebar-primary-foreground: 183 60% 6.9%;
+    --sidebar-accent: 182 45% 13.5%;
+    --sidebar-accent-foreground: 167 52.9% 96.7%;
+    --sidebar-border: 182 33.3% 21.8%;
+    --sidebar-ring: 175 64.7% 54.5%;
 
-    /* Same semantic language, retuned for a dark surface. */
-    --ai-accent: 271 91% 72%;
-    --ai-accent-foreground: 0 0% 9%;
-    --ai-wash: 269 60% 40%;
-    --guardrail: 25 95% 58%;
-    --guardrail-foreground: 0 0% 9%;
-    --verified: 142 60% 50%;
-    --verified-foreground: 0 0% 9%;
+    /* Same semantic language, paired dark variants (PRD §5). */
+    --ai-accent: 249 100% 81.6%;         /* #AFA1FF */
+    --ai-accent-foreground: 183 60% 6.9%;
+    --ai-wash: 252 50% 35%;
+    --guardrail: 40 100% 67.1%;          /* #FFC857 status.review.dark */
+    --guardrail-foreground: 183 60% 6.9%;
+    --verified: 139 65.3% 61.6%;         /* #5DDD86 status.published.dark */
+    --verified-foreground: 183 60% 6.9%;
+
+    --energy: 10 85.8% 58.6%;
+    --energy-foreground: 183 60% 6.9%;
+    --signal: 79 77.3% 60.2%;
+    --signal-foreground: 177 38.5% 10.2%;
   }
 }
 
@@ -415,23 +432,24 @@
 
 /* Color theme palettes */
 [data-color-theme="reverent"] {
-  /* "Reverent" is the historical key for the default palette — now Hunt's
-     Pointe's vibrant purple/lilac scheme (see :root above). Renaming the
-     stored key would silently reset every returning user's saved preference,
-     so the label changes in the Admin picker while the key stays stable. */
-  --primary: 271 91% 65%;
-  --accent: 271 91% 65%;
-  --secondary: 252 95% 85%;
-  --ring: 271 91% 65%;
-  --sidebar-primary: 271 91% 65%;
-  --sidebar-ring: 271 91% 65%;
+  /* "Reverent" is the historical key for the default palette — now the
+     Quantum Newsroom scheme (see :root above): teal interaction anchor,
+     violet intelligence accent. Renaming the stored key would silently
+     reset every returning user's saved preference, so the label changes
+     in the Admin picker while the key stays stable. */
+  --primary: 183 100% 22.5%;
+  --accent: 252 61.3% 53.3%;
+  --secondary: 168 28.3% 89.6%;
+  --ring: 183 100% 22.5%;
+  --sidebar-primary: 183 100% 22.5%;
+  --sidebar-ring: 183 100% 22.5%;
 }
 [data-color-theme="reverent"].dark,
 .dark[data-color-theme="reverent"] {
-  --primary: 40 49% 53%;
-  --accent: 40 49% 53%;
-  --secondary: 202 21% 25%;
-  --ring: 40 49% 53%;
+  --primary: 175 64.7% 54.5%;
+  --accent: 249 100% 81.6%;
+  --secondary: 182 42.9% 16.5%;
+  --ring: 175 64.7% 54.5%;
 }
 
 [data-color-theme="ocean"] {
@@ -629,43 +647,43 @@
    PressRoom surface (Ezra chat) — vibrant light desk w/ purple radial
    ============================================================ */
 .ezra-surface {
-  /* Light mode (default) — Sunny Sky Blue desk, near-white panels, Magic
-     Marker Purple accent. See docs/hunts-pointe-pressroom-addendum.md §C.1. */
-  --ezra-bg: hsl(212 96% 82%);
-  --ezra-fg: hsl(0 0% 9%);
-  --ezra-fg-muted: hsl(0 0% 40%);
-  --ezra-border: hsl(252 40% 80%);
-  --ezra-panel: hsl(0 0% 99%);
-  --ezra-panel-soft: hsl(252 60% 95%);
+  /* Light mode (default) — Quantum Newsroom desk: petrol-tinted canvas,
+     near-white panels, intelligence-violet accent for the AI voice. */
+  --ezra-bg: hsl(171 28% 95.1%);
+  --ezra-fg: hsl(177 38.5% 10.2%);
+  --ezra-fg-muted: hsl(174 18.5% 31.8%);
+  --ezra-border: hsl(168 21.7% 82%);
+  --ezra-panel: hsl(165 100% 99.2%);
+  --ezra-panel-soft: hsl(168 28.3% 92%);
   --ezra-composer-bg: hsl(0 0% 100%);
-  --ezra-composer-border: hsl(252 40% 78%);
-  --ezra-active-bg: hsl(271 91% 65% / 0.14);
-  --ezra-active-border: hsl(271 91% 65%);
-  --ezra-hover-bg: hsl(252 60% 93%);
-  --ezra-radial-warm: hsl(271 91% 65% / 0.14);
-  --ezra-radial-cool: hsl(212 96% 60% / 0.16);
-  --ezra-accent: hsl(271 91% 60%);
+  --ezra-composer-border: hsl(168 21.7% 78%);
+  --ezra-active-bg: hsl(252 61.3% 53.3% / 0.12);
+  --ezra-active-border: hsl(252 61.3% 53.3%);
+  --ezra-hover-bg: hsl(168 28.3% 91%);
+  --ezra-radial-warm: hsl(252 61.3% 53.3% / 0.10);
+  --ezra-radial-cool: hsl(183 100% 22.5% / 0.10);
+  --ezra-accent: hsl(252 61.3% 53.3%);
   --ezra-accent-fg: hsl(0 0% 100%);
   background: var(--ezra-bg);
   color: var(--ezra-fg);
 }
 
 .dark .ezra-surface {
-  --ezra-bg: hsl(207 32% 12%);
-  --ezra-fg: hsl(43 35% 87%);
-  --ezra-fg-muted: hsl(201 16% 67%);
-  --ezra-border: hsl(202 21% 25%);
-  --ezra-panel: hsl(206 30% 15%);
-  --ezra-panel-soft: hsl(208 32% 10%);
-  --ezra-composer-bg: hsl(206 30% 16%);
-  --ezra-composer-border: hsl(202 21% 27%);
-  --ezra-active-bg: hsl(271 91% 72% / 0.18);
-  --ezra-active-border: hsl(271 91% 72%);
-  --ezra-hover-bg: hsl(205 28% 18%);
-  --ezra-radial-warm: hsl(271 91% 65% / 0.12);
-  --ezra-radial-cool: hsl(207 32% 26% / 0.35);
-  --ezra-accent: hsl(271 91% 72%);
-  --ezra-accent-fg: hsl(207 32% 12%);
+  --ezra-bg: hsl(183 60% 6.9%);
+  --ezra-fg: hsl(167 52.9% 96.7%);
+  --ezra-fg-muted: hsl(173 20.2% 68%);
+  --ezra-border: hsl(182 33.3% 21.8%);
+  --ezra-panel: hsl(182 50% 11%);
+  --ezra-panel-soft: hsl(183 55% 8.5%);
+  --ezra-composer-bg: hsl(182 50% 12%);
+  --ezra-composer-border: hsl(182 33.3% 24%);
+  --ezra-active-bg: hsl(249 100% 81.6% / 0.16);
+  --ezra-active-border: hsl(249 100% 81.6%);
+  --ezra-hover-bg: hsl(182 42.9% 14.5%);
+  --ezra-radial-warm: hsl(252 61.3% 53.3% / 0.14);
+  --ezra-radial-cool: hsl(183 60% 15% / 0.35);
+  --ezra-accent: hsl(249 100% 81.6%);
+  --ezra-accent-fg: hsl(183 60% 6.9%);
 }
 
 .ezra-radial {

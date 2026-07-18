@@ -8,10 +8,14 @@ import { describe, expect, it } from "vitest";
 // which is invalid and silently dropped — producing "invisible" button labels.
 //
 // This test asserts every `hsl(var(--x))` the Tailwind theme references has a
-// matching `--x:` definition in index.css (in both :root and .dark).
+// matching `--x:` definition in the theme stylesheets (in both :root and .dark).
 
 const root = resolve(__dirname, "../..");
-const css = readFileSync(resolve(root, "src/index.css"), "utf8");
+const css = [
+  readFileSync(resolve(root, "src/index.css"), "utf8"),
+  // Quantum Newsroom shared token package — defines the --qn-* workflow vars.
+  readFileSync(resolve(root, "src/styles/quantum-tokens.css"), "utf8"),
+].join("\n");
 const tw = readFileSync(resolve(root, "tailwind.config.ts"), "utf8");
 
 // Variables supplied at runtime by component libraries (Radix injects

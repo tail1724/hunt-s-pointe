@@ -23,6 +23,7 @@ const ROUTE_TITLES: Record<string, string> = {
   "/app/pressroom": "PressRoom",
   "/app/bible": "Bible",
   "/app/organize": "Organize",
+  "/app/ideas": "Idea Board",
   "/app/knowledge": "Story Packages",
   "/app/file-cabinet": "Newsroom",
   "/app/analytics": "Analytics",
@@ -76,6 +77,7 @@ const SharedSession = lazy(() => import("./pages/SharedSession"));
 const ResetPassword = lazy(() => import("./pages/ResetPassword"));
 const Help = lazy(() => import("./pages/Help"));
 const Organize = lazy(() => import("./pages/Organize"));
+const Ideas = lazy(() => import("./pages/Ideas"));
 
 const queryClient = new QueryClient();
 
@@ -235,6 +237,7 @@ const App = () => (
               <Route path="/app/bible" element={<ProtectedLayout><Bible /></ProtectedLayout>} />
               <Route path="/app/organize" element={<ProtectedLayout><Organize /></ProtectedLayout>} />
               <Route path="/app/organize/board/:boardId" element={<ProtectedLayout><Organize /></ProtectedLayout>} />
+              <Route path="/app/ideas" element={<ProtectedLayout><Ideas /></ProtectedLayout>} />
               <Route path="/app/sentient" element={<Navigate to="/app/pressroom" replace />} />
               <Route path="/app/mary" element={<Navigate to="/app/pressroom" replace />} />
               <Route path="/app/prompt-central" element={<Navigate to="/app/pressroom" replace />} />
